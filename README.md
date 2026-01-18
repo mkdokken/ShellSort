@@ -18,4 +18,4 @@ https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/
 
 
 When building the code, I have always used the -O3 optimization flag. 
-I have built and run it on MacOs using the default c compiler in Xcode, and I have built and run it on windows using the default c compiler in codeblocks. 
+I have built and run it on MacOs using the default c compiler in Xcode, and I have built and run it on Windows using the default c compiler in Codeblocks. 
