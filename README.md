@@ -13,4 +13,4 @@ and
 
 which are all extenions of Marcin Ciura's gaps: {1, 4, 10, 23, 57, 132, 301, 701}.
 
-https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/50490873#50490873
+https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/79637484#79637484
