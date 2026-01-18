@@ -11,6 +11,6 @@ and
 
 {1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 7196, 15948, 34644, 74428, 162005, 347077, 745919, 1599893, 3446017, 7434649, 15933053, 35371377, 78524456, 174324292, 386999928, 859139840, 1907290444, 4234184785, 9399890222},
 
-which are all extenions of Marcin Ciura's gaps: {1, 4, 10, 23, 57, 132, 301, 701}.
+which are all extensions of Marcin Ciura's gaps: {1, 4, 10, 23, 57, 132, 301, 701}.
 
 https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/79637484#79637484
