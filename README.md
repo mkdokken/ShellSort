@@ -14,3 +14,8 @@ and
 which are all extensions of Marcin Ciura's gaps: {1, 4, 10, 23, 57, 132, 301, 701}.
 
 https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/79637484#79637484
+
+
+
+When building the code, I have always used the -O3 optimization flag. 
+I have built and run it on MacOs using the default c compiler in Xcode, and I have built and run it on windows using the default c compiler in codeblocks. 
