@@ -1,21 +1,15 @@
 # ShellSort
 Finding best shell sort gap sequences to minimize comparisons.
 
-This project contains the code I used to find the following gap sequences:
 
-{1, 4, 10, 23, 57, 132, 301, 701, 1636, 3659, 8129, 18118, 40354, 89129, 197803, 443557, 973657, 2131981, 4697153, 10528127, 23135351, 51360479, 114020263, 253124983, 561937462, 1247501165, 2769452586, 6148184740},
+This project contains code to attempt to find the best gap sequence for shell sort.
 
-{1, 4, 10, 23, 57, 132, 301, 701, 1541, 3498, 7699, 17041, 37835, 81907, 179433, 392867, 858419, 1883473, 4081849, 9002887, 19782319, 43916748, 97495180, 216439299, 480495243, 1066699439, 2368072754, 5257121513, 11670809758},
 
-and
-
-{1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 7196, 15948, 34644, 74428, 162005, 347077, 745919, 1599893, 3446017, 7434649, 15933053, 35371377, 78524456, 174324292, 386999928, 859139840, 1907290444, 4234184785, 9399890222},
-
-which are all extensions of Marcin Ciura's gaps: {1, 4, 10, 23, 57, 132, 301, 701}.
-
+In early 2025 the best sequence the code found was: {1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 7196, 15948, 34644, 74428, 162005, 347077, 745919, 1599893, 3446017, 7434649, 15933053}, which is an extension of Marcin Ciura's gaps: {1, 4, 10, 23, 57, 132, 301, 701}.
 https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/79637484#79637484
 
+As of January 2026, after improving the code, it finds numerous potentially better sequences such as: {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728}.
 
 
 When building the code, I have always used the -O3 optimization flag. 
-I have built and run it on MacOs using the default c compiler in Xcode, and I have built and run it on Windows using the default c compiler in Codeblocks. 
+I have built and run it on MacOS using the default c compiler in Xcode, and I have built and run it on Windows using the default c compiler in Codeblocks. 
