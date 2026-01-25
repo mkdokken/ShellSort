@@ -773,7 +773,7 @@ void testAverageRuntime(void) {
 
 // find worst case approximation using a greedy algorithm
 // will not find the absolute worst case
-// can be improved further by testing random swaps repeatedly and keeping any changes that increase total number of compares
+// can be improved further with findWorstCaseWithRandomMutations
 void findWorstCase(int length, const I64 gaps[]) {
     int* array = malloc(sizeof(int) * length);
     int* array2 = malloc(sizeof(int) * length);
@@ -833,86 +833,153 @@ void findWorstCase(int length, const I64 gaps[]) {
     free(array);
 }
 
-// compute max-gcd and ratios of each number in gap sequence
-void computeMaxGcdAndRatios(void) {
-    I64 gaps[] = {1, 4, 10, 23, 57, 132, 301, 701};
-    int length = sizeof(gaps) / sizeof(I64);
+// find worst case approximation using random mutations
+// mutations include random swapping of elements and a couple other types of mutations, but maybe there are other better mutations possible
+// keeps all mutations that increase compares, and to avoid local maximums will keep a slightly bad mutation with some probability
+void findWorstCaseWithRandomMutations(void) {
+    //const I64 N = 48;
+    //const I64 gapsToUse[] = {1, 3, 8, 24, -1};
+    //static const int array_initial[48] = {47, 29, 20, 40, 22, 19, 39, 21, 43, 27, 10, 34, 18, 8, 31, 14, 41, 4, 2, 33, 6, 1, 30, 13, 44, 38, 12, 46, 37, 9, 45, 36, 42, 28, 11, 35, 17, 7, 32, 15, 26, 23, 0, 24, 16, 3, 25, 5,};
+    //int haltOnCompares = 477;
+    //const int possibleGapsForPairSwaps[] = {3, 8, 24};// i just set this to all gaps g with 1 < g < N
+    //const int possibleCycles[] = {2, 3, 8, 24};// i just set this to a 2 and then all gaps g with 1 < g < N
+
+    const I64 N = 100;
+    const I64* gapsToUse = gaps_dokken12_222f;// 1, 4, 10, 23, 57, 132, 301, 701, 1504, ...
+    static const int array_initial[100] = {99, 85, 93, 58, 98, 26, 89, 15, 94, 67, 96, 83, 88, 57, 59, 52, 47, 5, 33, 72, 17, 38, 76, 39, 71, 81, 2, 49, 60, 12, 3, 35, 9, 37, 40, 78, 6, 44, 50, 24, 13, 62, 14, 75, 1, 84, 22, 0, 95, 53, 48, 31, 10, 73, 30, 97, 18, 79, 42, 91, 54, 87, 61, 92, 27, 36, 74, 77, 4, 86, 56, 90, 20, 23, 8, 63, 65, 29, 66, 68, 21, 55, 80, 43, 46, 32, 11, 28, 64, 16, 19, 69, 70, 41, 82, 51, 45, 25, 34, 7, };
+    int haltOnCompares = 1391;
+    const int possibleGapsForPairSwaps[] = {4, 10, 23, 57};// i just set this to all gaps g with 1 < g < N
+    const int possibleCycles[] = {2, 4, 10, 23, 57};// i just set this to a 2 and then all gaps g with 1 < g < N
+
+    int useInitialArray = 1;
+    int useHaltOnCompares = 1;
+    I64 numSamples = 10000000;
+    int granularity = 6;// set to 12 to make loss-causing changes very rare, set to 4 to make loss-causing changes more common, or 5,6,7,8 are some good medium values
+
+    int* array = malloc(sizeof(int) * N);
+    initializeArray(array, N);
     
-    printf("ratios:\n");
-    for (int i = 1; i < length; i++) {
-        double ratio = gaps[i] / (double) gaps[i-1];
-        printf("%.3f, ", ratio);
-    }
-    printf("\n\nmaxGcds:\n");
-    for (int i = 1; i < length; i++) {
-        I64 maxGcd = 1;
-        for (int j = 0; j < i; j++) {
-            I64 g = gcd(gaps[i], gaps[j]);
-            if (g > maxGcd) {
-                maxGcd = g;
+    U64 totalTime = 0;
+    int* array2 = malloc(sizeof(int) * N);
+    int* array3 = malloc(sizeof(int) * N);
+    copyArray(array, array2, N);
+    copyArray(array, array3, N);
+    I64 highestCompares = 0;
+    for (I64 i = 0; i < numSamples; i++) {
+        if (highestCompares == 0) {
+            if (useInitialArray) {
+                // start with our initial array
+                copyArray(array_initial, array2, N);
+            }
+            else {
+                // start with a random array
+                shuffleArray(array2, N);
             }
         }
-        printf("%lld, ", maxGcd);
-    }
-    printf("\n\n");
-    
-    double minRatio = 2.12;
-    double maxRatio = 2.36;
-    int lastIndex = length - 1;
-    I64 minGap = gaps[lastIndex] * minRatio;
-    I64 maxGap = gaps[lastIndex] * maxRatio;
-    int numTotal = 0;
-    int numPrinted = 0;
-    int numCoprime = 0;
-    int numGcdAtMost2 = 0;
-    int numGcdAtMost4 = 0;
-    int numGcdAtMost6 = 0;
-    int numGcdAtMost13 = 0;
-    int numGcdAtMost20 = 0;
-    printf("{");
-    int counter = 0;
-    for (I64 gap = minGap; gap < maxGap; gap++) {
-        I64 maxGcd = 1;
-        for (int j = 0; j <= lastIndex; j++) {
-            I64 g = gcd(gap, gaps[j]);
-            if (g > maxGcd) {
-                maxGcd = g;
+        else {
+            // make a small change
+            U32 mutationType = rand_pcg_u32_bounded(4);
+            if (mutationType == 0) {
+                // make a single swap
+                I64 j1 = rand_pcg_u32_bounded(N);
+                I64 j2 = rand_pcg_u32_bounded(N);
+                swapInts(&array2[j1], &array2[j2]);
+            }
+            else if (mutationType == 1) {
+                // make 1 or more swaps
+                do {
+                    I64 j1 = rand_pcg_u32_bounded(N);
+                    I64 j2 = rand_pcg_u32_bounded(N);
+                    swapInts(&array2[j1], &array2[j2]);
+                }
+                while (rand_pcg_u32() & 1);
+            }
+            else if (mutationType == 2) {
+                // swap 2 pairs m apart
+                int numGaps = sizeof(possibleGapsForPairSwaps) / sizeof(possibleGapsForPairSwaps[0]);
+                int m = possibleGapsForPairSwaps[rand_pcg_u32_bounded(numGaps)];
+                I64 j1 = rand_pcg_u32_bounded(N-m);
+                I64 j2 = rand_pcg_u32_bounded(N-m);
+                swapInts(&array2[j1], &array2[j2]);
+                swapInts(&array2[j1+m], &array2[j2+m]);
+            }
+            else {
+                // swaps a m-cycle with another m-cycle
+                int numCycles = sizeof(possibleCycles) / sizeof(possibleCycles[0]);
+                int m = possibleCycles[rand_pcg_u32_bounded(numCycles)];
+                I64 k1;
+                I64 k2;
+                if (m == 2) {
+                    k1 = 0;
+                    k2 = 1;
+                }
+                else {
+                    k1 = rand_pcg_u32_bounded(m);
+                    k2 = rand_pcg_u32_bounded(m);
+                }
+                I64 k_max = k1 > k2 ? k1 : k2;
+                for (I64 j = 0; j+k_max < N; j+=m) {
+                    swapInts(&array2[j+k1], &array2[j+k2]);
+                }
             }
         }
-        if (maxGcd == 1) {
-            numCoprime += 1;
+        
+        copyArray(array2, array, N);
+        
+        U64 startTime = currentTime();
+        
+        I64 saveCompareCounter = COMPARE_COUNTER;
+        shellSortCustom(array, N, gapsToUse);
+        
+        saveCompareCounter = COMPARE_COUNTER - saveCompareCounter;
+        
+        if (saveCompareCounter >= highestCompares) {
+            if (saveCompareCounter > highestCompares) {
+                highestCompares = saveCompareCounter;
+                printf("compares = %lld\n", highestCompares);
+                
+                if (useHaltOnCompares && highestCompares >= haltOnCompares) {
+                    printf("hit haltOnCompares = %d, stopping\n", haltOnCompares);
+                    printArray(array2, N);
+                    exit(1);
+                }
+            }
+            copyArray(array2, array3, N);
         }
-        if (maxGcd <= 2) {
-            numGcdAtMost2 += 1;
+        else if (saveCompareCounter >= highestCompares - 30) {
+            U64 mask = (1LLU << (highestCompares-saveCompareCounter+granularity)) - 1LLU;
+            if ((rand_pcg_u64() & mask) == 0) {
+                highestCompares = saveCompareCounter;
+                printf("compares = %lld\n", highestCompares);
+                copyArray(array2, array3, N);
+            }
+            else {
+                copyArray(array3, array2, N);
+            }
         }
-        if (maxGcd <= 4) {
-            numGcdAtMost4 += 1;
+        else {
+            copyArray(array3, array2, N);
         }
-        if (maxGcd <= 6) {
-            numGcdAtMost6 += 1;
-        }
-        if (maxGcd <= 13) {
-            numGcdAtMost13 += 1;
-        }
-        if (maxGcd <= 20) {
-            numGcdAtMost20 += 1;
-        }
-        numTotal += 1;
-        if (maxGcd <= 6) {
-            //if (counter % 1518 == 0) {
-            printf("%lld,", gap);
-            numPrinted++;
-            //}
-            counter = counter + 1;
-        }
+        
+        U64 endTime = currentTime();
+        totalTime += endTime - startTime;
     }
-    printf("}\n\nlength of printed array = %d\n\n", numPrinted);
-    printf("percentage coprime to all earlier gaps = %g\n", numCoprime / (double)numTotal);
-    printf("percentage maxGcd at most 2 to all earlier gaps = %g\n", numGcdAtMost2 / (double)numTotal);
-    printf("percentage maxGcd at most 4 to all earlier gaps = %g\n", numGcdAtMost4 / (double)numTotal);
-    printf("percentage maxGcd at most 6 to all earlier gaps = %g\n", numGcdAtMost6 / (double)numTotal);
-    printf("percentage maxGcd at most 13 to all earlier gaps = %g\n", numGcdAtMost13 / (double)numTotal);
-    printf("percentage maxGcd at most 20 to all earlier gaps = %g\n\n", numGcdAtMost20 / (double)numTotal);
+    printArray(array3, N);
+    
+    printf("numCompares = %lld, %g million compares\n", COMPARE_COUNTER, (COMPARE_COUNTER / 1000000.0));
+    printf("time to sort = %llu microseconds, %g seconds\n", totalTime, (totalTime / (double)TICKS_PER_SEC));
+    
+    printf("average compares per element = %g\n", ((COMPARE_COUNTER / (double)numSamples) / N));
+    
+    if (!isArraySorted(array, N)) {
+        printArray(array, N);
+        printf("error 610\n");
+        exit(1);
+    }
+    
+    free(array3);
+    free(array2);
+    free(array);
 }
 
 typedef struct {
@@ -933,10 +1000,10 @@ ThreadArg;
 void* thread_runSortingSamples(void* arg_) {
     ThreadArg* arg = arg_;
     if (arg->lastIndex < 0 || arg->lastIndex < arg->startIndex) {
-        printf("thread not needed\n");
         return NULL;
     }
-    printf("thread search from indexes %lld to %lld\n", arg->startIndex, arg->lastIndex);
+    // Reduced printing - only print on first thread
+    //printf("thread search from indexes %lld to %lld\n", arg->startIndex, arg->lastIndex);
     //srand_pcg_easy(); // don't need this since we are seeding the pcg later with a specific seed
     
     GapAndCount* gapAndCountArray = arg->gapAndCountArray;
@@ -987,32 +1054,122 @@ void* thread_runSortingSamples(void* arg_) {
             }
         }
         
-        printf("gap1=%lld, total compare count = %llu\n", gap1, gapAndCountArray[i].count);
+        // Reduced printing - removed per-gap output
+        //printf("gap1=%lld, total compare count = %llu\n", gap1, gapAndCountArray[i].count);
+    }
+    
+    return NULL;
+}
+
+// Structure for sequence candidates (used in multi-branch search)
+typedef struct {
+    I64* fullSequence;        // Complete sequence including new gap
+    int fromInitialIndex;     // Which initial sequence this came from
+    I64 nextGap;             // The new gap being tested
+    I64 count;               // Total compare count
+    I64 sampleCount;
+    double mean;
+    double M2;
+} SequenceCandidate;
+
+// Threading structures and functions for sequence candidate search
+typedef struct {
+    SequenceCandidate* candidates;
+    I64 startIndex;
+    I64 lastIndex;
+    I64 arraySize;
+    I64 numSamples;
+    int* array;
+    
+    U64 pcgInitState;
+    U64 pcgInc;
+}
+SequenceThreadArg;
+
+void* thread_runSequenceSamples(void* arg_) {
+    SequenceThreadArg* arg = arg_;
+    if (arg->lastIndex < 0 || arg->lastIndex < arg->startIndex) {
+        return NULL;
+    }
+    
+    SequenceCandidate* candidates = arg->candidates;
+    I64 arraySize = arg->arraySize;
+    int* array = arg->array;
+    
+    initializeArray(array, arraySize);
+    
+    for (I64 i = arg->startIndex; i <= arg->lastIndex; i++) {
+        I64* gaps = candidates[i].fullSequence;
+        
+        // Find where the sequence ends (before the 0, 0, 0, -1)
+        I64 seqLen = 0;
+        while (gaps[seqLen] > 0) seqLen++;
+        
+        I64 nextGap = gaps[seqLen - 1];  // The new gap we're testing
+        
+        srand_pcg(arg->pcgInitState, arg->pcgInc);  // Same seed for consistent random gaps
+        
+        for (int j = 0; j < arg->numSamples; j++) {
+            // Generate random gap2, gap3 after nextGap
+            I64 gap2 = chooseRandomGap(nextGap, 2.5, 2.9);
+            I64 gap3 = chooseRandomGap(gap2, 2.7, 3.3);
+            
+            // Avoid exact multiples
+            if (gap3 == 3 * gap2) {
+                gap3 += 1;
+            }
+            
+            // Set the random gaps
+            gaps[seqLen] = gap2;
+            gaps[seqLen + 1] = gap3;
+            gaps[seqLen + 2] = -1;
+            
+            shuffleArray(array, arraySize);
+            
+            COMPARE_COUNTER = 0;
+            shellSortCustom(array, arraySize, gaps);
+            candidates[i].count += COMPARE_COUNTER;
+            
+            // Update using Welford's online algorithm
+            candidates[i].sampleCount += 1;
+            double delta = COMPARE_COUNTER - candidates[i].mean;
+            candidates[i].mean += delta / candidates[i].sampleCount;
+            double delta2 = COMPARE_COUNTER - candidates[i].mean;
+            candidates[i].M2 += delta * delta2;
+            
+            if (!isArraySorted(array, arraySize)) {
+                printf("error in thread_runSequenceSamples\n");
+                exit(1);
+            }
+        }
+        
+        // Restore original terminator
+        gaps[seqLen] = 0;
+        gaps[seqLen + 1] = 0;
+        gaps[seqLen + 2] = -1;
     }
     
     return NULL;
 }
 
 // find optimal shellsort gap sequences
-void findOptimalNextGap(void) {
+// returns the best gap found, or -1 if error
+// numRemainingGaps is output parameter showing how many candidate gaps remained at the end
+// minStdErrsUsed is output parameter showing the minimum stdErrs used for cutting
+I64 findOptimalNextGap_parameterized(
+    I64* gaps,                    // input/output: gap sequence ending with {0, 0, 0, -1}
+    int gapIndex1,                // index where to insert next gap candidate
+    double minRatio,
+    double maxRatio,
+    double numStdErrsToCutoff,
+    int initialNumSamples,
+    double maxRuntimeSeconds,
+    int numThreads,
+    I64* numRemainingGaps,        // output: how many gaps remained at end
+    double* minStdErrsUsed        // output: minimum stdErrs used for cutting
+) {
     U64 startTime = currentTime();
-    
-    const int numThreads = 5;
-    
-    const double minRatio = 2.12;
-    const double maxRatio = 2.36;
-    
-    const double numStdErrsToCutoff = 3.5;// stop testing gap1's when this many standard errors away from best
-    
-    int numSamples = 50;// how many random samples to run on the first loop
-    
-    I64 gaps[] = {1, 4, 10, 23, 57, 132, 301, 701, 0, 0, 0, -1};
-    // this gaps variable must must end with {0, 0, 0, -1}, so that it has room for a candidate next gap and then 2 random gaps
-    
-    int gapIndex1 = 0;
-    while (gaps[gapIndex1] != 0) {
-        gapIndex1++;
-    }
+    int numSamples = initialNumSamples;
     
     I64 arraySize = round(gaps[gapIndex1-1] / 301.0 * 8000.0);
     printf("arraySize = %lld\n", arraySize);
@@ -1029,7 +1186,90 @@ void findOptimalNextGap(void) {
     //int gap1s[] = {1636,1601,1638,1618,1599,1616,1621,1597,1640,1619,1614,1634,1561};
     //int numGap1s = sizeof(gap1s) / sizeof(I64);
     
-    printf("numGap1s = %lld\n\n", numGap1s);
+    printf("Initial numGap1s = %lld\n", numGap1s);
+    
+    // Estimate time for first iteration to avoid using too much time upfront
+    I64 midGap = (minGap1 + maxGap1) / 2;  // Pick middle gap for estimate
+    double estimatedFirstIterTime = (numGap1s / (double)numThreads) * initialNumSamples * midGap / 1000000.0;
+    double maxFirstIterTime = maxRuntimeSeconds * 0.10;  // Max 10% of total time
+    
+    printf("Estimated first iteration: %.1f seconds (%.0f%% of budget)\n", 
+           estimatedFirstIterTime, (estimatedFirstIterTime / maxRuntimeSeconds) * 100);
+    
+    // Filter gaps if first iteration would take too long
+    if (estimatedFirstIterTime > maxFirstIterTime) {
+        printf("First iteration too slow, applying filters...\n");
+        
+        // Try filtering by max-gcd
+        I64* filteredGaps = malloc(sizeof(I64) * numGap1s);
+        I64 numFiltered = 0;
+        
+        // First try: max-gcd <= 6 (reduces to ~40%)
+        for (I64 i = 0; i < numGap1s; i++) {
+            I64 maxGcd = 1;
+            for (int j = 0; j < gapIndex1; j++) {
+                I64 g = gcd(gap1s[i], gaps[j]);
+                if (g > maxGcd) maxGcd = g;
+            }
+            if (maxGcd <= 6) {
+                filteredGaps[numFiltered++] = gap1s[i];
+            }
+        }
+        
+        double estimatedWithGcd6 = (numFiltered / (double)numThreads) * initialNumSamples * midGap / 1000000.0;
+        printf("  Filtering max-gcd <= 6: %lld gaps (%.1fs, %.0f%%)\n", 
+               numFiltered, estimatedWithGcd6, (estimatedWithGcd6 / maxRuntimeSeconds) * 100);
+        
+        // If still too slow, try coprime only (max-gcd <= 1)
+        if (estimatedWithGcd6 > maxFirstIterTime) {
+            numFiltered = 0;
+            for (I64 i = 0; i < numGap1s; i++) {
+                if (isCoprimeToAll(gap1s[i], gaps, gapIndex1)) {
+                    filteredGaps[numFiltered++] = gap1s[i];
+                }
+            }
+            
+            double estimatedCoprime = (numFiltered / (double)numThreads) * initialNumSamples * midGap / 1000000.0;
+            printf("  Filtering coprime only: %lld gaps (%.1fs, %.0f%%)\n", 
+                   numFiltered, estimatedCoprime, (estimatedCoprime / maxRuntimeSeconds) * 100);
+            
+            // If still too slow, subsample coprime gaps evenly
+            if (estimatedCoprime > maxFirstIterTime && numFiltered > numThreads) {
+                double targetFraction = maxFirstIterTime / estimatedCoprime;
+                I64 targetNum = (I64)(numFiltered * targetFraction);
+                if (targetNum < numThreads) targetNum = numThreads;
+                
+                printf("  Subsampling coprime gaps: keeping %lld of %lld (every %.1f)\n", 
+                       targetNum, numFiltered, numFiltered / (double)targetNum);
+                
+                // Evenly distribute selected gaps across the range
+                I64* subsampledGaps = malloc(sizeof(I64) * targetNum);
+                for (I64 i = 0; i < targetNum; i++) {
+                    I64 index = (i * numFiltered) / targetNum;
+                    subsampledGaps[i] = filteredGaps[index];
+                }
+                
+                free(gap1s);
+                free(filteredGaps);
+                gap1s = subsampledGaps;
+                numGap1s = targetNum;
+            } else {
+                // Use coprime filtered gaps
+                free(gap1s);
+                gap1s = filteredGaps;
+                numGap1s = numFiltered;
+            }
+        } else {
+            // Use max-gcd <= 6 filtered gaps
+            free(gap1s);
+            gap1s = filteredGaps;
+            numGap1s = numFiltered;
+        }
+        
+        printf("Final numGap1s after filtering = %lld\n", numGap1s);
+    }
+    
+    printf("\n");
     
     GapAndCount* gapAndCountArray = malloc(sizeof(GapAndCount) * numGap1s);
     for (int i = 0; i < numGap1s; i++) {
@@ -1046,11 +1286,26 @@ void findOptimalNextGap(void) {
     pthread_t threads[numThreads];
     ThreadArg threadArgs[numThreads];
     
+    // Calculate size of gaps array (count until we hit -1)
+    I64 gapsSize = 0;
+    while (gaps[gapsSize] >= 0) {
+        gapsSize++;
+    }
+    gapsSize++; // include the -1
+    
     for (int i = 0; i < numThreads; i++) {
         array_for_thread[i] = malloc(sizeof(int) * arraySize);
-        gaps_for_thread[i] = malloc(sizeof(gaps));
-        memcpy(gaps_for_thread[i], gaps, sizeof(gaps));
+        gaps_for_thread[i] = malloc(sizeof(I64) * gapsSize);
+        memcpy(gaps_for_thread[i], gaps, sizeof(I64) * gapsSize);
     }
+    
+    // Adaptive time-based approach
+    I64 initialNumGap1s = numGap1s;
+    double targetHalvings = log(initialNumGap1s) / log(2.0);  // how many times we need to halve to get to 1
+    double minStdErrs = 999.0;  // track minimum stdErrs we had to use for cutting
+    int iterationCount = 0;
+    
+    printf("Starting with %lld candidate gaps, target %.1f halvings\n", initialNumGap1s, targetHalvings);
     
     while (numGap1s > 1) {
         U64 pcgInitState = rand_pcg_u64();
@@ -1081,59 +1336,134 @@ void findOptimalNextGap(void) {
         for (int i = 0; i < numThreads; i++) {
             pthread_join(threads[i], NULL);
         }
-        printf("after all threads joined, compare counter = %lld\n\n", COMPARE_COUNTER);
         if (COMPARE_COUNTER != 0) {
             printf("error 1577\n");
             exit(1);
         }
         
         qsort(gapAndCountArray, numGap1s, sizeof(GapAndCount), compareGapAndCount);
-        printf("\nsorted\n");
-        double cutOffValue = 0;
+        
+        // Calculate time-based target for number of gaps
+        double elapsedTime = (currentTime() - startTime) / (double)TICKS_PER_SEC;
+        double timePercent = elapsedTime / maxRuntimeSeconds;
+        if (timePercent > 1.0) timePercent = 1.0;
+        
+        // Target: at timePercent of budget, we should have done (timePercent * targetHalvings) halvings
+        double targetHalvingsDone = timePercent * targetHalvings;
+        I64 targetNumGaps = (I64)(initialNumGap1s / pow(2.0, targetHalvingsDone));
+        if (targetNumGaps < 1) targetNumGaps = 1;
+        
+        // Don't cut below numThreads during search - keep parallel resources fully utilized
+        // Exception: if we naturally converge to 1, that's fine to end early
+        if (targetNumGaps < numThreads && targetNumGaps > 1) {
+            targetNumGaps = numThreads;
+        }
+        
+        // Calculate statistics
         double pooled_variance = 0;
-        for (I64 i = numGap1s - 1; i >= 0; i--) {
+        for (I64 i = 0; i < numGap1s; i++) {
             double sample_variance = gapAndCountArray[i].M2 / (gapAndCountArray[i].sampleCount - 1);
-            double stdErr = sqrt(sample_variance / gapAndCountArray[i].sampleCount);
             pooled_variance += sample_variance;
-            printf("compares = %lld, gap1 = %lld, mean=%g, stderr=%g\n", gapAndCountArray[i].count, gapAndCountArray[i].gap, gapAndCountArray[i].mean, stdErr);
         }
         pooled_variance /= numGap1s;
         double pooledStdErr = sqrt(pooled_variance / gapAndCountArray[0].sampleCount);
-        if (gapAndCountArray[0].sampleCount != gapAndCountArray[1].sampleCount) {
-            printf("error 1703\n");
-            exit(1);
+        
+        // Direct calculation of stdErrs needed to cut to targetNumGaps
+        // Much simpler: just look at the gap at index targetNumGaps and calculate its distance from best
+        
+        // Clamp target to valid range
+        I64 targetIndex = targetNumGaps - 1;  // 0-indexed
+        if (targetIndex < 0) targetIndex = 0;
+        if (targetIndex >= numGap1s) targetIndex = numGap1s - 1;
+        
+        // Enforce minimum of numThreads for parallel efficiency
+        if (targetIndex < numThreads - 1 && targetIndex > 0 && numGap1s > numThreads) {
+            targetIndex = numThreads - 1;  // Keep at least numThreads gaps
         }
-        printf("pooledStdErr = %g\n", pooledStdErr);
-        int cutoffIndex = 0;//round((numGap1s-1) * standardNormalCdf(-numStdErrsToCutoff));
-        printf("using index=%d plus %g stderrs for cutoff value\n", cutoffIndex, numStdErrsToCutoff);
-        cutOffValue = gapAndCountArray[cutoffIndex].mean + numStdErrsToCutoff * pooledStdErr;
-        printf("cut any mean > %g\n", cutOffValue);
-        for (int i = 0.6*numGap1s; i < numGap1s; i++) {// cut at most 40% of gap1's
-            if (gapAndCountArray[i].mean > cutOffValue) {
-                printf("cut worst %lld\n", numGap1s - i);
-                numGap1s = i;
-                break;
+        
+        I64 newNumGap1s = targetIndex + 1;  // Keep gaps from index 0 to targetIndex (inclusive)
+        
+        // Calculate exact stdErrs: distance between best kept and first cut
+        // Only meaningful when we're actually cutting
+        double adaptiveNumStdErrs;
+        if (newNumGap1s < numGap1s) {
+            // We're cutting - show distance to first gap being cut (at index newNumGap1s)
+            double meanDifference = gapAndCountArray[newNumGap1s].mean - gapAndCountArray[0].mean;
+            adaptiveNumStdErrs = meanDifference / pooledStdErr;
+        } else {
+            // No cut this iteration - use default large value to indicate no cut
+            adaptiveNumStdErrs = 10.0;
+        }
+        
+        // Ensure non-negative (should always be positive since array is sorted, but handle edge case)
+        if (adaptiveNumStdErrs < 0.0) adaptiveNumStdErrs = 0.0;
+        
+        // Upper bound sanity check
+        if (adaptiveNumStdErrs > 10.0) adaptiveNumStdErrs = 10.0;
+        
+        // Apply the cut - even if newNumGap1s == numGap1s (no cut), that's fine!
+        // This allows iterations where we don't cut, just gather more samples
+        // Don't cut below numThreads unless converging to 1 (natural end)
+        if (newNumGap1s <= numGap1s && newNumGap1s >= 1) {
+            if (newNumGap1s >= numThreads || newNumGap1s == 1) {
+                numGap1s = newNumGap1s;
+                if (adaptiveNumStdErrs < minStdErrs) {
+                    minStdErrs = adaptiveNumStdErrs;
+                }
+            }
+            // else: skip this cut because it would go below numThreads
+        }
+        
+        // Force cut to numThreads if we're stuck above it and target says we should be there
+        // This handles cases where statistical thresholds can't distinguish well enough
+        if (numGap1s > numThreads && targetNumGaps <= numThreads && targetNumGaps > 1) {
+            // Just take the top numThreads gaps directly
+            numGap1s = numThreads;
+            if (adaptiveNumStdErrs < minStdErrs) {
+                minStdErrs = adaptiveNumStdErrs;
             }
         }
-        printf("{");
-        for (int i = 0; i <= (numGap1s-1); i++) {
-            printf("%lld,", gapAndCountArray[i].gap);
-        }
-        printf("}\n\n");
         
-        if (((currentTime() - startTime) / (double)TICKS_PER_SEC) > (4 * 3600.0)) {
-            printf("hit max runtime, stopping\n");
+        iterationCount++;
+        
+        // Print summary every few iterations or when gaps is small
+        if (iterationCount % 5 == 0 || numGap1s <= 10) {
+            const char* status = "";
+            if (numGap1s == numThreads && targetNumGaps < numThreads) {
+                status = " [holding at numThreads]";
+            }
+            printf("Iter %d: time %.1fs (%.0f%%), %lld gaps remain (target %lld), stdErrs=%.2f, samples=%d, best gap=%lld%s\n",
+                   iterationCount, elapsedTime, timePercent * 100, numGap1s, targetNumGaps, 
+                   adaptiveNumStdErrs, (int)gapAndCountArray[0].sampleCount, gapAndCountArray[0].gap, status);
+        }
+        
+        if (elapsedTime > maxRuntimeSeconds) {
+            printf("Hit max runtime. Final: %lld gaps, minStdErrs=%.2f\n", numGap1s, minStdErrs);
             break;
         }
         
-        //numSamples = gapAndCountArray[0].sampleCount / 6 + 3;
+        // Increase samples for next iteration
         numSamples = numSamples * 1.17 + 1;
-        if (numGap1s > 1) {
-            printf("run %d more samples on numGap1s = %lld\n\n", numSamples, numGap1s);
-        }
     }
     
-    printf("total samples ran = %lld\n\n", gapAndCountArray[0].sampleCount);
+    printf("\n=== Search Complete ===\n");
+    printf("Remaining gaps: %lld\n", numGap1s);
+    printf("Minimum stdErrs used for cutting: %.2f\n", minStdErrs);
+    printf("Total samples per gap: %lld\n", gapAndCountArray[0].sampleCount);
+    printf("Top candidate gap(s):\n");
+    
+    I64 numToShow = numGap1s < 5 ? numGap1s : 5;
+    for (I64 i = 0; i < numToShow; i++) {
+        printf("  #%lld: gap=%lld, mean=%.1f\n", i+1, gapAndCountArray[i].gap, gapAndCountArray[i].mean);
+    }
+    
+    I64 bestGap = gapAndCountArray[0].gap;
+    *numRemainingGaps = numGap1s;
+    *minStdErrsUsed = minStdErrs;
+    
+    if (numGap1s > 10) {
+        printf("\nWARNING: %lld gaps remain - consider increasing runtime or checking parameters\n", numGap1s);
+    }
     
     for (int i = 0; i < numThreads; i++) {
         free(gaps_for_thread[i]);
@@ -1141,6 +1471,608 @@ void findOptimalNextGap(void) {
     }
     free(gapAndCountArray);
     free(gap1s);
+    
+    return bestGap;
+}
+
+// compute parameters based on current sequence length and available time
+// currentSequenceLength is how many gaps we currently have in the sequence
+void computeParametersForGap(int currentSequenceLength, double maxRuntimeSeconds,
+                             double* numStdErrsToCutoff, int* initialNumSamples,
+                             double* minRatio, double* maxRatio) {
+    // Always start with just 3 samples - let time-based adaptive cutting do the work
+    *initialNumSamples = 3;
+    
+    // numStdErrsToCutoff will be computed adaptively in the search function
+    // based on time elapsed - this is just a placeholder
+    *numStdErrsToCutoff = -1.0;  // signal to use adaptive approach
+    
+    // minRatio stays constant
+    *minRatio = 2.08;
+    
+    // maxRatio decreases for later gaps to narrow the search range
+    // Schedule is indexed by the position of the last gap in the current sequence
+    static const double maxRatioSchedule[] = {5.00, 3.50, 3.20, 3.00, 2.82, 2.66, 2.52, 2.40, 2.32, 2.28, 2.26, 2.24, 2.23, 2.22, 2.22};
+    int scheduleLength = sizeof(maxRatioSchedule) / sizeof(double);
+    
+    int scheduleIndex = currentSequenceLength - 1;  // Last gap is at index currentSequenceLength - 1
+    if (scheduleIndex >= 0 && scheduleIndex < scheduleLength) {
+        *maxRatio = maxRatioSchedule[scheduleIndex];
+    } else if (scheduleIndex >= scheduleLength) {
+        *maxRatio = 2.22;  // Use 2.22 for all gaps beyond the schedule
+    } else {
+        *maxRatio = 5.00;  // Fallback for edge case
+    }
+    
+    printf("Sequence length %d: Using adaptive time-based approach with %.1f seconds (%.2f hours) allowed, maxRatio=%.2f\n",
+           currentSequenceLength, maxRuntimeSeconds, maxRuntimeSeconds/3600.0, *maxRatio);
+}
+
+// automatically find multiple gaps in sequence
+// saves results to a log file as it goes
+void findMultipleGapsAutomated(
+    I64* initialGaps,           // e.g., {1, 4, 10, 23, 57, 132, 301, 701}
+    int numInitialGaps,         // e.g., 8
+    int numGapsToFind,          // how many additional gaps to find
+    double maxRuntimePerGapSeconds, // e.g., 3600.0 for 1 hour
+    int numThreads              // e.g., 5
+) {
+    printf("=== Starting automated gap sequence search ===\n");
+    printf("Starting gaps: {");
+    for (int i = 0; i < numInitialGaps; i++) {
+        printf("%lld, ", initialGaps[i]);
+    }
+    printf("}\n");
+    printf("Will search for %d additional gaps\n", numGapsToFind);
+    printf("Max runtime per gap: %.1f hours\n", maxRuntimePerGapSeconds / 3600.0);
+    printf("Number of threads: %d\n\n", numThreads);
+    
+    // Open log file
+    FILE* logFile = fopen("gap_search_results.txt", "a");
+    if (logFile) {
+        fprintf(logFile, "\n\n=== New search session started ===\n");
+        fprintf(logFile, "Starting gaps: {");
+        for (int i = 0; i < numInitialGaps; i++) {
+            fprintf(logFile, "%lld, ", initialGaps[i]);
+        }
+        fprintf(logFile, "}\n");
+        time_t now = time(NULL);
+        fprintf(logFile, "Time: %s\n", ctime(&now));
+        fflush(logFile);
+    }
+    
+    // Allocate space for growing gap sequence
+    // Need room for: initialGaps + new gaps + {0, 0, 0, -1}
+    I64* gaps = malloc(sizeof(I64) * (numInitialGaps + numGapsToFind + 4));
+    for (int i = 0; i < numInitialGaps; i++) {
+        gaps[i] = initialGaps[i];
+    }
+    gaps[numInitialGaps] = 0;
+    gaps[numInitialGaps + 1] = 0;
+    gaps[numInitialGaps + 2] = 0;
+    gaps[numInitialGaps + 3] = -1;
+    
+    // Find each gap in sequence
+    for (int gapIdx = 0; gapIdx < numGapsToFind; gapIdx++) {
+        int currentGapIndex = numInitialGaps + gapIdx;
+        
+        printf("\n========================================\n");
+        printf("Searching for gap #%d (index %d)\n", gapIdx + 1, currentGapIndex);
+        printf("Current gap sequence: {");
+        for (int i = 0; i < currentGapIndex; i++) {
+            printf("%lld, ", gaps[i]);
+        }
+        printf("?}\n");
+        printf("========================================\n\n");
+        
+        // Compute parameters for this gap
+        double numStdErrsToCutoff, minRatio, maxRatio;
+        int initialNumSamples;
+        computeParametersForGap(currentGapIndex, maxRuntimePerGapSeconds,
+                               &numStdErrsToCutoff, &initialNumSamples,
+                               &minRatio, &maxRatio);
+        
+        // Search for the next gap
+        I64 numRemainingGaps = 0;
+        double minStdErrsUsed = 0;
+        U64 gapSearchStart = currentTime();
+        I64 bestGap = findOptimalNextGap_parameterized(
+            gaps, currentGapIndex,
+            minRatio, maxRatio,
+            numStdErrsToCutoff,
+            initialNumSamples,
+            maxRuntimePerGapSeconds,
+            numThreads,
+            &numRemainingGaps,
+            &minStdErrsUsed
+        );
+        U64 gapSearchEnd = currentTime();
+        double gapSearchTime = (gapSearchEnd - gapSearchStart) / (double)TICKS_PER_SEC;
+        
+        // Update gap sequence with the found gap
+        gaps[currentGapIndex] = bestGap;
+        gaps[currentGapIndex + 1] = 0;
+        gaps[currentGapIndex + 2] = 0;
+        gaps[currentGapIndex + 3] = 0;
+        gaps[currentGapIndex + 4] = -1;
+        
+        printf("\n========================================\n");
+        printf("Found gap #%d: %lld\n", gapIdx + 1, bestGap);
+        printf("Remaining candidate gaps at end: %lld\n", numRemainingGaps);
+        printf("Min stdErrs used for cutting: %.2f\n", minStdErrsUsed);
+        printf("Search time: %.1f seconds (%.2f hours)\n", gapSearchTime, gapSearchTime / 3600.0);
+        printf("Updated gap sequence: {");
+        for (int i = 0; i <= currentGapIndex; i++) {
+            printf("%lld, ", gaps[i]);
+        }
+        printf("}\n");
+        printf("========================================\n\n");
+        
+        // Log to file
+        if (logFile) {
+            fprintf(logFile, "Gap #%d (index %d): %lld\n", gapIdx + 1, currentGapIndex, bestGap);
+            fprintf(logFile, "  Remaining candidates: %lld\n", numRemainingGaps);
+            fprintf(logFile, "  Min stdErrs used: %.2f\n", minStdErrsUsed);
+            fprintf(logFile, "  Search time: %.1f seconds (%.2f hours)\n", gapSearchTime, gapSearchTime / 3600.0);
+            fprintf(logFile, "  Current sequence: {");
+            for (int i = 0; i <= currentGapIndex; i++) {
+                fprintf(logFile, "%lld, ", gaps[i]);
+            }
+            fprintf(logFile, "}\n\n");
+            fflush(logFile);
+        }
+        
+        // Check if we need to adjust parameters for next run
+        if (numRemainingGaps > 10) {
+            printf("WARNING: Search ended with %lld remaining gaps.\n", numRemainingGaps);
+            printf("Consider: 1) Increasing runtime, 2) Adjusting parameters\n\n");
+            if (logFile) {
+                fprintf(logFile, "  WARNING: Too many remaining gaps (%lld)\n", numRemainingGaps);
+            }
+        }
+    }
+    
+    // Final summary
+    printf("\n\n========================================\n");
+    printf("=== AUTOMATED SEARCH COMPLETE ===\n");
+    printf("Final gap sequence: {");
+    for (int i = 0; i < numInitialGaps + numGapsToFind; i++) {
+        printf("%lld, ", gaps[i]);
+    }
+    printf("}\n");
+    printf("========================================\n\n");
+    
+    if (logFile) {
+        fprintf(logFile, "\n=== Search session complete ===\n");
+        fprintf(logFile, "Final sequence: {");
+        for (int i = 0; i < numInitialGaps + numGapsToFind; i++) {
+            fprintf(logFile, "%lld, ", gaps[i]);
+        }
+        fprintf(logFile, "}\n\n");
+        fclose(logFile);
+    }
+    
+    free(gaps);
+}
+
+// Comparison function for sorting SequenceCandidates
+int compareSequenceCandidate(const void* a, const void* b) {
+    const SequenceCandidate* sa = (const SequenceCandidate*)a;
+    const SequenceCandidate* sb = (const SequenceCandidate*)b;
+    if (sa->count < sb->count) return -1;
+    if (sa->count > sb->count) return 1;
+    return 0;
+}
+
+// Find best N gap sequences from M initial sequences
+// Each initial sequence gets extended with candidate next gaps, all tested together
+// Returns the best numBestToKeep sequences
+void findMultipleBestSequences(
+    I64** initialSequences,       // Array of sequences, e.g., 4 sequences
+    int numInitialSequences,      // Number of initial sequences (e.g., 4)
+    int sequenceLength,           // Length of each initial sequence (e.g., 8)
+    int numBestToKeep,            // How many best sequences to keep (e.g., 4)
+    double minRatio,
+    double maxRatio,
+    double maxRuntimeSeconds,
+    int numThreads,
+    I64** outputSequences         // Output: best sequences (caller allocates)
+) {
+    printf("\n=== Searching for best %d sequences from %d initial sequences ===\n", 
+           numBestToKeep, numInitialSequences);
+    
+    // Calculate average of last gaps for consistent arraySize
+    I64 sumLastGaps = 0;
+    for (int i = 0; i < numInitialSequences; i++) {
+        sumLastGaps += initialSequences[i][sequenceLength - 1];
+    }
+    I64 avgLastGap = sumLastGaps / numInitialSequences;
+    I64 arraySize = round(avgLastGap / 301.0 * 8000.0);
+    
+    printf("Average last gap: %lld, arraySize: %lld\n", avgLastGap, arraySize);
+    
+    // Count total candidates
+    I64 totalCandidates = 0;
+    for (int i = 0; i < numInitialSequences; i++) {
+        I64 lastGap = initialSequences[i][sequenceLength - 1];
+        I64 minNextGap = (I64)(lastGap * minRatio);
+        I64 maxNextGap = (I64)(lastGap * maxRatio);
+        totalCandidates += (maxNextGap - minNextGap + 1);
+    }
+    
+    printf("Total candidate sequences: %lld\n\n", totalCandidates);
+    
+    // Allocate candidate array
+    SequenceCandidate* candidates = malloc(sizeof(SequenceCandidate) * totalCandidates);
+    I64 candidateIdx = 0;
+    
+    // Generate all candidates
+    for (int i = 0; i < numInitialSequences; i++) {
+        I64 lastGap = initialSequences[i][sequenceLength - 1];
+        I64 minNextGap = (I64)(lastGap * minRatio);
+        I64 maxNextGap = (I64)(lastGap * maxRatio);
+        
+        for (I64 nextGap = minNextGap; nextGap <= maxNextGap; nextGap++) {
+            candidates[candidateIdx].fullSequence = malloc(sizeof(I64) * (sequenceLength + 4));
+            // Copy initial sequence
+            for (int j = 0; j < sequenceLength; j++) {
+                candidates[candidateIdx].fullSequence[j] = initialSequences[i][j];
+            }
+            // Add new gap and terminator
+            candidates[candidateIdx].fullSequence[sequenceLength] = nextGap;
+            candidates[candidateIdx].fullSequence[sequenceLength + 1] = 0;
+            candidates[candidateIdx].fullSequence[sequenceLength + 2] = 0;
+            candidates[candidateIdx].fullSequence[sequenceLength + 3] = -1;
+            
+            candidates[candidateIdx].fromInitialIndex = i;
+            candidates[candidateIdx].nextGap = nextGap;
+            candidates[candidateIdx].count = 0;
+            candidates[candidateIdx].sampleCount = 0;
+            candidates[candidateIdx].mean = 0;
+            candidates[candidateIdx].M2 = 0;
+            
+            candidateIdx++;
+        }
+    }
+    
+    // Now search similar to findOptimalNextGap_parameterized
+    // but targeting numBestToKeep sequences instead of 1
+    
+    U64 startTime = currentTime();
+    int numSamples = 3;  // Start with 3 samples
+    I64 numRemaining = totalCandidates;
+    
+    // Prepare threading
+    int* array_for_thread[numThreads];
+    pthread_t threads[numThreads];
+    SequenceThreadArg threadArgs[numThreads];
+    
+    for (int i = 0; i < numThreads; i++) {
+        array_for_thread[i] = malloc(sizeof(int) * arraySize);
+    }
+    
+    double targetHalvings = log(totalCandidates / (double)numBestToKeep) / log(2.0);
+    double minStdErrs = 999.0;
+    int iterationCount = 0;
+    
+    printf("Starting with %lld candidates, target %.1f halvings to reach %d\n", 
+           totalCandidates, targetHalvings, numBestToKeep);
+    
+    while (numRemaining > numBestToKeep) {
+        // Run samples on all remaining candidates using threads
+        U64 pcgInitState = rand_pcg_u64();
+        U64 pcgInc = rand_pcg_u64();
+        
+        for (int i = 0; i < numThreads; i++) {
+            threadArgs[i].candidates = candidates;
+            if (i == 0) {
+                threadArgs[i].startIndex = 0;
+            }
+            else {
+                threadArgs[i].startIndex = threadArgs[i-1].lastIndex + 1;
+            }
+            if (i == numThreads - 1) {
+                threadArgs[i].lastIndex = numRemaining - 1;
+            }
+            else {
+                threadArgs[i].lastIndex = ((i+1) * numRemaining) / numThreads - 1;
+            }
+            threadArgs[i].arraySize = arraySize;
+            threadArgs[i].numSamples = numSamples;
+            threadArgs[i].array = array_for_thread[i];
+            threadArgs[i].pcgInitState = pcgInitState;
+            threadArgs[i].pcgInc = pcgInc;
+            pthread_create(&threads[i], NULL, thread_runSequenceSamples, (void*)&threadArgs[i]);
+        }
+        
+        for (int i = 0; i < numThreads; i++) {
+            pthread_join(threads[i], NULL);
+        }
+        
+        if (COMPARE_COUNTER != 0) {
+            printf("error: COMPARE_COUNTER should be 0\n");
+            exit(1);
+        }
+        
+        // Sort by count
+        qsort(candidates, numRemaining, sizeof(SequenceCandidate), compareSequenceCandidate);
+        
+        // Calculate time progress and target
+        double elapsedTime = (currentTime() - startTime) / (double)TICKS_PER_SEC;
+        double timePercent = elapsedTime / maxRuntimeSeconds;
+        if (timePercent > 1.0) timePercent = 1.0;
+        
+        double targetHalvingsDone = timePercent * targetHalvings;
+        I64 targetNum = (I64)(totalCandidates / pow(2.0, targetHalvingsDone));
+        if (targetNum < numBestToKeep) targetNum = numBestToKeep;
+        
+        // Enforce minimum of numThreads for parallel efficiency
+        if (targetNum < numThreads && targetNum > numBestToKeep) {
+            targetNum = numThreads;
+        }
+        
+        // Calculate stdErrs and cut
+        I64 targetIndex = targetNum - 1;
+        if (targetIndex >= numRemaining) targetIndex = numRemaining - 1;
+        if (targetIndex < numBestToKeep - 1) targetIndex = numBestToKeep - 1;
+        
+        I64 newNumRemaining = targetIndex + 1;
+        
+        // Calculate stdErrs
+        double pooled_variance = 0;
+        for (I64 i = 0; i < numRemaining; i++) {
+            double sample_variance = candidates[i].M2 / (candidates[i].sampleCount - 1);
+            pooled_variance += sample_variance;
+        }
+        pooled_variance /= numRemaining;
+        double pooledStdErr = sqrt(pooled_variance / candidates[0].sampleCount);
+        
+        double adaptiveNumStdErrs = 10.0;
+        if (newNumRemaining < numRemaining) {
+            double meanDiff = candidates[newNumRemaining].mean - candidates[0].mean;
+            adaptiveNumStdErrs = meanDiff / pooledStdErr;
+            if (adaptiveNumStdErrs < 0.0) adaptiveNumStdErrs = 0.0;
+        }
+        
+        if (newNumRemaining <= numRemaining && newNumRemaining >= numBestToKeep) {
+            if (newNumRemaining >= numThreads || newNumRemaining == numBestToKeep) {
+                numRemaining = newNumRemaining;
+                if (adaptiveNumStdErrs < minStdErrs) {
+                    minStdErrs = adaptiveNumStdErrs;
+                }
+            }
+        }
+        
+        // Force cut if stuck
+        if (numRemaining > numThreads && targetNum <= numThreads && targetNum > numBestToKeep) {
+            numRemaining = numThreads;
+        }
+        
+        iterationCount++;
+        
+        if (iterationCount % 5 == 0 || numRemaining <= 10) {
+            printf("Iter %d: time %.1fs (%.0f%%), %lld sequences remain (target %lld), stdErrs=%.2f, samples=%lld\n",
+                   iterationCount, elapsedTime, timePercent * 100, numRemaining, targetNum,
+                   adaptiveNumStdErrs, candidates[0].sampleCount);
+        }
+        
+        if (elapsedTime > maxRuntimeSeconds) {
+            printf("Hit max runtime.\n");
+            break;
+        }
+        
+        numSamples = numSamples * 1.17 + 1;
+    }
+    
+    printf("\n=== Search Complete ===\n");
+    printf("Best %lld sequences found, min stdErrs: %.2f\n", numRemaining, minStdErrs);
+    
+    // Copy best sequences to output
+    I64 numToCopy = numRemaining < numBestToKeep ? numRemaining : numBestToKeep;
+    for (I64 i = 0; i < numToCopy; i++) {
+        for (int j = 0; j <= sequenceLength; j++) {  // Include the new gap
+            outputSequences[i][j] = candidates[i].fullSequence[j];
+        }
+        printf("  #%lld: from initial[%d], next gap=%lld, mean=%.1f\n",
+               i+1, candidates[i].fromInitialIndex, candidates[i].nextGap, candidates[i].mean);
+    }
+    
+    // Cleanup
+    for (I64 i = 0; i < totalCandidates; i++) {
+        free(candidates[i].fullSequence);
+    }
+    free(candidates);
+    for (int i = 0; i < numThreads; i++) {
+        free(array_for_thread[i]);
+    }
+}
+
+// Automated multi-branch search with iterative halving
+// Starts with M sequences, expands to N, then halves down to 1 final sequence
+// Time allocation doubles each iteration (1x, 2x, 4x, 8x, ...)
+void findBestSequenceAutomatedMultiBranch(
+    I64** initialSequences,      // Array of initial sequences
+    int numInitialSequences,     // Number of initial sequences (e.g., 4)
+    int initialSequenceLength,   // Length of each initial sequence (e.g., 8)
+    int numBestFirstIteration,   // Target number of sequences after first iteration (e.g., 16)
+    int numIterations,           // How many iterations to run (e.g., 5: 16->8->4->2->1)
+    double maxRuntimePerIter,    // Max runtime for first iteration in seconds (doubles each iteration)
+    int numThreads               // Number of threads
+) {
+    printf("\n=== Automated Multi-Branch Search ===\n");
+    printf("Starting with %d sequences of length %d\n", numInitialSequences, initialSequenceLength);
+    printf("Target after first iteration: %d sequences, Iterations: %d\n", numBestFirstIteration, numIterations);
+    printf("Base runtime (1st iter): %.1f seconds (doubles each iteration)\n\n", maxRuntimePerIter);
+    
+    // Open log file
+    FILE* logFile = fopen("multibranch_search_results.txt", "a");
+    if (logFile) {
+        fprintf(logFile, "\n\n=== New multi-branch search session ===\n");
+        fprintf(logFile, "Starting sequences: %d, length: %d\n", numInitialSequences, initialSequenceLength);
+        fprintf(logFile, "First iteration target: %d, Iterations: %d\n", numBestFirstIteration, numIterations);
+        time_t now = time(NULL);
+        fprintf(logFile, "Time: %s\n", ctime(&now));
+        fflush(logFile);
+    }
+
+    // fix off by one error
+    numIterations -= 1;
+    
+    // Calculate halving schedule: expand then halve
+    int* numToKeep = malloc(sizeof(int) * (numIterations + 1));
+    int currentNum = numBestFirstIteration;  // First iteration target
+    numToKeep[0] = currentNum;
+    for (int i = 1; i <= numIterations; i++) {
+        currentNum = currentNum / 2;
+        if (currentNum < 1) currentNum = 1;
+        numToKeep[i] = currentNum;
+    }
+    
+    printf("Schedule: %d initial -> ", numInitialSequences);
+    for (int i = 0; i <= numIterations; i++) {
+        printf("%d", numToKeep[i]);
+        if (i < numIterations) printf(" -> ");
+    }
+    printf("\n\n");
+    
+    // Allocate for current and next sequences
+    int maxSequences = numToKeep[0];  // Maximum we'll ever have
+    int currentLength = initialSequenceLength;
+    
+    I64** currentSequences = malloc(sizeof(I64*) * maxSequences);
+    I64** nextSequences = malloc(sizeof(I64*) * maxSequences);
+    
+    for (int i = 0; i < maxSequences; i++) {
+        currentSequences[i] = malloc(sizeof(I64) * (initialSequenceLength + numIterations + 2));
+        nextSequences[i] = malloc(sizeof(I64) * (initialSequenceLength + numIterations + 2));
+    }
+    
+    // Copy initial sequences to currentSequences
+    for (int i = 0; i < numInitialSequences; i++) {
+        for (int j = 0; j < initialSequenceLength; j++) {
+            currentSequences[i][j] = initialSequences[i][j];
+        }
+    }
+    int currentCount = numInitialSequences;
+    
+    // Run iterations
+    for (int iter = 0; iter <= numIterations; iter++) {
+        int targetCount = numToKeep[iter];
+        
+        // Calculate time for this iteration: double each iteration
+        double iterTimeAllocation = maxRuntimePerIter * (1 << iter);  // 2^iter
+        
+        printf("========================================\n");
+        printf("Iteration %d: Searching for best %d sequences (length %d -> %d)\n", 
+               iter + 1, targetCount, currentLength, currentLength + 1);
+        printf("Current sequences: %d\n", currentCount);
+        printf("Time allocation: %.1f seconds (%.1f minutes)\n", iterTimeAllocation, iterTimeAllocation / 60.0);
+        printf("========================================\n\n");
+        
+        U64 iterStart = currentTime();
+        
+        // Calculate ratios based on current sequence length (how many gaps we have)
+        double minRatio = 2.08;
+        static const double maxRatioSchedule[] = {5.00, 3.50, 3.20, 3.00, 2.82, 2.66, 2.52, 2.40, 2.32, 2.28, 2.26, 2.24, 2.23, 2.22, 2.22};
+        int scheduleLength = sizeof(maxRatioSchedule) / sizeof(double);
+        int scheduleIndex = currentLength - 1;  // Last gap is at index currentLength - 1
+        double maxRatio;
+        if (scheduleIndex >= 0 && scheduleIndex < scheduleLength) {
+            maxRatio = maxRatioSchedule[scheduleIndex];
+        } else if (scheduleIndex >= scheduleLength) {
+            maxRatio = 2.22;
+        } else {
+            maxRatio = 5.00;
+        }
+        
+        printf("Using minRatio=%.2f, maxRatio=%.2f (sequence length %d)\n\n", minRatio, maxRatio, currentLength);
+        
+        // Run findMultipleBestSequences
+        findMultipleBestSequences(
+            currentSequences, currentCount, currentLength, targetCount,
+            minRatio, maxRatio, iterTimeAllocation, numThreads,
+            nextSequences
+        );
+        
+        U64 iterEnd = currentTime();
+        double iterTime = (iterEnd - iterStart) / (double)TICKS_PER_SEC;
+        
+        printf("\n========================================\n");
+        printf("Iteration %d complete: %d sequences found in %.1f seconds\n", 
+               iter + 1, targetCount, iterTime);
+        printf("========================================\n");
+        
+        // Print all best sequences from this iteration
+        printf("Best sequences from this iteration:\n");
+        for (int i = 0; i < targetCount; i++) {
+            printf("  #%d: {", i + 1);
+            for (int j = 0; j <= currentLength; j++) {  // currentLength is old length, +1 for new gap
+                printf("%lld", nextSequences[i][j]);
+                if (j < currentLength) printf(", ");
+            }
+            printf("}\n");
+        }
+        printf("\n");
+        
+        // Log to file
+        if (logFile) {
+            fprintf(logFile, "\nIteration %d: %d -> %d sequences (length %d)\n", 
+                    iter + 1, currentCount, targetCount, currentLength + 1);
+            fprintf(logFile, "  Time allocated: %.1f seconds, Time used: %.1f seconds\n", iterTimeAllocation, iterTime);
+            fprintf(logFile, "  Best sequences:\n");
+            for (int i = 0; i < targetCount; i++) {
+                fprintf(logFile, "    #%d: {", i + 1);
+                for (int j = 0; j <= currentLength; j++) {
+                    fprintf(logFile, "%lld", nextSequences[i][j]);
+                    if (j < currentLength) fprintf(logFile, ", ");
+                }
+                fprintf(logFile, "}\n");
+            }
+            fflush(logFile);
+        }
+        
+        // Swap current and next
+        I64** temp = currentSequences;
+        currentSequences = nextSequences;
+        nextSequences = temp;
+        
+        currentCount = targetCount;
+        currentLength++;
+        
+        // If we're down to 1, we're done
+        if (currentCount == 1) {
+            printf("\n=== FINAL RESULT ===\n");
+            printf("Best sequence found: {");
+            for (int j = 0; j < currentLength; j++) {
+                printf("%lld", currentSequences[0][j]);
+                if (j < currentLength - 1) printf(", ");
+            }
+            printf("}\n\n");
+            
+            if (logFile) {
+                fprintf(logFile, "\n=== Final best sequence ===\n{");
+                for (int j = 0; j < currentLength; j++) {
+                    fprintf(logFile, "%lld", currentSequences[0][j]);
+                    if (j < currentLength - 1) fprintf(logFile, ", ");
+                }
+                fprintf(logFile, "}\n\n");
+            }
+            break;
+        }
+    }
+    
+    // Cleanup
+    for (int i = 0; i < maxSequences; i++) {
+        free(currentSequences[i]);
+        free(nextSequences[i]);
+    }
+    free(currentSequences);
+    free(nextSequences);
+    free(numToKeep);
+    
+    if (logFile) {
+        fclose(logFile);
+    }
 }
 
 int main(int argc, const char * argv[]) {
@@ -1165,15 +2097,118 @@ int main(int argc, const char * argv[]) {
     if (0) {
         findWorstCase(512, gaps_dokken12_222f);
     }
-    
-    // compute max-gcd and ratios of each number in gap sequence
+
+    // find worst case approximation using random mutations
     if (0) {
-        computeMaxGcdAndRatios();
+        findWorstCaseWithRandomMutations();
     }
     
-    // find optimal shellsort gap sequences
+    // automated search for multiple gaps in sequence (single branch)
+    if (0) {
+        I64 startingGaps[] = {1, 4, 10, 23, 57, 132, 301, 701};
+        int numStartingGaps = sizeof(startingGaps) / sizeof(I64);
+        int numGapsToFind = 10;
+        double maxRuntimePerGap = 120.0;  // in seconds
+        int numThreads = 5;
+        
+        findMultipleGapsAutomated(startingGaps, numStartingGaps, numGapsToFind, maxRuntimePerGap, numThreads);
+    }
+
+    // automated search for multiple gaps in sequence (single branch)
+    if (0) {
+        I64 startingGaps[] = {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728};
+        int numStartingGaps = sizeof(startingGaps) / sizeof(I64);
+        int numGapsToFind = 6;
+        double maxRuntimePerGap = 7200.0;  // in seconds
+        int numThreads = 10;
+        
+        findMultipleGapsAutomated(startingGaps, numStartingGaps, numGapsToFind, maxRuntimePerGap, numThreads);
+    }
+
+    // Automated multi-branch search 
+    if (0) {
+        // Start with these sequences
+        I64 seq1[] = {1, 4, 10, 23};
+        I64 seq2[] = {1, 4, 10, 21};
+        I64 seq3[] = {1, 4, 9, 24};
+        
+        I64* initialSequences[] = {seq1, seq2, seq3};
+        
+        int numInitialSequences = sizeof(initialSequences) / sizeof(initialSequences[0]);
+        int initialSequenceLength = sizeof(seq1) / sizeof(seq1[0]);
+        
+        findBestSequenceAutomatedMultiBranch(
+            initialSequences,
+            numInitialSequences,
+            initialSequenceLength,
+            64,                 // target number of sequences after first iteration, then halves each iteration
+            1,                 // numIterations
+            60.0,              // runtime in seconds of first iteration, then doubles each iteration
+            5                  // numThreads
+        );
+    }
+
+    // Automated multi-branch search 
+    if (0) {
+        // Start with these sequences
+        I64 seq1[] = {1, 4, 10, 23, 57, 132, 301};
+        I64 seq2[] = {1, 4, 10, 21, 56, 125, 288};
+        
+        I64* initialSequences[] = {seq1, seq2};
+        
+        int numInitialSequences = sizeof(initialSequences) / sizeof(initialSequences[0]);
+        int initialSequenceLength = sizeof(seq1) / sizeof(seq1[0]);
+        
+        findBestSequenceAutomatedMultiBranch(
+            initialSequences,
+            numInitialSequences,
+            initialSequenceLength,
+            16,                // target number of sequences after first iteration, then halves each iteration
+            1,                 // numIterations
+            60.0,              // runtime in seconds of first iteration, then doubles each iteration
+            5                  // numThreads
+        );
+    }
+
+    // Automated multi-branch search 
     if (1) {
-        findOptimalNextGap();
+        // Start with these sequences
+        I64 seq1[] = {1, 4, 10, 23, 57};
+        I64 seq1b[] = {1, 4, 10, 23, 61};
+        I64 seq1c[] = {1, 4, 10, 23, 54};
+        I64 seq1d[] = {1, 4, 10, 23, 55};
+        I64 seq1e[] = {1, 4, 10, 23, 60};
+        I64 seq1f[] = {1, 4, 10, 23, 61};
+        I64 seq2[] = {1, 4, 10, 21, 56};
+        I64 seq2b[] = {1, 4, 10, 21, 59};
+        I64 seq2c[] = {1, 4, 10, 21, 57};
+        I64 seq2d[] = {1, 4, 10, 21, 55};
+        I64 seq2e[] = {1, 4, 10, 21, 49};
+        I64 seq2f[] = {1, 4, 10, 21, 58};
+        I64 seq2g[] = {1, 4, 10, 21, 60};
+        I64 seq3[] = {1, 4, 9, 24, 58};
+        I64 seq3b[] = {1, 4, 9, 24, 61};
+        I64 seq3c[] = {1, 4, 9, 24, 59};
+        I64 seq3d[] = {1, 4, 9, 24, 55};
+        I64 seq3e[] = {1, 4, 9, 24, 53};
+        I64 seq3f[] = {1, 4, 9, 24, 52};
+        I64 seq3g[] = {1, 4, 9, 24, 56};
+        I64 seq3h[] = {1, 4, 9, 24, 62};
+        
+        I64* initialSequences[] = {seq1, seq1b, seq1c, seq1d, seq1e, seq1f, seq2, seq2b, seq2c, seq2d, seq2e, seq2f, seq2g, seq3, seq3b, seq3c, seq3d, seq3e, seq3f, seq3g, seq3h};
+        
+        int numInitialSequences = sizeof(initialSequences) / sizeof(initialSequences[0]);
+        int initialSequenceLength = sizeof(seq1) / sizeof(seq1[0]);
+        
+        findBestSequenceAutomatedMultiBranch(
+            initialSequences,
+            numInitialSequences,
+            initialSequenceLength,
+            512,                 // target number of sequences after first iteration, then halves each iteration
+            10,                 // numIterations
+            50.0,              // runtime in seconds of first iteration, then doubles each iteration
+            10                  // numThreads
+        );
     }
     
     printf("program run time = %g seconds\n", ((currentTime() - programStartTime) / (double)TICKS_PER_SEC));
