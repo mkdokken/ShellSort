@@ -23,6 +23,11 @@ It is unclear to me what the best extension of {1, 4, 10, 23, 57, 132, 301} is w
 
 Some of the best sequences not starting with {1, 4, 10, 23, 57, 132, 301} start with {1, 4, 10, 21, 56, 125, 288, 661} instead, but they don't seem to perform as well for large N. 
 
+| Header 1 | Header 2 | Header 3 |
+| :---     |    :---: |     ---: |
+| Cell A1  |  Cell B1 |  Cell C1 |
+| Cell A2  |  Cell B2 |  Cell C2 |
+
 
 When building the code, I have always used the -O3 optimization flag. 
 I have built and run it on MacOS using the default c compiler in Xcode, and I have built and run it on Windows using the default c compiler in Codeblocks. 
