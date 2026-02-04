@@ -21,7 +21,7 @@ As of 2026, after improving the code, it finds some very good sequences with a 6
 
 It is unclear to me what the best extension of {1, 4, 10, 23, 57, 132, 301} is when N grows large. It seems it might be one of {701, 1541}, {701, 1504}, {644, 1445}, or {644, 1408}.
 
-The best sequences not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288, 661}, but they don't seem to perform as well for large N. 
+Some of the best sequences not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288, 661}, but they don't seem to perform as well for large N. 
 
 
 When building the code, I have always used the -O3 optimization flag. 
