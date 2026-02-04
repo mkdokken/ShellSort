@@ -25,11 +25,11 @@ Some of the best sequences not starting with {1, 4, 10, 23, 57, 132, 301} start 
 
 My best attempt at finding optimal gap sequences for fixed size lists of length 1k, 10k, and 100k are listed below. For N=1k, my result matches Ciura's and is likely the true optimal sequence for N=1k, at least up to the last number 996 which can be changed slightly with an immeasurably small change to the average number of comparisons used. For N=10k and N=100k, these sequences are not intended to be the true optimal sequence, but rather just the best that I could find with limited computing power. 
 
-| N | Best Sequence | Comparisons |
-| :---:     |    :---: |     :---: |
-| 1000  |  1,4,10,23,57,156,409,996 |  12929.4 +/- 0.3 |
-| 10000  |  1,4,10,23,57,132,301,701,1733,6085,9941 |  190466 +/- 5 |
-| 100000  |  1,4,10,23,57,132,301,644,1445,3165,6913,17736,62185,99668 |  2535370 +/- 60 |
+| N | Best Sequence | Avg Comparisons | Num Random Samples |
+| :---:     |    :---: |     :---: |     :---: |
+| 1000  |  1, 4, 10, 23, 57, 156, 409, 996 |  12929.4 +/- 0.3 | 1000000 |
+| 10000  |  1,4,10,23,57,132,301,701,1733,6085,9941 |  190466 +/- 5 | 128000 |
+| 100000  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 17736, 62185, 99668 |  2535370 +/- 60 | 18000 |
 
 
 When building the code, I have always used the -O3 optimization flag. 
