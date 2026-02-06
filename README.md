@@ -23,11 +23,12 @@ It is unclear to me what the best extension of {1, 4, 10, 23, 57, 132, 301} is w
 
 Some of the best sequences not starting with {1, 4, 10, 23, 57, 132, 301} start with {1, 4, 10, 21, 56, 125, 288, 661} instead, but they don't seem to perform as well for large N. 
 
-My best attempt at finding optimal gap sequences for fixed size lists of length 1k, 2k, 3k, 10k, 100k, and 1million are listed below. For N=1k, my result matches Ciura's and could be the true optimal sequence for N=1k, at least up to the last number 996 which can be changed slightly with an immeasurably small change to the average number of comparisons used. For N>1k, these sequences are not necessarily the true optimal sequence, but rather just the best that I could find with limited computing power. The larger N gets the further from the true optimal sequences these will be. 
+My best attempt at finding optimal gap sequences for fixed size lists of length 1k, 2k, 3k, 10k, 100k, and 1million are listed below. For N=1k, my result matches Ciura's and could be the true optimal sequence for N=1k, at least up to the last number 996/994 which can be changed slightly with an immeasurably small change to the average number of comparisons used. For N>1k, these sequences are not necessarily the true optimal sequence, but rather just the best that I could find with limited computing power. The larger N gets the further from the true optimal sequences these will be. 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
 | 1000  |  1, 4, 10, 23, 57, 156, 409, 996 |  12929.4 +/- 0.3 | 1000000 |
+| 1000  |  1, 4, 10, 23, 57, 156, 409, 994 |  12929.4 +/- 0.3 | 1000000 |
 | 2000  |  1, 4, 10, 23, 57, 132, 347, 1208, 1979 |  29484.4 +/- 0.6 | 620000 |
 | 3000  |  1, 4, 10, 23, 57, 132, 313, 1044, 2778 |  47449.4 +/- 1 | 600000 |
 | 10000  |  1, 4, 10, 23, 57, 132, 301, 701, 1733, 6085, 9941 |  190466 +/- 5 | 128000 |
