@@ -21,7 +21,7 @@ As of 2026, after improving the code, it finds some potentially better sequences
 {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 157678, 345119, 747533, 1631227, 3484469, 7526447, 16541333}, and  
 {1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 15349, 33794, 75251, 163395, 358349, 784009, 1722313, 3809723, 8255479, 17990407}.  
 
-It seems most likely to me now, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} is the start of the optimal gap sequence for large N.
+It seems likely to me now, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} could be the start of the optimal gap sequence for large N.
 
 Some of the best sequences not starting with {1, 4, 10, 23, 57, 132, 301} start with {1, 4, 10, 21, 56, 125, 288, 661} instead, but they don't seem to perform quite as well. 
 
