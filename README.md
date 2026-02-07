@@ -5,8 +5,7 @@ Finding best shell sort gap sequences to minimize comparisons.
 This project contains code to attempt to find the best gap sequence for shell sort.
 
 
-In early 2025 the best sequences the code found were:
-
+In early 2025 the best sequences the code found were:  
 {1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 7196, 15948, 34644, 74428, 162005, 347077, 745919, 1599893, 3446017, 7434649, 15933053},
 
 {1, 4, 10, 23, 57, 132, 301, 701, 1541, 3498, 7699, 17041, 37835, 81907, 179433, 392867, 858419, 1883473, 4081849, 9002887, 19782319}, and
