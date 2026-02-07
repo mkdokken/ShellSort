@@ -27,6 +27,7 @@ My best attempt at finding optimal gap sequences for fixed size lists of length 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
+| 64  |  1, 4, 9, 38, 62 |  399.111 +/- 0.01 | 12000000 |
 | 128  |  1, 4, 9, 24, 85, 126 |  1002.26 +/- 0.02 | 8000000 |
 | 128  |  1, 4, 9, 24, 85 |  1002.27 +/- 0.02 | 8000000 |
 | 1000  |  1, 4, 10, 23, 57, 156, 409, 996 |  12929.4 +/- 0.3 | 1000000 |
