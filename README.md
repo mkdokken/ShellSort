@@ -6,8 +6,11 @@ This project contains code to attempt to find the best gap sequence for shell so
 
 
 In early 2025 the best sequences the code found were:
+
 {1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 7196, 15948, 34644, 74428, 162005, 347077, 745919, 1599893, 3446017, 7434649, 15933053},
+
 {1, 4, 10, 23, 57, 132, 301, 701, 1541, 3498, 7699, 17041, 37835, 81907, 179433, 392867, 858419, 1883473, 4081849, 9002887, 19782319}, and
+
 {1, 4, 10, 23, 57, 132, 301, 701, 1636, 3659, 8129, 18118, 40354, 89129, 197803, 443557, 973657, 2131981, 4697153, 10528127, 23135351},
 
 which are all extensions of Marcin Ciura's gaps: {1, 4, 10, 23, 57, 132, 301, 701}.
@@ -15,15 +18,18 @@ https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/
 
 
 As of 2026, after improving the code, it finds some potentially better sequences with a 644 instead of a 701 following the 301. For example:
+
 {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728, 324011, 692843, 1499809, 3211613, 7025789, 14937367},
+
 {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 157678, 345119, 747533, 1631227, 3484469, 7526447, 16541333}, and
+
 {1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 15349, 33794, 75251, 163395, 358349, 784009, 1722313, 3809723, 8255479, 17990407}.
 
-It is unclear to me what the best extension of {1, 4, 10, 23, 57, 132, 301} is when N grows large. It seems it might be one of {701, 1541}, {701, 1504}, {644, 1445}, or {644, 1408}.
+It seems most likely to me now, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} is the start of the optimal gap sequence for large N.
 
 Some of the best sequences not starting with {1, 4, 10, 23, 57, 132, 301} start with {1, 4, 10, 21, 56, 125, 288, 661} instead, but they don't seem to perform as well for large N. 
 
-My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=32 and N=64 I believe these are optimal, since it is pretty easy to search all possibilities and nothing else was close. For N=128 through N=1k, they are likely optimal up to the last number which can often be changed with very little effect on the average number of comparisons. For N>1k, these sequences are just the best that I could find with limited computing power, and the larger N gets the further from optimal these will likely be. 
+My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=32 and N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1k, they are likely optimal up to the last number which can often be changed with very little effect on the average number of comparisons. For N>1k, these sequences are just the best that I could find with limited computing power, and the larger N gets the further from optimal these will likely be. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=32 matches the N=32 row of the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
