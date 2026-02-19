@@ -25,10 +25,11 @@ It seems likely to me now, based on the pattern in the table below, that {1, 4, 
 
 The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead, but they don't seem to perform quite as well. 
 
-My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=32 and N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1k, they are likely optimal up to the last number which can often be changed with very little effect on the average number of comparisons. For N>1k, these sequences are just the best that I could find with limited computing power, and the larger N gets the further from optimal these will likely be. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=32 matches the N=32 row of the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
+My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1k, they are likely optimal up to the last number which can often be changed with very little effect on the average number of comparisons. For N>1k, these sequences are just the best that I could find with limited computing power, and the larger N gets the further from optimal these will likely be. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 matche the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
+| 16  |  1, 5, 14 |  54.174 +/- 0.003 | 14000000 |
 | 32  |  1, 4, 13 |  152.055 +/- 0.005 | 22000000 |
 | 64  |  1, 4, 9, 38, 62 |  399.111 +/- 0.01 | 12000000 |
 | 128  |  1, 4, 9, 24, 85, 126 |  1002.25 +/- 0.01 | 32000000 |
