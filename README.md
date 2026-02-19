@@ -40,10 +40,11 @@ My best attempt at finding optimal gap sequences for fixed size lists of various
 | 5000  |  1, 4, 10, 23, 57, 132, 301, 701, 1937, 4921 |  85889.1 +/- 2 | 250000 |
 | 10000  |  1, 4, 10, 23, 57, 132, 301, 701, 1733, 6085, 9941 |  190466 +/- 5 | 128000 |
 | 30000  |  1, 4, 10, 23, 57, 132, 301, 701, 1541, 3498, 11336, 28631 |  661018 +/- 15 | 58000 |
+| 50000  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 7792, 28599, 47932 |  1172130 +/- 25 | 33000 |
 | 100000  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 17736, 62185, 99668 |  2535370 +/- 60 | 18000 |
 | 1000000  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 171523, 606250, 989292 |  31730200 +/- 1000 | 1100 |
 
 
 
-When building the code, I have always used the -O3 optimization flag. 
-I have built and run it on MacOS using the default c compiler in Xcode, and I have built and run it on Windows using the default c compiler in Codeblocks. 
+I have built and run the code on MacOS using the default c compiler in Xcode, and I have built and run it on Windows using the default c compiler in Codeblocks. 
+When building the code, I have always used the -O3 optimization flag, and left the rest of the default compiler settings. 
