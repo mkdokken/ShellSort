@@ -25,7 +25,7 @@ It seems likely to me now, based on the pattern in the table below, that {1, 4, 
 
 The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead, but they don't seem to perform quite as well. 
 
-My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1k, they are likely optimal up to the last number which can often be changed with very little effect on the average number of comparisons. For N>1k, these sequences are just the best that I could find with limited computing power, and the larger N gets the further from optimal these will likely be. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 matche the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
+My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1k, they are likely optimal up to the last number which can often be changed with very little effect on the average number of comparisons. For N>1k, these sequences are just the best that I could find with limited computing power, and the larger N gets the further from optimal these will likely be. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
@@ -51,8 +51,8 @@ Below I have listed the closest alternatives I found for N = 10 million.
 
 | N | Description | Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |    :---: |     :---: |     :---: |
-| 10000000  |  Best with 644, 1445  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 14836, 32056, 69350, 147544, 318977, 700831, 1686433, 6033754, 9818957 |  381511145 +/- 4916 | 1030 |
-| 10000000  |  Best with 701, 1504  |  1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 6895, 15253, 32518, 71096, 153575, 333031, 727381, 1719031, 6043655, 9883970 |  381513396 +/- 5518 | 736 |
+| 10000000  |  Best with 644, X>1408  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 14836, 32056, 69350, 147544, 318977, 700831, 1686433, 6033754, 9818957 |  381511145 +/- 4916 | 1030 |
+| 10000000  |  Best with 301, X!=644  |  1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 6895, 15253, 32518, 71096, 153575, 333031, 727381, 1719031, 6043655, 9883970 |  381513396 +/- 5518 | 736 |
 | 10000000  |  Best with 644, X<1408  |  1, 4, 10, 23, 57, 132, 301, 644, 1371, 3016, 6535, 14081, 29612, 64663, 141588, 309979, 680821, 1636132, 5503249, 9657208 |  381529743 +/- 5216 | 862 |
 | 10000000  |  Best with 4, 10, 21  |  1, 4, 10, 21, 56, 125, 288, 630, 1381, 3002, 6414, 13964, 30143, 65044, 142682, 307807, 697201, 1717374, 5970299, 9910633 |  381531463 +/- 5368 | 920 |
 
