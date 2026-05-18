@@ -21,11 +21,11 @@ As of 2026, after improving the code, it finds some potentially better sequences
 {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 157678, 345119, 747533, 1631227, 3484469, 7526447, 16541333}, and  
 {1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 15349, 33794, 75251, 163395, 358349, 784009, 1722313, 3809723, 8255479, 17990407}.  
 
-It seems likely to me now, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} could be the start of the optimal gap sequence for large N.
+It seems likely to me, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} could be the start of the optimal gap sequence for large N.
 
 The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead, but they don't seem to perform quite as well. 
 
-My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1k, they are likely optimal up to the last number which can often be changed with very little effect on the average number of comparisons. For N>1k, these sequences are just the best that I could find with limited computing power, and the larger N gets the further from optimal these will likely be. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
+My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1000, they are likely optimal up to the last number which can often be changed with very little effect on the average number of comparisons. For N>1000, these sequences are just the best that I could find with limited computing power, and the larger N gets the further from optimal these will likely be. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
@@ -44,19 +44,20 @@ My best attempt at finding optimal gap sequences for fixed size lists of various
 | 30000  |  1, 4, 10, 23, 57, 132, 301, 701, 1541, 3498, 11336, 28631 |  661018 +/- 15 | 58000 |
 | 50000  |  1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 8399, 30113, 49256 |  1172020 +/- 20 | 60000 |
 | 100000  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 17736, 62185, 99668 |  2535370 +/- 60 | 18000 |
-| 1000000  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 171523, 606250, 989292 |  31730950 +/- 500 | 4400 |
-| 10000000  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728, 324011, 692843, 1645254, 5934785, 9775485 |  381508422 +/- 5712 | 880 |
-| 100000000  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 68467, 147869, 316034, 667787, 1442593, 3085219, 6662519, 17234807, 60001006, 98743101 |  4458427670 +/- 45026 | 232 |
+| 1 million  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 171523, 606250, 989292 |  31730950 +/- 500 | 4400 |
+| 10 million  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728, 324011, 692843, 1645254, 5934785, 9775485 |  381508422 +/- 5712 | 880 |
+| 100 million  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 68467, 147869, 316034, 667787, 1442593, 3085219, 6662519, 17234807, 60001006, 98743101 |  4458427670 +/- 45026 | 232 |
+| 1 billion  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 68467, 147869, 316034, 667787, 1442593, 3085219, 6662519, 14349443, 30994463, 66950617, 167899094, 600000000, 981186611 |  51029961078 +/- 597316 | 29 |
 
 Below I have listed some close alternatives I found for N = 10 million. 
 
 | N | Description | Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |    :---: |     :---: |     :---: |
-| 10000000  |  Best  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728, 324011, 692843, 1645254, 5934785, 9775485 |  381508422 +/- 5712 | 880 |
-| 10000000  |  Best with 644, X>1408  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 14836, 32056, 69350, 147544, 318977, 700831, 1686433, 6033754, 9818957 |  381511145 +/- 4916 | 1030 |
-| 10000000  |  Best with 301, X!=644  |  1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 6895, 15253, 32518, 71096, 153575, 333031, 727381, 1719031, 6043655, 9883970 |  381513396 +/- 5518 | 736 |
-| 10000000  |  Best with 644, X<1408  |  1, 4, 10, 23, 57, 132, 301, 644, 1371, 3016, 6535, 14081, 29612, 64663, 141588, 309979, 680821, 1636132, 5503249, 9657208 |  381529743 +/- 5216 | 862 |
-| 10000000  |  Best with 4, 10, 21  |  1, 4, 10, 21, 56, 125, 288, 630, 1381, 3002, 6414, 13964, 30143, 65044, 142682, 307807, 697201, 1717374, 5970299, 9910633 |  381531463 +/- 5368 | 920 |
+| 10 million  |  Best  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728, 324011, 692843, 1645254, 5934785, 9775485 |  381508422 +/- 5712 | 880 |
+| 10 million  |  Best with 644, X>1408  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 14836, 32056, 69350, 147544, 318977, 700831, 1686433, 6033754, 9818957 |  381511145 +/- 4916 | 1030 |
+| 10 million  |  Best with 301, X!=644  |  1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 6895, 15253, 32518, 71096, 153575, 333031, 727381, 1719031, 6043655, 9883970 |  381513396 +/- 5518 | 736 |
+| 10 million  |  Best with 644, X<1408  |  1, 4, 10, 23, 57, 132, 301, 644, 1371, 3016, 6535, 14081, 29612, 64663, 141588, 309979, 680821, 1636132, 5503249, 9657208 |  381529743 +/- 5216 | 862 |
+| 10 million  |  Best with 4, 10, 21  |  1, 4, 10, 21, 56, 125, 288, 630, 1381, 3002, 6414, 13964, 30143, 65044, 142682, 307807, 697201, 1717374, 5970299, 9910633 |  381531463 +/- 5368 | 920 |
 
 
 
