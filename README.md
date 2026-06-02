@@ -1,11 +1,11 @@
 # ShellSort
-Finding best shell sort gap sequences to minimize comparisons.
+Finding best shell sort gap sequences to minimize comparisons for randomly shuffled lists.
 
 
 This project contains code to attempt to find the best gap sequence for shell sort.
 
 
-In early 2025 the best sequences the code found were:
+In early 2025 the best sequences the code found (for minimizing average comparisons) were:
 
 {1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 7196, 15948, 34644, 74428, 162005, 347077, 745919, 1599893, 3446017, 7434649, 15933053},  
 {1, 4, 10, 23, 57, 132, 301, 701, 1541, 3498, 7699, 17041, 37835, 81907, 179433, 392867, 858419, 1883473, 4081849, 9002887, 19782319}, and  
@@ -21,11 +21,9 @@ As of 2026, after improving the code, it finds some potentially better sequences
 {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 157678, 345119, 747533, 1631227, 3484469, 7526447, 16541333}, and  
 {1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 15349, 33794, 75251, 163395, 358349, 784009, 1722313, 3809723, 8255479, 17990407}.  
 
-It seems likely to me, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} could be the start of the optimal gap sequence for large N.
+It seems to me, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} might be the start of the optimal gap sequence (for minimizing average comparisons) for large N. The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead. While I can't get the {1, 4, 10, 21} sequences to perform quite as well as the {1, 4, 10, 23} sequences, I think it's worth investigating if for some large enough N they might start to become slightly better. 
 
-The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead, but they don't seem to perform quite as well. 
-
-My best attempt at finding optimal gap sequences for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1000, they are likely optimal up to the last number which can sometimes be changed with very little effect on the average number of comparisons. For N=2k through N=100k, these sequences optimistically might be optimal up to the last 2 or 3 terms. For N=1million through N=1billion I'm sure these sequences are more than just the last 3 terms away from optimal but I don't even have a good guess as to how far away from optimal they really are. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
+My best attempt at finding optimal gap sequences (for minimizing average comparisons) for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1000, they are likely optimal up to the last number which can sometimes be changed with very little effect on the average number of comparisons. For N=2k through N=100k, these sequences optimistically might be optimal up to the last 2 or 3 terms. For N=1million through N=1billion I'm sure these sequences are more than just the last 3 terms away from optimal but I don't even have a good guess as to how far away from optimal they really are. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
@@ -60,6 +58,39 @@ Below I have listed some close alternatives I found for N = 10 million.
 | 10 million  |  Best with 4, 10, 21  |  1, 4, 10, 21, 56, 125, 288, 630, 1381, 3002, 6414, 13964, 30143, 65044, 142682, 307807, 697201, 1717374, 5970299, 9910633 |  381531463 +/- 5368 | 920 |
 
 
+My best attempt at finding optimal gap sequences (for minimizing worst-case comparisons) for fixed size lists of various sizes are listed below. I did not include N=1 though N=5 because shell sort does not provide any improvement in the worst case over a plain insertion sort. For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case and I only listed one of them in the table below. For N=6 though N=16 my results match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. I can't guarentee for N>16 that this table does not have any mistakes because the numbers get too big to search exhaustively all possibilities. For example, for N=45, while the worst case that I was able to find for the gap sequence {1, 4, 9, 11, 21} used exactly 380 comparisons, I can't say with 100% certainty that there doesn't exist some ordering that requires slightly more than 380 comparisons for this particular gap sequence, and I can't say with 100% certainty that there doesn't exist some other gap sequence with a better worst case (although all other gap sequences I checked required 381 or more comparisons in the worst case I could find).
+
+| N | Best Sequence | Worst-Case Comparisons |
+| :---:     |    :---: |     :---: |
+| 6  |  1, 4 |  14 |
+| 7  |  1, 4, 6 |  18 |
+| 8  |  1, 5, 7 |  23 |
+| 9  |  1, 4, 7 |  29 |
+| 10  |  1, 6, 9 |  35 |
+| 11  |  1, 4, 5 |  41 |
+| 12  |  1, 3, 7, 11 |  48 |
+| 13  |  1, 5, 7 |  56 |
+| 14  |  1, 4, 7, 9 |  64 |
+| 15  |  1, 4, 7, 9 |  71 |
+| 16  |  1, 4, 7, 9 |  78 |
+| 17  |  1, 4, 6, 9 |  86 |
+| 18  |  1, 4, 6, 9, 17 |  94 |
+| 19  |  1, 4, 7, 9 |  103 |
+| 20  |  1, 4, 7, 9 |  113 |
+| 21  |  1, 4, 7, 9 |  121 |
+| 22  |  1, 4, 7, 9 |  131 |
+| 23  |  1, 4, 7, 9 |  139 |
+| 24  |  1, 4, 7, 9 |  148 |
+| 25  |  1, 4, 7, 9, 24 |  158 |
+| 26  |  1, 4, 7, 9 |  167 |
+| 27  |  1, 4, 7, 9, 26 |  177 |
+| 28  |  1, 4, 7, 9 |  187 |
+| 29  |  1, 4, 7, 9 |  198 |
+| 30  |  1, 4, 7, 9, 29 |  207 |
+| 31  |  1, 4, 9, 11 |  218 |
+| 32  |  1, 4, 7, 9 |  229 |
+| 37  |  1, 4, 7, 9 |  286 |
+| 45  |  1, 4, 9, 11, 21 |  380 |
 
 
 
