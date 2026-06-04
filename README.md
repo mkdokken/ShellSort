@@ -23,7 +23,7 @@ As of 2026, after improving the code, it finds some potentially better sequences
 
 It seems to me, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} might be the start of the optimal gap sequence (for minimizing average comparisons) for large N. The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead. While I can't get the {1, 4, 10, 21} sequences to perform quite as well as the {1, 4, 10, 23} sequences, I think it's worth investigating if for some large enough N they might start to become slightly better. 
 
-My best attempt at finding optimal gap sequences (for minimizing average comparisons) for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1000, they are likely optimal up to the last number which can sometimes be changed with very little effect on the average number of comparisons. For N=2k through N=100k, these sequences optimistically might be optimal up to the last 2 or 3 terms. For N=1million through N=1billion I'm sure these sequences are more than just the last 3 terms away from optimal but I don't even have a good guess as to how far away from optimal they really are. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
+My best attempt at finding optimal gap sequences (for minimizing average comparisons) for fixed size lists of various sizes are listed below. For N=16 through N=64 I believe these are optimal, since it is pretty easy to search all (reasonable) possibilities and nothing else was close. For N=128 through N=1000, they are likely optimal up to the last number which can sometimes be changed with very little effect on the average number of comparisons. For N=2k through N=100k, these sequences optimistically might be optimal up to the last 2 or 3 terms. For N=1million through N=1billion I'm sure these sequences are more than just the last 3 terms away from optimal but I don't even have a good guess as to how close/far from optimal they really are. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
@@ -91,6 +91,7 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 | 32  |  1, 4, 7, 9 |  229 |
 | 37  |  1, 4, 7, 9 |  286 |
 | 45  |  1, 4, 9, 11, 21 |  380 |
+| 64  |  1, 4, 9, 11, 32, 62 |  626 |
 
 
 
