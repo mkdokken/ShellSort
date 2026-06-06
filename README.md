@@ -58,45 +58,45 @@ Below I have listed some close alternatives I found for N = 10 million.
 | 10 million  |  Best with 4, 10, 21  |  1, 4, 10, 21, 56, 125, 288, 630, 1381, 3002, 6414, 13964, 30143, 65044, 142682, 307807, 697201, 1717374, 5970299, 9910633 |  381531463 +/- 5368 | 920 |
 
 
-My best attempt at finding optimal gap sequences (for minimizing worst-case comparisons) for fixed size lists of various sizes are listed below. I did not include N=1 though N=5 because shell sort does not provide any improvement in the worst case over a plain insertion sort. For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case and I only listed one of them in the table below. For N=6 though N=16 my results match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. I can't guarentee for N>16 that this table does not have any mistakes because the numbers get too big to search exhaustively all possibilities. For example, for N=45, while the worst case that I was able to find for the gap sequence {1, 4, 9, 11, 21} used exactly 380 comparisons, I can't say with 100% certainty that there doesn't exist some ordering that requires slightly more than 380 comparisons for this particular gap sequence, and I can't say with 100% certainty that there doesn't exist some other gap sequence with a better worst case (although all other gap sequences I checked required 381 or more comparisons in the worst case I could find).
+My best attempt at finding optimal gap sequences (for minimizing worst-case comparisons) for fixed size lists of various sizes are listed below. I did not include N=1 though N=5 because shell sort does not provide any improvement in the worst case over a plain insertion sort. For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case and some of them are listed in the "Alternate Sequences" column. For N=6 though N=16 my results match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. I can't guarentee for N>16 that this table does not have any mistakes because the numbers get too big to search exhaustively all possibilities. For example, for N=45, while the worst case that I was able to find for the gap sequence {1, 4, 9, 11, 21} used exactly 380 comparisons, I can't say with 100% certainty that there doesn't exist some ordering that requires slightly more than 380 comparisons for this particular gap sequence, and I can't say with 100% certainty that there doesn't exist some other gap sequence with a better worst case (although all other gap sequences I checked required 381 or more comparisons in the worst case I could find).
 
-| N | Best Sequence | Worst-Case Comparisons |
-| :---:     |    :---: |     :---: |
-| 6  |  1, 4 |  14 |
-| 7  |  1, 4, 6 |  18 |
-| 8  |  1, 5, 7 |  23 |
-| 9  |  1, 4, 7 |  29 |
-| 10  |  1, 6, 9 |  35 |
-| 11  |  1, 4, 5 |  41 |
-| 12  |  1, 3, 7, 11 |  48 |
-| 13  |  1, 5, 7 |  56 |
-| 14  |  1, 4, 7, 9 |  64 |
-| 15  |  1, 4, 7, 9 |  71 |
-| 16  |  1, 4, 7, 9 |  78 |
-| 17  |  1, 4, 6, 9 |  86 |
-| 18  |  1, 4, 6, 9, 17 |  94 |
-| 19  |  1, 4, 7, 9 |  103 |
-| 20  |  1, 4, 7, 9 |  113 |
-| 21  |  1, 4, 7, 9 |  121 |
-| 22  |  1, 4, 7, 9 |  131 |
-| 23  |  1, 4, 7, 9 |  139 |
-| 24  |  1, 4, 7, 9 |  148 |
-| 25  |  1, 4, 7, 9, 24 |  158 |
-| 26  |  1, 4, 7, 9 |  167 |
-| 27  |  1, 4, 7, 9, 26 |  177 |
-| 28  |  1, 4, 7, 9 |  187 |
-| 29  |  1, 4, 7, 9 |  198 |
-| 30  |  1, 4, 7, 9, 29 |  207 |
-| 31  |  1, 4, 7, 9 |  220 |
-| 32  |  1, 4, 7, 9 |  229 |
-| 33  |  1, 4, 7, 9 |  240 |
-| 34  |  1, 4, 7, 9, 33 |  251 |
-| 35  |  1, 4, 7, 9 |  262 |
-| 36  |  1, 4, 7, 9, 19, 34 |  275 |
-| 37  |  1, 4, 7, 9 |  286 |
-| 38  |  1, 4, 7, 9, 19 |  298 |
-| 45  |  1, 4, 9, 11, 21 |  380 |
-| 64  |  1, 4, 9, 11, 32, 62 |  626 |
+| N | Best Sequence | Worst-Case Comparisons | Alternate Sequences |
+| :---:     |    :---: |     :---: |     :---: |
+| 6  |  1, 4 |  14 |  {1,3,5} and {1,4,5}  |
+| 7  |  1, 4, 6 |  18 |  |
+| 8  |  1, 5, 7 |  23 |  |
+| 9  |  1, 4, 7 |  29 |  {1,3,4} and 3 others  |
+| 10  |  1, 6, 9 |  35 |  {1,5,8,9} and {1,6,8,9}  |
+| 11  |  1, 4, 5 |  41 |  {1,6,9,10}  |
+| 12  |  1, 3, 7, 11 |  48 |  {1,7,10,11}  |
+| 13  |  1, 5, 7 |  56 |  {1,2,5} and 10 others  |
+| 14  |  1, 4, 7, 9 |  64 |  {1,3,4} and 18 others  |
+| 15  |  1, 4, 7, 9 |  71 |  {1,3,7} and 6 others  |
+| 16  |  1, 4, 7, 9 |  78 |  |
+| 17  |  1, 4, 6, 9 |  86 |  |
+| 18  |  1, 4, 6, 9, 17 |  94 |  |
+| 19  |  1, 4, 7, 9 |  103 |  |
+| 20  |  1, 4, 7, 9 |  113 |  {1,4,6,9} and 3 others  |
+| 21  |  1, 4, 7, 9 |  121 |  {1,4,7,9,20}  |
+| 22  |  1, 4, 7, 9 |  131 |  {1,3,7,8} and 2 others  |
+| 23  |  1, 4, 7, 9 |  139 |  {1,3,7,12} and {1,4,7,9,22}  |
+| 24  |  1, 4, 7, 9 |  148 |  |
+| 25  |  1, 4, 7, 9, 24 |  158 |  |
+| 26  |  1, 4, 7, 9 |  167 |  |
+| 27  |  1, 4, 7, 9, 26 |  177 |  |
+| 28  |  1, 4, 7, 9 |  187 |  {1,4,7,9,26}  |
+| 29  |  1, 4, 7, 9 |  198 |  {1,4,7,9,28}  |
+| 30  |  1, 4, 7, 9, 29 |  207 |  |
+| 31  |  1, 4, 7, 9 |  220 |  |
+| 32  |  1, 4, 7, 9 |  229 |  |
+| 33  |  1, 4, 7, 9 |  240 |  {1,4,7,9,32}  |
+| 34  |  1, 4, 7, 9, 33 |  251 |  |
+| 35  |  1, 4, 7, 9 |  262 |  {1,4,7,9,33}  |
+| 36  |  1, 4, 7, 9, 19, 34 |  275 |  |
+| 37  |  1, 4, 7, 9 |  286 |  {1,4,7,9,35}  |
+| 38  |  1, 4, 7, 9, 19 |  298 |  {1,4,9,11,21,35}  |
+| 45  |  1, 4, 9, 11, 21 |  380 |  |
+| 64  |  1, 4, 9, 11, 32, 62 |  626 |  {1,4,9,11,32,63} and {1,4,9,11,32,62,63}  |
 
 
 
