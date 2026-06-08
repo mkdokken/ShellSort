@@ -15,11 +15,14 @@ which are all extensions of Marcin Ciura's gaps: {1, 4, 10, 23, 57, 132, 301, 70
 https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/79637484#79637484
 
 
-As of 2026, after improving the code, it finds some potentially better sequences with a 644 instead of a 701 following the 301. For example:
+But as of 2026, after improving the code, it finds some potentially better sequences with a 644 instead of a 701 following the 301.
 
+<!-- 
+For example:
 {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728, 324011, 692843, 1499809, 3211613, 7025789, 14937367},  
 {1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 157678, 345119, 747533, 1631227, 3484469, 7526447, 16541333}, and  
 {1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 15349, 33794, 75251, 163395, 358349, 784009, 1722313, 3809723, 8255479, 17990407}.  
+-->
 
 It seems to me, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} might be the start of the optimal gap sequence (for minimizing average comparisons) for large N. The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead. While I can't get the {1, 4, 10, 21} sequences to perform quite as well as the {1, 4, 10, 23} sequences, I think it's worth investigating if for some large enough N they might start to become slightly better. 
 
