@@ -101,7 +101,6 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 | 39  |  1, 4, 9, 11, 21, 38 |  310 |  |
 | 40  |  1, 4, 7, 9, 28 |  321 |  |
 | 45  |  1, 4, 9, 11, 21 |  380 |  |
-| 64  |  1, 4, 9, 11, 32, 62 |  >= 626 |  {1,4,9,11,32,63} and {1,4,9,11,32,62,63}  |
 
 
 
