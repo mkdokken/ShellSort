@@ -61,6 +61,57 @@ Below I have listed some close alternatives I found for N = 10 million.
 | 10 million  |  Best with 4, 10, 21  |  1, 4, 10, 21, 56, 125, 288, 630, 1381, 3002, 6414, 13964, 30143, 65044, 142682, 307807, 697201, 1717374, 5970299, 9910633 |  381531463 +/- 5368 | 920 |
 
 
+My best attempt at finding optimal gap sequences (for minimizing worst-case comparisons) for fixed size lists of various sizes are listed below. I did not include N=1 though N=5 because shell sort does not provide any improvement in the worst case over a plain insertion sort. For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case and in those cases I list the one with the lowest average case number of comparisons. For N=6 though N=16 my results match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. I can't guarentee for N>16 that this table does not have any mistakes because the numbers get too big to search exhaustively all possibilities. For example, for N=45, while the worst case that I was able to find for the gap sequence {1, 4, 9, 11, 21} used exactly 380 comparisons, I can't say with 100% certainty that there doesn't exist some ordering that requires slightly more than 380 comparisons for this particular gap sequence, and I can't say with 100% certainty that there doesn't exist some other gap sequence with a better worst case (although all other gap sequences I checked required 380 or more comparisons in the worst case I could find). For N>64 I stopped checking gap sequences containing gaps greater than N/2 to reduce the search space. 
+
+
+| N | Best Sequence For Worst-Case | Worst-Case Comparisons | Average Comparisons | Best Sequence for Avg-Case | Worst-Case Comparisons | Average Comparisons |
+| :---:     |    :---: |     :---: |     :---: |     :---: |     :---: |     :---: |
+| 6  |  1, 4 |  14 | 10.633 |  1, 4  | 14 | 10.633 |
+| 7  |  1, 4, 6 |  18 | 14.390 |  1, 5  | 19 | 13.824 |
+| 8  |  1, 5, 7 |  23 | 17.766 |  1, 5  | 24 | 17.399 |
+| 9  |  1, 5, 8 |  29 |  21.445  |  1, 6  | 30 | 21.288 |
+| 10  |  1, 6, 9 |  35 |  25.512  |  1, 6, 9  | 35 | 25.512 |
+| 11  |  1, 6, 9, 10 |  41 |  30.682  |  1, 6, 10  | 43 | 29.868 |
+| 12  |  1, 7, 10, 11 |  48 |  35.432  |  1, 5  | 52 | 34.217 |
+| 13  |  1, 6, 10 |  56 |  39.546  |  1, 5, 12  | 57 | 38.907 |
+| 14  |  1, 7, 11, 13 |  64 |  44.896  |  1, 5, 13  | 66 | 43.730 |
+| 15  |  1, 4, 9, 14 |  71 |  50.581  |  1, 5, 13  | 76 | 48.881 |
+| 16  |  1, 4, 7, 9 |  78 | 60.611 |  1, 5, 14  | 85 | 54.174 |
+| 17  |  1, 4, 6, 9 |  86 | 66.574 |  1, 6, 15  | 94 | 59.763 |
+| 18  |  1, 4, 6, 9, 17 |  94 | 72.924 |  1, 5, 16  | 107 | 65.131 |
+| 19  |  1, 4, 7, 9 |  103 | 78.220 |  1, 4, 13  | 112 | 70.629 |
+| 20  |  1, 4, 7, 9 |  113 |  84.537  |  1, 4, 13  | 127 | 76.439 |
+| 21  |  1, 4, 7, 9 |  121 |  90.863  |  1, 4, 14  | 139 | 82.117 |
+| 22  |  1, 4, 7, 9 |  131 |  97.469  |  1, 4, 14, 21  | 150 | 88.115 |
+| 23  |  1, 3, 7, 12 |  139 |  100.737  |  1, 4, 14  | 162 | 94.081 |
+| 24  |  1, 4, 7, 9 |  148 | 110.625 |  1, 4, 13, 23  | 168 | 100.179 |
+| 25  |  1, 4, 7, 9, 24 |  158 | 117.657 |  1, 4, 13, 23  | 179 | 106.469 |
+| 26  |  1, 4, 7, 9 |  167 | 124.178 |  1, 4, 14, 25  | 201 | 112.837 |
+| 27  |  1, 4, 7, 9, 26 |  177 | 131.236 |  1, 4, 14, 25  | 212 | 119.322 |
+| 28  |  1, 4, 7, 9 |  187 |  137.882  |  1, 4, 13  | 221 | 125.705 |
+| 29  |  1, 4, 7, 9 |  198 |  144.998  |  1, 4, 13  | 238 | 132.327 |
+| 30  |  1, 4, 7, 9, 29 |  207 | 152.348 |  1, 4, 13, 29  | 252 | 139.062 |
+| 31  |  1, 4, 7, 9 |  220 | 159.429 |  1, 4, 13  | 264 | 145.635 |
+| 32  |  1, 4, 7, 9 |  229 | 166.706 |  1, 4, 13  | 272 | 152.055 |
+| 33  |  1, 4, 7, 9, 32 |  240 |  174.10  |  1, 4, 13, 32  | 290 | 158.81 |
+| 34  |  1, 4, 7, 9, 33 |  251 | 181.58 |  1, 4, 13, 32  | 307 | 165.71 |
+| 35  |  1, 4, 7, 9, 33 |  262 |  189.12  |  1, 4, 13, 33  | 322 | 172.83 |
+| 36  |  1, 4, 7, 9, 19, 34 |  275 | 203.06 |  1, 4, 13, 33  | 334 | 180.23 |
+| 37  |  1, 4, 7, 9, 35 |  286 |  204.36  |  1, 4, 13, 35  | 345 | 187.315 |
+| 38  |  1, 4, 9, 11, 21, 35 |  298 |  215.42  |  1, 4, 13, 36  | 373 | 194.36 |
+| 39  |  1, 4, 9, 11, 21, 38 |  310 | 221.76 |  1, 4, 13, 36  | 387 | 201.71 |
+| 40  |  1, 4, 7, 9, 28 |  321 | 229.17 |  1, 4, 13, 36  | 401 | 209.30 |
+| 41  |  1, 4, 7, 9, 28, 40 |  334 |  237.53  |  1, 4, 13, 36  | 411 | 216.64 |
+| 42  |  1, 4, 9, 11 |  345 |  237.69  |  1, 4, 13, 36  | 425 | 224.11 |
+| 43  |  1, 4, 9, 11, 21, 41 |  356 |  254.53  |  1, 4, 13, 37  | 451 | 231.89 |
+| 44  |  1, 4, 9, 11, 21 |  368 |  261.65  |  1, 4, 13, 41  | 463 | 239.63 |
+| 45  |  1, 4, 9, 11, 21 |  380 |  269.68  |  1, 4, 9, 33  | 433 | 247.27 |
+| 64  |  1, 4, 9, 11, 32 |  >= 630 |  423.92  |  1, 4, 9, 38, 62  | >= 722 | 399.11 |
+| 91  |  1, 4, 9, 11, 30, 44 |  >= 1041 |  692.85  |  1, 4, 9, 33, 86  | >= 1233 | 639.33 |
+| 128  |  1, 4, 9, 11, 30, 36, 59 |  >= 1633 |  1121.50  |  1, 4, 9, 24, 85  | >= 1969 | 1002.25 |
+
+<!-- 
+
 My best attempt at finding optimal gap sequences (for minimizing worst-case comparisons) for fixed size lists of various sizes are listed below. I did not include N=1 though N=5 because shell sort does not provide any improvement in the worst case over a plain insertion sort. For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case and some of them are listed in the "Alternate Sequences" column (I did not include/count non-increasing gap sequences such as {1, 8, 9, 5} which would have the same 35 worst case comparisons for N=10). For N=6 though N=16 my results match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. I can't guarentee for N>16 that this table does not have any mistakes because the numbers get too big to search exhaustively all possibilities. For example, for N=45, while the worst case that I was able to find for the gap sequence {1, 4, 9, 11, 21} used exactly 380 comparisons, I can't say with 100% certainty that there doesn't exist some ordering that requires slightly more than 380 comparisons for this particular gap sequence, and I can't say with 100% certainty that there doesn't exist some other gap sequence with a better worst case (although all other gap sequences I checked required 380 or more comparisons in the worst case I could find). For N>64 I stopped checking gap sequences containing gaps greater than N/2 to reduce the search space. 
 
 | N | Best Sequence | Worst-Case Comparisons | Alternate Sequences |
@@ -108,6 +159,7 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 | 64  |  1, 4, 9, 11, 32 |  >= 630 |  ?  |
 | 91  |  1, 4, 9, 11, 30, 44 |  >= 1041 |  ?  |
 | 128  |  1, 4, 9, 11, 30, 36, 59 |  >= 1633 |  ?  |
+-->
 
 
 
