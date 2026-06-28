@@ -113,7 +113,7 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 
 For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case. These are listed (through N=45) below in the "Alternate Sequences" column (I did not include/count non-increasing gap sequences such as {1, 8, 9, 5} which would have the same 35 worst case comparisons for N=10). 
 
-| N | Worst-Case Comparisons | Alternate Sequences |
+| N | Worst-Case Comparisons | Alternate Sequences With Best Worst-Case |
 | :---:     |     :---: |     :---: |
 | 6  |  14 |  {1,3,5} and {1,4,5}  |
 | 7  |  18 |  |
