@@ -28,16 +28,22 @@ For example:
 It seems to me, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} might be the start of the optimal gap sequence (for minimizing average comparisons) for large N. The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead. While I can't get the {1, 4, 10, 21} sequences to perform quite as well as the {1, 4, 10, 23} sequences, I think it's worth investigating if for some large enough N they might start to become slightly better. 
 -->
 
-My best attempt at finding optimal gap sequences (for minimizing average comparisons) for fixed size lists of various sizes are listed below. For N=16 through N=256 I believe these are optimal. For N=512 through N=100k, these sequences optimistically might be optimal up to the last 1 or 2 or 3 terms. For N=1million through N=1billion I'm sure these sequences are more than just the last 3 terms away from optimal but I don't even have a good guess as to how close/far from optimal they really are. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
+My best attempt at finding optimal gap sequences (for minimizing average comparisons) for fixed size lists of various sizes are listed below. For N=16 through N=362 I believe these are optimal. For N=512 through N=100k, these sequences optimistically might be optimal up to the last 1 or 2 or 3 terms. For N=1million through N=1billion I'm sure these sequences are more than just the last 3 terms away from optimal but I don't even have a good guess as to how close/far from optimal they really are. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
 
 | N | Best Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
 | 16  |  1, 5, 14 |  54.174 +/- 0.003 | 14 million |
+| 23  |  1, 4, 14 |  94.082 +/- 0.003 | 24 million |
 | 32  |  1, 4, 13 |  152.055 +/- 0.005 | 22 million |
-| 64  |  1, 4, 9, 38, 62 |  399.111 +/- 0.01 | 12 million |
+| 45  |  1, 4, 9, 33 |  247.27 +/- 0.01 | 10 million |
+| 64  |  1, 4, 9, 38, 62 |  399.11 +/- 0.01 | 12 million |
+| 91  |  1, 4, 9, 33, 86 |  639.33 +/- 0.015 | 12 million |
 | 128  |  1, 4, 9, 24, 85 |  1002.2485 +/- 0.0003 | 50 billion |
+| 181  |  1, 4, 10, 21, 70, 176 |  1564.88 +/- 0.03 | 8 million |
 | 256  |  1, 4, 10, 27, 89, 238 |  2428.52 +/- 0.05 | 8 million |
+| 362  |  1, 4, 10, 23, 67, 236, 355 |  3742.34 +/- 0.07 | 4 million |
 | 512  |  1, 4, 10, 23, 57, 189, 484 |  5735.00 +/- 0.02 | 100 million |
+| 724  |  1, 4, 10, 23, 57, 145, 479, 719 |  8760.48 +/- 0.15 | 2 million |
 | 1000  |  1, 4, 10, 23, 57, 156, 409, 996 |  12929.4 +/- 0.3 | 1 million |
 | 2000  |  1, 4, 10, 23, 57, 132, 347, 1208, 1979 |  29484.4 +/- 0.6 | 620000 |
 | 3000  |  1, 4, 10, 23, 57, 132, 313, 1044, 2778 |  47449.4 +/- 1 | 600000 |
@@ -85,7 +91,7 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 | 20  |  1, 4, 7, 9 |  113 |  84.537  |  1, 4, 13  | 127 | 76.439 |
 | 21  |  1, 4, 7, 9 |  121 |  90.863  |  1, 4, 14  | 139 | 82.117 |
 | 22  |  1, 4, 7, 9 |  131 |  97.469  |  1, 4, 14, 21  | 150 | 88.115 |
-| 23  |  1, 3, 7, 12 |  139 |  100.737  |  1, 4, 14  | 162 | 94.081 |
+| 23  |  1, 3, 7, 12 |  139 |  100.737  |  1, 4, 14  | 162 | 94.082 |
 | 24  |  1, 4, 7, 9 |  148 | 110.625 |  1, 4, 13, 23  | 168 | 100.179 |
 | 25  |  1, 4, 7, 9, 24 |  158 | 117.657 |  1, 4, 13, 23  | 179 | 106.469 |
 | 26  |  1, 4, 7, 9 |  167 | 124.178 |  1, 4, 14, 25  | 201 | 112.837 |
@@ -111,6 +117,7 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 | 64  |  1, 4, 9, 11, 32 |  >= 630 |  423.92  |  1, 4, 9, 38, 62  | >= 722 | 399.11 |
 | 91  |  1, 4, 9, 11, 30, 44 |  >= 1041 |  692.85  |  1, 4, 9, 33, 86  | >= 1233 | 639.33 |
 | 128  |  1, 4, 9, 11, 30, 36, 59 |  >= 1633 |  1121.50  |  1, 4, 9, 24, 85  | >= 1970 | 1002.25 |
+| 181  |  1, 4, 9, 15, 32, 43, 89 |  >= 2560 |  1695.11  |  1, 4, 10, 21, 70, 176  | >= 3364 | 1564.88 |
 
 
 For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case. These are listed (through N=45) below in the "Alternate Sequences" column (I did not include non-increasing gap sequences such as {1, 8, 9, 5} which would have the same 35 worst case comparisons for N=10). 
