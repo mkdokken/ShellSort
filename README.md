@@ -17,16 +17,6 @@ https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/
 
 But as of 2026, after improving the code, it finds some potentially better sequences with a 644 instead of a 701 following the 301.
 
-<!-- 
-For example:
-{1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 69487, 149728, 324011, 692843, 1499809, 3211613, 7025789, 14937367},  
-{1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 157678, 345119, 747533, 1631227, 3484469, 7526447, 16541333}, and  
-{1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 15349, 33794, 75251, 163395, 358349, 784009, 1722313, 3809723, 8255479, 17990407}.  
--->
-
-<!-- 
-It seems to me, based on the pattern in the table below, that {1, 4, 10, 23, 57, 132, 301, 644, 1408} might be the start of the optimal gap sequence (for minimizing average comparisons) for large N. The best sequences for large N not starting with {1, 4, 10, 23, 57, 132, 301} seem to start with {1, 4, 10, 21, 56, 125, 288} instead. While I can't get the {1, 4, 10, 21} sequences to perform quite as well as the {1, 4, 10, 23} sequences, I think it's worth investigating if for some large enough N they might start to become slightly better. 
--->
 
 My best attempt at finding optimal gap sequences (for minimizing average comparisons) for fixed size lists of various sizes are listed below. For N=16 through N=362 I believe these are optimal. For N=512 through N=100k, these sequences optimistically might be optimal up to the last 1 or 2 or 3 terms. For N=1million through N=1billion I'm sure these sequences are more than just the last 3 terms away from optimal but I don't even have a good guess as to how close/far from optimal they really are. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. 
 
@@ -73,7 +63,7 @@ Below I have listed some close alternatives I found for N = 10 million.
 
 - The average-case comparison count for the best-known gap sequences grows **strictly
   between `N lnN` and `N (lnN)^2`**
-- The best simple, stable summary is the 2-parameter law
+- The best simple, stable summary is the 2-parameter law:
 
   **C(N) ≈ 1.2 · N · lnN · (lnlnN)^d,  with d ≈ 0.6 (tail) to 0.68 (full range)**
 
