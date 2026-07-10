@@ -69,8 +69,6 @@ Below I have listed some close alternatives I found for N = 10 million.
 | 10 million  |  Best without 301  |  1, 4, 10, 21, 56, 125, 288, 630, 1381, 3002, 6414, 13964, 30143, 65044, 142682, 307807, 697201, 1717374, 5970299, 9910633 |  381531463 +/- 5368 | 920 |
 
 
-## The chart (`shell_fit.png`)
-
 ![implied-coefficient flatness test](shell_fit.png)
 
 - The average-case comparison count for the best-known gap sequences grows **strictly
