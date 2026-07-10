@@ -61,9 +61,8 @@ Below I have listed some close alternatives I found for N = 10 million.
 
 ![implied-coefficient flatness test](shell_fit.png)
 
-- The average-case comparison count for the best-known gap sequences grows **strictly
-  between `N lnN` and `N (lnN)^2`**
-- The best simple, stable summary is the 2-parameter law:
+- The average-case comparison count for the best-known gap sequences grows at a rate between `N lnN` and `N (lnN)^2`
+- The best simple, stable estimate is the 2-parameter formula:
 
   **C(N) ≈ 1.2 · N · lnN · (lnlnN)^d,  with d ≈ 0.6 (tail) to 0.68 (full range)**
 
