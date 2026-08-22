@@ -163,7 +163,7 @@ For some sizes of N there are multiple different gap sequences all tied for the 
 | 43  |  356 |  {1,4,9,11,21,40}  |
 | 44  |  368 |  {1,4,9,11,21,41}  |
 | 45  |  380 |  {1,4,9,11,21,44}  |
-| 64  |  630 |  {1,4,9,11,21,62}  |
+| 64  |  630 |  |
 
 
 
