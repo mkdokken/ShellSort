@@ -18,7 +18,7 @@ https://stackoverflow.com/questions/2539545/fastest-gap-sequence-for-shell-sort/
 But as of 2026, after improving the code, it finds some potentially better sequences with a 644 instead of a 701 following the 301.
 
 
-My best attempt at finding optimal gap sequences (for minimizing average comparisons) for fixed size lists of various sizes are listed below. For N=16 through N=362 I believe these are optimal. For N=512 through N=5k, these sequences are intended (but not proven) to be optimal up to the last term. For N=10k through N=100k, these sequences are intended (but not proven) to be optimal up to the last 2 or 3 terms. For N=1million through N=1billion these sequences are just intended to be the best that I could find. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. While the results for very low N were searched exhaustively, for larger N (where exhaustive search is impossible) the search relied heavily on various heuristics exploiting the fact that the better gap sequence prefixes (up to the last few gaps) at some particular size N will generally continue to be the better gap sequence prefixes at larger N. 
+My best attempt at finding optimal gap sequences (for minimizing average comparisons) for fixed size lists of various sizes are listed below. For N=16 through N=362 I believe these are optimal. For N=512 through N=5k, these sequences are intended (but not proven) to be optimal up to the last term. For N=10k through N=100k, these sequences are intended (but not proven) to be optimal up to the last 2 or 3 terms. For larger N these sequences are just intended to be the best that I could find. My results for N=128 and N=1000 match Ciura's results in his 2001 paper, and my results for N=16 and N=32 match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. While the results for very low N were searched exhaustively, for larger N (where exhaustive search is impossible) the search relied heavily on various heuristics exploiting the fact that the better gap sequence prefixes (up to the last few gaps) at some particular size N will generally continue to be the better gap sequence prefixes at larger N. 
 
 | N | Best Known Sequence | Avg Comparisons | Num Random Samples |
 | :---:     |    :---: |     :---: |     :---: |
@@ -42,8 +42,10 @@ My best attempt at finding optimal gap sequences (for minimizing average compari
 | 20000  |  1, 4, 10, 23, 57, 132, 301, 701, 1636, 4021, 13257, 19882 |  418674 +/- 4 | 420000 |
 | 30000  |  1, 4, 10, 23, 57, 132, 301, 701, 1541, 3498, 11336, 28631 |  661028 +/- 7 | 270000 |
 | 50000  |  1, 4, 10, 23, 57, 132, 301, 701, 1504, 3263, 8399, 30113, 49256 |  1172010 +/- 10 | 240000 |
-| 100000  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 17736, 62023, 99668 |  2535340 +/- 30 | 72000 |
-| 1 million  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 71651, 171523, 606230, 989292 |  31730800 +/- 250 | 18000 |
+| 100000  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 16828, 59427, 97923 |  2535100 +/- 30 | 72000 |
+| 200000  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 15263, 38051, 132349, 198734 |  5452950 +/- 50 | 57000 |
+| 500000  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32910, 85017, 294036, 489060 |  14902460 +/- 120 | 36000 |
+| 1 million  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14917, 32266, 71849, 171345, 603974, 988189 |  31730300 +/- 250 | 18000 |
 | 10 million  |  1, 4, 10, 23, 57, 132, 301, 644, 1445, 3165, 6913, 14836, 32056, 69350, 147544, 318977, 700831, 1686433, 6015658, 9818957 |  381503000 +/- 2500 | 4000 |
 | 100 million  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 68467, 147869, 316034, 667787, 1442593, 3085219, 6662519, 17234807, 60001006, 98743101 |  4458419000 +/- 30000 | 500 |
 | 1 billion  |  1, 4, 10, 23, 57, 132, 301, 644, 1408, 3227, 6847, 14842, 31970, 68467, 147869, 316034, 667787, 1442593, 3085219, 6662519, 14349443, 30994463, 66950617, 167899094, 594000000, 981186611 |  51029440000 +/- 400000 | 64 |
