@@ -85,7 +85,7 @@ Below I have listed some close alternatives I found for a few different sizes.
   **C(N) ≈ 1.2 * N * lnN * (lnlnN)^d,  with d ≈ 0.68 (full range) to 0.5 (tail)**
 
 
-My best attempt at finding optimal gap sequences (for minimizing worst-case comparisons) for fixed size lists of various sizes are listed below. I did not include N=1 though N=5 because shell sort does not provide any improvement over a plain insertion sort. For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case, and in those cases I listed the one with the lowest average-case number of comparisons. For N=6 though N=16 my results match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. While I believe this table is accurate up to N=45 (and with less confidence at N=64), I can't guarantee for N>16 that this table does not have any mistakes in the number of worst-case comparisons because the numbers get too big to search exhaustively all possibilities. For example, for N=45, while the worst-case that I was able to find for the gap sequence {1, 4, 9, 11, 21} used exactly 380 comparisons, I can't say with 100% certainty that there doesn't exist some ordering that requires slightly more than 380 comparisons for this particular gap sequence, and I can't say with 100% certainty that there doesn't exist some other gap sequence with a better worst-case (although all other gap sequences I checked required 380 or more comparisons in the worst case I could find). For N>=91 I am very uncertain of the true worst-case comparisons, so the numbers I have are really just lower bounds for the listed sequence. Also for N>=91, when searching for the best gap sequences for worst-case comparisons, I stopped checking gap sequences containing gaps greater than N/2 to reduce the search space (and also because adding in gaps larger than N/2 only improves the worst-case by a small amount, and the larger gaps are less useful to know because they don't generally transfer on to larger N). I also listed below the best sequences for minimizing average comparisons for each N (which are much easier to calculate and should all be optimal), and listed both the worst-case and average-case of both the best-worst-case-sequence and best-average-case-sequence for each N. The values for worst-case were found using a hill-climber/annealing approach with various heuristics/optimizations, and the values for average-case were found by taking random samples. Since estimating the worst-case is much more computationally expensive than estimating the average-case for any particular sequence and size N, the search for the best worst-case sequences relied heavily on prefix heuristics even at these relatively low sizes of N. 
+My best attempt at finding optimal gap sequences (for minimizing worst-case comparisons) for fixed size lists of various sizes are listed below. I did not include N=1 though N=5 because shell sort does not provide any improvement over a plain insertion sort. For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case, and in those cases I listed the one with the lowest average-case number of comparisons. For N=6 though N=16 my results match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. This table should be accurate up to N=45. For N>=64 the worst-case comparison values are all just lower bounds, so the true worst-case value for the listed sequence may be higher, and the true worst-case-optimal sequence may be different. Also for N>=91, when searching for the best gap sequences for worst-case comparisons, I stopped checking gap sequences containing gaps greater than N/2 to reduce the search space (and also because adding in gaps larger than N/2 only improves the worst-case by a small amount, and the larger gaps are less useful to know because they don't generally transfer on to larger N). I also listed below the best sequences for minimizing average comparisons for each N (which are much easier to calculate and should all be optimal), and listed both the worst-case and average-case of both the best-worst-case-sequence and best-average-case-sequence for each N. The worst-case values and sequences for N<=45 were found with exhaustive branch-and-bound over all gap sets so that every optimum (and every tie) was proved by exact dynamic programming over threshold sets. For example, for N=45 this exact proof method required 9GB of RAM and took 19 core-hours of compute, however for N=64 this same method was not possible as it would have required many Terabytes of RAM and many thousands of core-hours of compute. For N>=64 the lower-bound values for worst-case were found using a hill-climber/annealing approach with various heuristics/optimizations, and the search for the best worst-case sequences relied heavily on prefix heuristics. The values for average-case were found by taking random samples. 
 
 
 | N | Best Known Sequence For Worst-Case | Worst-Case Comparisons | Average Comparisons | Best Known Sequence for Avg-Case | Worst-Case Comparisons | Average Comparisons |
@@ -130,12 +130,12 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 | 43  |  1, 4, 9, 11, 21, 41 |  356 |  254.53  |  1, 4, 13, 37  | 451 | 231.89 |
 | 44  |  1, 4, 9, 11, 21 |  368 |  261.65  |  1, 4, 13, 41  | 463 | 239.63 |
 | 45  |  1, 4, 9, 11, 21 |  380 |  269.68  |  1, 4, 9, 33  | 433 | 247.27 |
-| 64  |  1, 4, 9, 11, 21, 61 |  630 |  433.84  |  1, 4, 9, 38, 62  | 723 | 399.11 |
-| 91  |  1, 4, 9, 11, 30, 44 |  >= 1043 |  692.85  |  1, 4, 9, 33, 86  | >= 1244 | 639.33 |
-| 128  |  1, 4, 9, 11, 30, 36, 59 |  >= 1645 |  1121.50  |  1, 4, 9, 24, 85  | >= 2014 | 1002.25 |
-| 181  |  1, 4, 9, 11, 30, 47, 59, 86 |  >= 2601 |  1782.54  |  1, 4, 10, 21, 70, 176  | >= 3372 | 1564.88 |
-| 256  |  1, 4, 9, 15, 35, 49, 101, 123 |  >= 4039 |  2665.80  |  1, 4, 10, 27, 89, 238  | >= 5462 | 2428.52 |
-| 362  |  1, 4, 9, 11, 30, 36, 70, 107, 163 |  >= 6186 |  4245.79  |  1, 4, 10, 23, 67, 236, 355  | >= 8006 | 3742.34 |
+| 64  |  1, 4, 9, 11, 32, 60 |  >= 631 |  423.31  |  1, 4, 9, 38, 62  | >= 723 | 399.11 |
+| 91  |  1, 4, 9, 11, 30, 44 |  >= 1045 |  692.85  |  1, 4, 9, 33, 86  | >= 1244 | 639.33 |
+| 128  |  1, 4, 9, 11, 30, 36, 59 |  >= 1661 |  1121.50  |  1, 4, 9, 24, 85  | >= 2016 | 1002.25 |
+| 181  |  1, 4, 9, 11, 30, 47, 59, 86 |  >= 2637 |  1782.54  |  1, 4, 10, 21, 70, 176  | >= 3387 | 1564.88 |
+| 256  |  1, 4, 9, 15, 35, 49, 101, 123 |  >= 4163 |  2665.80  |  1, 4, 10, 27, 89, 238  | >= 5479 | 2428.52 |
+| 362  |  1, 4, 9, 11, 30, 36, 70, 107, 163 |  >= 6450 |  4245.79  |  1, 4, 10, 23, 67, 236, 355  | >= 8177 | 3742.34 |
 
 
 For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case. These are listed below (I did not include non-increasing gap sequences such as {1, 8, 9, 5} which would have the same 35 worst case comparisons for N=10). 
@@ -182,12 +182,12 @@ For some sizes of N there are multiple different gap sequences all tied for the 
 | 43  |  356 |  {1,4,9,11,21,40}  |
 | 44  |  368 |  {1,4,9,11,21,41}  |
 | 45  |  380 |  {1,4,9,11,21,44}  |
-| 64  |  630 |  |
-| 91  |  >= 1043 |  |
-| 128  |  >= 1645 |  |
-| 181  |  >= 2601 |  |
-| 256  |  >= 4039 |  {1,4,9,11,30,36,70,121}  |
-| 362  |  >= 6186 |  |
+| 64  |  >= 631 |  {1,4,9,11,21,49}, {1,4,9,11,21,57}, {1,4,9,11,21,59}, {1,4,9,11,21,60}, {1,4,9,11,21,62}, {1,4,9,11,32,58}  |
+| 91  |  >= 1045 |  |
+| 128  |  >= 1661 |  |
+| 181  |  >= 2637 |  |
+| 256  |  >= 4165 |  |
+| 362  |  >= 6450 |  {1,4,9,11,30,47,59,127,150}, {1,4,9,11,30,47,70,131,179}  |
 
 
 
