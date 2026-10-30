@@ -77,14 +77,6 @@ Below I have listed some close alternatives I found for a few different sizes.
 <!-- | 10 million  |  Best Known with 644, X<1408  |  1, 4, 10, 23, 57, 132, 301, 644, 1371, 3016, 6535, 14081, 29612, 64663, 141588, 309979, 680821, 1636132, 5503249, 9657208 |  381532000 +/- 2500 | 4000 | -->
 
 
-![implied-coefficient flatness test](shell_fit.png)
-
-- The average-case comparison count for the best gap sequences grows at a rate between `N*lnN` and `N*lnN*lnlnN`
-- The best fitting simple estimate I found is the 2-parameter formula:
-
-  **C(N) ≈ 1.2 * N * lnN * (lnlnN)^d,  with d ≈ 0.68 (full range) to 0.5 (tail)**
-
-
 My best attempt at finding optimal gap sequences (for minimizing worst-case comparisons) for fixed size lists of various sizes are listed below. I did not include N=1 though N=5 because shell sort does not provide any improvement over a plain insertion sort. For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case, and in those cases I listed the one with the lowest average-case number of comparisons. For N=6 though N=16 my results match the table of optimal gap sequences found at https://sortingalgos.miraheze.org/wiki/Shellsort. This table should be accurate and complete up to N=45 (and likely at N=46 as well). For N>=64 the worst-case comparison values are all just lower bounds, so the true worst-case value for the listed sequence may be higher, and the true worst-case-optimal sequence may be different. For N>=91, when searching for the best gap sequences for worst-case comparisons, I stopped checking gap sequences containing gaps greater than N/2 to reduce the search space (and also because adding in gaps larger than N/2 only improves the worst-case by a small amount, and the larger gaps are less useful to know because they don't generally transfer on to larger N). I also listed below the best sequences for minimizing average comparisons for each N (which are much easier to calculate and should all be optimal), and listed both the worst-case and average-case of both the best-worst-case-sequence and best-average-case-sequence for each N. The worst-case values and sequences for N<=45 were found with exhaustive branch-and-bound over all gap sets so that every optimum (and every tie) was proved by exact dynamic programming over threshold sets. For N=45 this exact-proof method required 9GB of RAM and took 19 core-hours of compute, for N=46 this exact-proof method was only partially completed before my machine ran out of RAM, and for N=64 this same exact-proof method was not possible as it would have required Terabytes to Petabytes of RAM and orders of magnitude more compute. For N>=64 the lower-bound values for worst-case were found using a hill-climber/annealing approach with various heuristics/optimizations, and the search for the best worst-case sequences relied heavily on prefix heuristics. The values for average-case were found by taking random samples. 
 
 
