@@ -1,4 +1,4 @@
-Update: The analysis below was my attempt, working together with Claude Opus 4.8, on July 7, 2026, to try to figure out the optimal gap ratios for average-case-optimal gap sequences in the limit as N gets large. On October 30, 2026, I had Claude Opus 5.5 review the analysis below and fix any holes in the logic, and it arrived at some slightly different conclusions, see swap_rate_review.md. 
+(Update: The analysis below was my attempt, working together with Claude Opus 4.8, on July 7, 2026, to try to figure out the optimal gap ratios for average-case-optimal gap sequences in the limit as N gets large. On October 30, 2026, I had Claude Opus 5.5 review the analysis below and fix any holes in the logic, and it arrived at some slightly different conclusions, see swap_rate_review.md)
 
 # Shell Sort analyzed by swap rate and bits-of-information per comparison
 
