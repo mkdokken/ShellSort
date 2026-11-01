@@ -127,8 +127,8 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 | 91  |  1, 4, 9, 11, 30, 44 |  >= 1045 |  692.85  |  1, 4, 9, 33, 86  | >= 1244 | 639.33 |
 | 128  |  1, 4, 9, 11, 30, 36, 59 |  >= 1661 |  1121.50  |  1, 4, 9, 24, 85  | >= 2016 | 1002.25 |
 | 181  |  1, 4, 9, 11, 30, 47, 59, 86 |  >= 2646 |  1782.54  |  1, 4, 10, 21, 70, 176  | >= 3387 | 1564.88 |
-| 256  |  1, 4, 9, 15, 35, 49, 101, 123 |  >= 4163 |  2665.80  |  1, 4, 10, 27, 89, 238  | >= 5479 | 2428.52 |
-| 362  |  1, 4, 9, 11, 30, 36, 70, 107, 163 |  >= 6450 |  4245.79  |  1, 4, 10, 23, 67, 236, 355  | >= 8248 | 3742.34 |
+| 256  |  1, 4, 9, 11, 30, 47, 67, 95 |  >= 4171 |  2734.30  |  1, 4, 10, 27, 89, 238  | >= 5479 | 2428.52 |
+| 362  |  1, 4, 9, 11, 30, 36, 70, 109, 171 |  >= 6521 |  4238.41  |  1, 4, 10, 23, 67, 236, 355  | >= 8248 | 3742.34 |
 
 
 For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case. These are listed below (I did not include non-increasing gap sequences such as {1, 8, 9, 5} which would have the same 35 worst case comparisons for N=10). 
@@ -180,10 +180,10 @@ For some sizes of N there are multiple different gap sequences all tied for the 
 | 91  |  >= 1045 |  |
 | 128  |  >= 1661 |  |
 | 181  |  >= 2646 |  |
-| 256  |  >= 4165 |  |
-| 362  |  >= 6450 |  {1,4,9,11,30,47,59,127,150}, {1,4,9,11,30,47,70,131,179}  |
+| 256  |  >= 4171 |  |
+| 362  |  >= 6521 |  |
 
-
+In the range of N=181 through N=362, the only close alternatives I found to the {1, 4, 9, 11, 30} prefix were {1, 4, 9, 15, 31} and {1, 4, 9, 15, 35}.
 
 I have built and run the code on MacOS using the default c compiler in Xcode, and I have built and run it on Windows using the default c compiler in Codeblocks. 
 When building the code, I have always used the -O3 optimization flag, and left the rest of the default compiler settings. 
