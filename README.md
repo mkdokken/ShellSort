@@ -32,7 +32,7 @@ My best attempt at finding optimal gap sequences (for minimizing average compari
 | 181  |  1, 4, 10, 21, 70, 176 |  1564.88 +/- 0.03 | 8 million |
 | 256  |  1, 4, 10, 27, 89, 238 |  2428.52 +/- 0.05 | 8 million |
 | 362  |  1, 4, 10, 23, 67, 236, 355 |  3742.34 +/- 0.07 | 4 million |
-| 512  |  1, 4, 10, 23, 57, 189, 484 |  5735.00 +/- 0.02 | 100 million |
+| 512  |  1, 4, 10, 23, 57, 189, 483 |  5735.004 +/- 0.006 | 1 billion |
 | 724  |  1, 4, 10, 23, 57, 145, 479, 719 |  8760.48 +/- 0.15 | 2 million |
 | 1000  |  1, 4, 10, 23, 57, 156, 409, 995 |  12929.6 +/- 0.2 | 2 million |
 | 2000  |  1, 4, 10, 23, 57, 132, 335, 1193, 1965 |  29481.6 +/- 0.4 | 2 million |
@@ -125,10 +125,11 @@ My best attempt at finding optimal gap sequences (for minimizing worst-case comp
 | 46  |  1, 4, 9, 11, 21 |  394 |  277.86  |  1, 4, 13, 41  | 494 | 254.76 |
 | 64  |  1, 4, 9, 11, 21, 60 |  >= 631 |  433.73  |  1, 4, 9, 38, 62  | >= 723 | 399.11 |
 | 91  |  1, 4, 9, 11, 30, 44 |  >= 1045 |  692.85  |  1, 4, 9, 33, 86  | >= 1244 | 639.33 |
-| 128  |  1, 4, 9, 11, 30, 36, 59 |  >= 1661 |  1121.50  |  1, 4, 9, 24, 85  | >= 2016 | 1002.25 |
-| 181  |  1, 4, 9, 11, 30, 47, 59, 86 |  >= 2646 |  1782.54  |  1, 4, 10, 21, 70, 176  | >= 3387 | 1564.88 |
-| 256  |  1, 4, 9, 11, 30, 47, 67, 95 |  >= 4171 |  2734.30  |  1, 4, 10, 27, 89, 238  | >= 5479 | 2428.52 |
-| 362  |  1, 4, 9, 11, 30, 36, 70, 109, 171 |  >= 6521 |  4238.41  |  1, 4, 10, 23, 67, 236, 355  | >= 8248 | 3742.34 |
+| 128  |  1, 4, 9, 11, 30, 36, 59 |  >= 1661 |  1121.50  |  1, 4, 9, 24, 85  | >= 2017 | 1002.25 |
+| 181  |  1, 4, 9, 11, 30, 47, 59, 86 |  >= 2646 |  1782.54  |  1, 4, 10, 21, 70, 176  | >= 3390 | 1564.88 |
+| 256  |  1, 4, 9, 11, 30, 47, 67, 95 |  >= 4171 |  2734.30  |  1, 4, 10, 27, 89, 238  | >= 5532 | 2428.52 |
+| 362  |  1, 4, 9, 11, 30, 36, 70, 109, 171 |  >= 6521 |  4238.41  |  1, 4, 10, 23, 67, 236, 355  | >= 8335 | 3742.34 |
+| 512  |  1, 4, 9, 11, 30, 36, 59, 98, 162, 213 |  >= 10119 |  6654.86  |  1, 4, 10, 23, 57, 189, 483  | >= 12973 | 5735.00 |
 
 
 For some sizes of N there are multiple different gap sequences all tied for the lowest worst-case. These are listed below (I did not include non-increasing gap sequences such as {1, 8, 9, 5} which would have the same 35 worst case comparisons for N=10). 
@@ -183,7 +184,7 @@ For some sizes of N there are multiple different gap sequences all tied for the 
 | 256  |  >= 4171 |  |
 | 362  |  >= 6521 |  |
 
-In the range of N=181 through N=362, the only close alternatives I found to the {1, 4, 9, 11, 30} prefix were {1, 4, 9, 15, 31} and {1, 4, 9, 15, 35}.
+For N>=181 the closest alternatives I found to the {1, 4, 9, 11, 30} prefix were {1, 4, 9, 15, 31} and {1, 4, 9, 15, 35}.
 
 I have built and run the code on MacOS using the default c compiler in Xcode, and I have built and run it on Windows using the default c compiler in Codeblocks. 
 When building the code, I have always used the -O3 optimization flag, and left the rest of the default compiler settings. 
