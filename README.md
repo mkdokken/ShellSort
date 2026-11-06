@@ -183,6 +183,7 @@ For some sizes of N there are multiple different gap sequences all tied for the 
 | 181  |  >= 2646 |  |
 | 256  |  >= 4171 |  |
 | 362  |  >= 6521 |  |
+| 512  |  >= 10119 |  |
 
 For N>=181 the closest alternatives I found to the {1, 4, 9, 11, 30} prefix were {1, 4, 9, 15, 31} and {1, 4, 9, 15, 35}.
 
