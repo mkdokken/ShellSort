@@ -3,7 +3,7 @@ re-simulated), and equal-budget race outcomes."""
 import json, os, re, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from readme_data import README_WORST
+from readme_data import README_WORST, README_REV, README_REV_URL
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES = os.path.join(ROOT, "results")
@@ -103,8 +103,10 @@ def main():
     mv = lambda m: "–" if not m else f"{m / 1e9:.1f}G" if m >= 10 ** 9 else f"{m // 10 ** 6}M"
     L = ["# Large N (N ≥ 64): contenders, certified lower bounds and equal-budget races", "",
          "Every number is the cost of a stored input permutation, re-simulated (`scripts/verify.py`); the true worst "
-         "case of a sequence can only be higher. Gaps ≤ N/2 for N ≥ 91 (reference convention). Sources: **R** = "
-         "reference README sequence, **A** = candidate communicated by the reference author from earlier searches, "
+         "case of a sequence can only be higher. Gaps ≤ N/2 for N ≥ 91 (README convention). Sources: **R** = "
+         f"sequence of the original README table (revision [{README_REV}]({README_REV_URL}), the version current when "
+         "this work began; the README has since been updated with the results found here), **A** = candidate "
+         "communicated by the README author from earlier searches, "
          "**W** = found by this work's beam searches or family screens. The last column is the fixed-budget attack "
          "a sequence received (moves per thread, all its rounds of `scripts/maxout.py` together): a low bound "
          "behind few moves is the least reliable, since bounds keep rising with effort.", ""]
@@ -128,8 +130,9 @@ def main():
                 continue
             rows.append((v["W_lower"], s, "+".join(src)))
         rows.sort()
-        L += [f"## N = {n}", "", f"README: {{{rd}}}, published worst case {README_WORST[n][1]}." if rd else
-              "No README sequence: the README table ends at N = 362 (`docs/CAMPAIGN_512.md`).", ""]
+        L += [f"## N = {n}", "", f"Original README (revision {README_REV}): {{{rd}}}, published worst case "
+              f"{README_WORST[n][1]}." if rd else
+              "No original README sequence: the original README table ended at N = 362 (`docs/CAMPAIGN_512.md`).", ""]
         race_rows = [(k, r) for k, r in races.items() if r["N"] == n]
         hdr = "| sequence | source | best stored input (≥) |" + ("" if n != 64 else " average |") + " fixed-budget moves |"
         L += [hdr, "|---|---|---:|" + ("" if n != 64 else "---:|") + "---:|"]

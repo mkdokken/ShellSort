@@ -18,6 +18,11 @@ to N = 46, where the direct approach stops in the low twenties. [REPORT.md](REPO
 [docs/RATIONALE.md](docs/RATIONALE.md) the structure of the optima, and [docs/LARGE_N.md](docs/LARGE_N.md) with
 `docs/CAMPAIGN_*.md` the large-N searches.
 
+Where these documents compare with "the README" (or "the reference"), they mean its worst-case table at revision
+[e75ab4a](https://github.com/mkdokken/ShellSort/blob/e75ab4a058fcaaa775a16ff71a2510981993245e/README.md), the
+version current when this work began on 2026-10-27. The corrections and bounds found here have since been
+added to the README, so they are no longer differences from the current table.
+
 ## What is proved, and what to trust
 
 * Every optimum and every tie for N ≤ 45 (and the optimum at N = 46) is proved under the correctness of the C

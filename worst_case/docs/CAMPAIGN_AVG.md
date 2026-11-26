@@ -1,5 +1,10 @@
 # Average-optimal sequences under matched effort, 2026-11-03/05: N = 64 … 512
 
+*A record of the campaign as run. The README worst cases quoted here are those of revision
+[e75ab4a](https://github.com/mkdokken/ShellSort/blob/e75ab4a058fcaaa775a16ff71a2510981993245e/README.md), the
+version current when this work began; the README has since been updated with the bounds found here, and now
+lists {1,4,10,23,57,189,483} at N = 512.*
+
 The README lists for each N the sequence with the lowest *average* and a worst case for it (lower bounds for
 N ≥ 91). `scripts/avgopt.py` had already re-attacked these sequences for N = 64 … 362 with Luby restarts
 (REPORT §3), but with only 9–70% of the effort the best worst-case sequences got in the races and fixed-budget

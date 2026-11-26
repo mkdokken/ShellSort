@@ -2,7 +2,8 @@
 import json, os, re, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from readme_data import README_WORST, README_ALTS, README_AVGSEQ_WORST, README_AVGSEQ_AVG, USER_AVGSEQ
+from readme_data import (README_WORST, README_ALTS, README_AVGSEQ_WORST, README_AVGSEQ_AVG, USER_AVGSEQ, README_REV,
+                         README_REV_DATE, README_REV_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES = os.path.join(ROOT, "results")
@@ -18,7 +19,7 @@ def fs(seq):
 
 
 def exact_rows(summ):
-    rows = ["| N | W* | optimal sequence (lowest average among ties) | average (≈ sampled) | ties | vs README |",
+    rows = ["| N | W* | optimal sequence (lowest average among ties) | average (≈ sampled) | ties | vs original README |",
             "|---:|---:|---|---:|---:|---|"]
     notes, stats = [], {"same_W": 0, "identical": 0, "total": 0, "certified": 0}
     for key in sorted(summ, key=int):
@@ -42,7 +43,7 @@ def exact_rows(summ):
         if rd is None:
             vs = "–"
         elif s["W"] != rd[1]:
-            vs = f"**differs** (README {rd[1]})"
+            vs = f"**differs** (original README {rd[1]})"
         else:
             stats["same_W"] += 1
             if tuple(b["seq"]) == tuple(rd[0]) and oset == rset:
@@ -50,14 +51,14 @@ def exact_rows(summ):
             elif tuple(b["seq"]) == tuple(rd[0]):
                 vs = "same optimum, tie list differs"
             else:
-                vs = f"same W; lower-average tie than README's {fs(rd[0])} ({rd[3]})"
+                vs = f"same W; lower-average tie than the original README's {fs(rd[0])} ({rd[3]})"
         if rd and oset != rset:
             new = sorted(oset - rset, key=lambda t: (len(t), t)); bad = sorted(rset - oset, key=lambda t: (len(t), t))
             msg = []
             if new:
                 msg.append("additional optimal sequence(s): " + ", ".join(fs(t) for t in new))
             if bad:
-                msg.append("README-listed but **not optimal**: " + ", ".join(fs(t) for t in bad))
+                msg.append("listed in the original README but **not optimal**: " + ", ".join(fs(t) for t in bad))
             notes.append(f"* **N = {n}** (W* = {s['W']}) — " + "; ".join(msg))
         flag = "" if s["all_exact"] else " †"
         av = f"≈ {b['avg']:.2f}" if b.get("avg_kind") == "sampled" else f"{b['avg']:.3f}"
@@ -74,7 +75,7 @@ def heavily_attacked(n, min_moves=10 ** 9):
 
 def large_rows():
     LB = all_lbs()
-    rows = ["| N | README sequence | README value | input found here for it (≥) | best other sequence found here | its value (≥) | verdict |",
+    rows = ["| N | original README sequence | its README value | input found here for it (≥) | best other sequence found here | its value (≥) | verdict |",
             "|---:|---|---:|---:|---|---:|---|"]
     detail = {}
     for n in (64, 91, 128, 181, 256, 362, 512):
@@ -91,14 +92,14 @@ def large_rows():
         heavy = heavily_attacked(n)
         if not rd:      # beyond the README table (N = 512): this work's best bound only
             bw, _, bt = sorted((w, len(t), t) for t, w in cand.items() if not heavy or t in heavy)[0]
-            rows.append(f"| {n} | – (the README table ends at N = 362) | – | – | {fs(bt)} | {bw} | no README sequence at this size |")
+            rows.append(f"| {n} | – (the original README table ends at N = 362) | – | – | {fs(bt)} | {bw} | no original README sequence at this size |")
             continue
         rv = cand.get(tuple(rd[0]))
         others = sorted(((w, len(t), t) for t, w in cand.items() if t != tuple(rd[0]) and (not heavy or t in heavy)))
         bw, _, bt = others[0] if others else (None, 0, None)
         detail[n] = {"readme_value": rd[1], "readme_lb": rv, "best": bt, "best_lb": bw}
         if bw is not None and rv is not None:
-            verdict = ("README sequence remains best known" if bw > rv else
+            verdict = ("original README sequence remains best known" if bw > rv else
                        "tie at best-known level (no improvement)" if bw == rv else
                        "other sequence lower (lower bounds only, not a proof)")
         else:
@@ -139,13 +140,13 @@ def avgopt_finding(rows):
     lb = [r for r in rows if r["W"] is not None and not r["exact"] and r["readme"] is not None]
     exr = [r for r in ex if r["readme"] is not None]
     low = [r for r in exr if r["delta"] > 0]
-    txt = (f"The worst cases the README lists for its average-optimal sequences are confirmed exactly at "
+    txt = (f"The worst cases the original README lists for its average-optimal sequences are confirmed exactly at "
            f"{sum(r['delta'] == 0 for r in exr)} of {len(exr)} sizes N ≤ 45")
     txt += ("; the listed value is too low at " + ", ".join(f"N = {r['n']} ({r['readme']} → {r['W']})" for r in low)
             if low else "") + "."
     for r in ex:
         if r["readme"] is None:
-            txt += (f" At N = {r['n']} (not in the README table) the README author's average-optimal {fs(r['seq'])} "
+            txt += (f" At N = {r['n']} (not in the original README table) the README author's average-optimal {fs(r['seq'])} "
                     f"has exact worst case {r['W']}, against W* = {r['wstar']}.")
     if lb:
         imp = [r for r in lb if r["delta"] > 0]
@@ -161,9 +162,11 @@ def avgopt_finding(rows):
             parts.append("stay below the listed value at " + ", ".join(f"N = {r['n']} (≥ {r['W']} vs {r['readme']})"
                                                                       for r in short))
         txt += " For N ≥ 64 (lower bounds only) the searches here " + "; ".join(parts) + "."
+        if imp:
+            txt += " The README now lists the higher values."
     for r in rows:
         if r["W"] is not None and not r["exact"] and r["readme"] is None:
-            txt += (f" At N = {r['n']} (no worst case in the README) the README author's average-optimal {fs(r['seq'])} has "
+            txt += (f" At N = {r['n']} (no worst case in the original README) the README author's average-optimal {fs(r['seq'])} has "
                     f"worst case ≥ {r['W']}, about {100.0 * (r['W'] - r['wstar']) / r['wstar']:.0f}% above the lowest bound "
                     f"found here for any sequence (≥ {r['wstar']}).")
     pr =[(100.0 * (r["W"] - r["wstar"]) / r["wstar"], r["n"]) for r in ex if r["wstar"]]
@@ -175,16 +178,17 @@ def avgopt_finding(rows):
 
 
 def avgopt_status(r):
+    """status against the original README value (the tables say so in their column header)"""
     if r["W"] is None:
         return "not run"
     if r["readme"] is None:
-        return ("exact" if r["exact"] else "lower bound") + ", no README value"
+        return ("exact" if r["exact"] else "lower bound") + ", no value listed"
     d = r["delta"]
     if r["exact"]:
-        return "exact, matches README" if d == 0 else (f"exact, README {r['readme']} too low by {d}" if d > 0
-                                                       else f"exact {r['W']} BELOW README {r['readme']}")
-    return (f"README {'≥ ' if r['readme_lb'] else ''}{r['readme']} improved by +{d}" if d > 0 else
-            "README value reached" if d == 0 else f"README value not reached ({d})")
+        return "exact, matches" if d == 0 else (f"exact, {r['readme']} too low by {d}" if d > 0
+                                                else f"exact {r['W']} BELOW {r['readme']}")
+    return (f"{'≥ ' if r['readme_lb'] else ''}{r['readme']} improved by +{d}" if d > 0 else
+            "value reached" if d == 0 else f"value not reached ({d})")
 
 
 AVG64 = {"1,4,9,11,21,57": 434.694, "1,4,9,11,21,59": 433.832, "1,4,9,11,21,60": 433.730, "1,4,9,11,21,62": 434.235,
@@ -223,7 +227,7 @@ def race_verdicts():
         rd = ",".join(map(str, README_WORST[n][0]))
         rs = [r for r in race.values() if r["N"] == n]
         if not rs:
-            out.append(f"* N = {n}: README {{{rd}}} ≥ {lb(n, rd)} remains best known (all other finalists ≥ it by a margin)."
+            out.append(f"* N = {n}: original README sequence {{{rd}}} ≥ {lb(n, rd)} remains best known (all other finalists ≥ it by a margin)."
                        if n in (128, 256) else f"* N = {n}: no race run.")
             continue
         seqs = sorted({x["seq"] for r in rs for x in r["rows"]})
@@ -244,7 +248,7 @@ def race_verdicts():
         txt += ((". Pushed higher: " + ", ".join(f"{{{s}}} ≥ {lb(n, s)}" for s in above[:12])
                  + (f" and {len(above) - 12} more" if len(above) > 12 else "")) if above else "") + "."
         if rd not in lead:
-            txt += f" README {{{rd}}} ≥ {lb(n, rd)}."
+            txt += f" Original README sequence {{{rd}}} ≥ {lb(n, rd)}."
         # calibration: a contender already known to reach the target, attacked afresh, that the budget missed
         miss = sorted({(r["target"], x["seq"]) for r in up for x in r["rows"]
                        if not x["hit"] and x.get("best_stored", 0) >= r["target"]})
@@ -261,7 +265,7 @@ def race_verdicts():
         if n == 64 and len(tested) > 1 and all(s in AVG64 for s in tested):
             best = min(tested, key=lambda s: AVG64[s])
             txt += (f" Should their worst cases be equal, the lowest average among them is {{{best}}} ({AVG64[best]:.2f} vs "
-                    f"{AVG64[rd]:.2f} for the README sequence).")
+                    f"{AVG64[rd]:.2f} for the original README sequence).")
         out.append(txt)
     return out
 
@@ -291,9 +295,9 @@ def campaign_lines():
                + f" moves per thread ({', '.join(str(len(r['rows'])) for r in rounds)} sequences). Lowest stored bound "
                f"{low}: " + ", ".join(f"{{{s}}}" for s in lead) + f" ({tot(lead[0]) / 1e9:.1f}G moves per thread in total)")
         if rd is None:
-            txt += " (no README sequence at this size)"
+            txt += " (no original README sequence at this size)"
         elif rd not in lead:
-            txt += f"; README {{{rd}}} ≥ {LB[f'{n}:{rd}']} ({'/'.join(map(str, rv))} in the equal-budget rounds)"
+            txt += f"; original README sequence {{{rd}}} ≥ {LB[f'{n}:{rd}']} ({'/'.join(map(str, rv))} in the equal-budget rounds)"
         others = sorted(set(seqs) - set(lead) - {rd}, key=lambda s: (LB[f"{n}:{s}"], s))
         if others:
             txt += ". Pushed higher: " + ", ".join(f"{{{s}}} ≥ {LB[f'{n}:{s}']}" for s in others)
@@ -312,16 +316,22 @@ def main():
     A("# Worst-case-optimal Shellsort gap sequences: independent derivation and certification")
     A("")
     A("Goal: find gap sequences minimising the **worst-case** number of comparisons of Shellsort, after first "
-      "replicating the reference table (github.com/mkdokken/ShellSort, README) independently.")
+      "replicating the worst-case table of the README (github.com/mkdokken/ShellSort) independently.")
+    A("")
+    A(f"**Which README.** Comparisons in this report are with the README's worst-case table as it stood when this work "
+      f"began: revision [{README_REV}]({README_REV_URL}) (last edited {README_REV_DATE}), transcribed in "
+      f"`scripts/readme_data.py`. The README has since been updated with the corrections, the N = 46 row and the "
+      f"large-N bounds found here. So where this report says a README value was too low or a tie was missing, the "
+      f"current README already has the corrected entry. \"The original README\" always means revision {README_REV}.")
     A("")
     A("## Summary")
     A("")
     last_rd = max(int(k) for k in summ if int(k) in README_WORST) if summ else 0
     A(f"* **Replication (N = 6 … {last_rd}).** An exhaustive, parallel branch-and-bound over *all* gap sets reproduces the "
-      f"reference optimum value at {stats['same_W']} of {stats['total']} sizes, with the same reported sequence or a tie of it. "
-      f"For {stats['identical']} sizes the complete tie list is identical as well.")
+      f"original README's optimum value at {stats['same_W']} of {stats['total']} sizes, with the same reported sequence or a "
+      f"tie of it. For {stats['identical']} sizes the complete tie list is identical as well.")
     A(f"* **Certified.** Every optimum (and every tie) is proved by exact dynamic programming over threshold sets; "
-      f"the reference values for N ≤ 45 were previously only believed exact (hill-climbing lower bounds). "
+      f"the original README's values for N ≤ 45 were then only believed exact (hill-climbing lower bounds). "
       f"{stats['certified']} of {stats['total']} sizes are fully certified (no unresolved candidate).")
     for n, W, opt, proven, possible, bavg, akind, killed, ruled in stats.get("beyond", []):
         tail = ""
@@ -345,23 +355,25 @@ def main():
                        f"size with a complete, certified tie list.")
         elif killed:
             tail += f" The tie list is therefore complete."
-        A(f"* **Beyond the reference (N = {n}).** W*({n}) = {W} {'(proved)' if proven else '(upper bound)'}, attained by "
+        A(f"* **Beyond the original README (N = {n}).** W*({n}) = {W} {'(proved)' if proven else '(upper bound)'}, attained by "
           + ", ".join(fs(t) for t in opt) + f"; best by average: {fs(opt[0])} ("
           + (f"{bavg:.2f}, sampled" if akind == "sampled" else f"{bavg:.3f}, exact") + ")." + tail)
-    A("* **Corrections.** The search returns all optimal sequences: it adds ties the reference missed and removes one that "
-      "is not optimal ({1,3,7,12} at N = 14 has worst case 67, input `[3,8,0,6,11,1,5,10,13,4,9,12,2,7]`).")
-    A("* **Better tie-break at N = 22.** {1,3,5} has the same optimal worst case (131) as the reference's {1,4,7,9} but a "
-      "lower exact average (94.507 vs 97.469).")
+    A("* **Corrections to the original README (since made in the README).** The search returns all optimal sequences: "
+      "it adds ties the original tie lists missed and removes one that is not optimal ({1,3,7,12} at N = 14 has worst "
+      "case 67, input `[3,8,0,6,11,1,5,10,13,4,9,12,2,7]`).")
+    A("* **Better tie-break at N = 22.** {1,3,5} has the same optimal worst case (131) as the original README's {1,4,7,9} "
+      "but a lower exact average (94.507 vs 97.469); the README now lists {1,3,5}.")
     lw = [(n, d["readme_lb"], d["readme_value"]) for n, d in sorted(ldetail.items()) if d["readme_lb"] and d["readme_lb"] > d["readme_value"]]
     if lw:
         big = max(lw, key=lambda u: (u[1] - u[2]) / u[2])
-        A("* **Large N: published worst cases are too low.** Exact evaluation is impossible, so values are lower bounds "
-          "attained by stored, re-simulated inputs. For the reference's *own* sequences this work finds inputs costing more "
-          "than the published worst case at N = " + ", ".join(str(u[0]) for u in lw) +
-          f" (largest: N = {big[0]}, ≥ {big[1]} vs {big[2]}, +{100.0 * (big[1] - big[2]) / big[2]:.1f}%).")
+        A("* **Large N: the original README's worst cases are too low.** Exact evaluation is impossible, so values are "
+          "lower bounds attained by stored, re-simulated inputs. For the original README's *own* sequences this work "
+          "finds inputs costing more than their published worst case at N = " + ", ".join(str(u[0]) for u in lw) +
+          f" (largest: N = {big[0]}, ≥ {big[1]} vs {big[2]}, +{100.0 * (big[1] - big[2]) / big[2]:.1f}%). The README "
+          "now lists the bounds found here.")
     A("* **Large N: comparisons under equal budgets.** The independent beam search (seeded only from this work's own "
-      "optima) rediscovers the reference's sequences at N = 91 and N = 128. Candidates from this work and from the "
-      "reference author's earlier searches were then compared in equal-budget races (see `docs/LARGE_N.md`):")
+      "optima) rediscovers the original README's sequences at N = 91 and N = 128. Candidates from this work and from the "
+      "README author's earlier searches were then compared in equal-budget races (see `docs/LARGE_N.md`):")
     for line in race_verdicts():
         A("  " + line)
     cl = campaign_lines()
@@ -376,7 +388,7 @@ def main():
             A("  " + line)
     A("* **Large N: lower-bound races must be calibrated.** Which restart length finds a sequence's worst inputs "
       "depends on the sequence, so single-method races mislead. Long runs left {1,4,9,11,21,60} and {1,4,9,11,21,62} "
-      "at 630 while 4M-move restarts reached 631 in seconds; an earlier lone survival of the README sequence at "
+      "at 630 while 4M-move restarts reached 631 in seconds; an earlier lone survival of the original README sequence at "
       "N = 91 and its 10-comparison lead at N = 256 also disappeared under Luby restarts. Every verdict above "
       "therefore comes from a race that also re-attacks a contender already known to reach the target. At N = 64 "
       "even that check fails for 632, so N = 64 stays open (METHODS §2.2).")
@@ -393,7 +405,8 @@ def main():
     P.extend(rows)
     A("")
     if notes:
-        A("### Tie-list corrections (all values exact; every non-optimal entry has a re-simulated witness input)")
+        A("### Corrections to the original README's tie lists (since made in the README; all values exact; every "
+          "non-optimal entry has a re-simulated witness input)")
         A("")
         P.extend(notes)
         A("")
@@ -403,16 +416,16 @@ def main():
       "for all of N = 46; METHODS §1.7), so here every value is attained by a concrete input (re-simulated); a "
       "sequence's true worst case can only be higher. The search is a prefix-transfer beam (complete candidate sequences = "
       "this work's best sequences from the previous size, truncated by ≤ 2 gaps, plus up to 3 jointly chosen new gaps; "
-      "gaps ≤ N/2 for N ≥ 91 as in the reference; a second, diversified chain starts from the whole {1,4,9,·,·,·}, "
+      "gaps ≤ N/2 for N ≥ 91 as in the README; a second, diversified chain starts from the whole {1,4,9,·,·,·}, "
       "{1,4,7,9,·,·} and {1,4,10,·,·,·} families at N = 91), followed by strong evaluation of the finalists and of the "
-      "reference sequence.")
+      "original README sequence.")
     A("")
     A("**Winner's curse.** Picking the sequence with the lowest *lower bound* favours sequences whose worst inputs are "
       "merely hard to find. This happened here: at N = 64 the beam's apparent winner {1,4,9,11,32,62} (≥ 627 after one strong "
-      "run) was shown by the reference author's hill-climber to reach 631, which a targeted search here reproduced in 16 s; "
+      "run) was shown by the README author's hill-climber to reach 631, which a targeted search here reproduced in 16 s; "
       "the next apparent winner {1,4,9,11,32,63} survived an 80-restart targeted attack at 630 but was also reported at 631 "
-      "by the reference author. Large-N verdicts below therefore only use *adversarial* comparisons: a candidate counts as "
-      "better only if a targeted search cannot push it up to the best-known value of the reference sequence. The "
+      "by the README author. Large-N verdicts below therefore only use *adversarial* comparisons: a candidate counts as "
+      "better only if a targeted search cannot push it up to the best-known value of the original README sequence. The "
       "comparisons must also be *calibrated*: the same budget has to re-find a value that some contender is known to "
       "reach, and restarts of every length must be tried (Luby schedule), because the best restart length differs "
       "between sequences (METHODS §2.2).")
@@ -435,7 +448,7 @@ def main():
                                                                + (" *known ≥ target: missed by this budget*" if x.get("best_stored", 0) >= r["target"] else "")
                                                                for x in surv) or "none"))
         A("")
-    A("Gaps above N/2 are excluded for N ≥ 91 (reference convention). One side check at N = 91: adding a single top gap "
+    A("Gaps above N/2 are excluded for N ≥ 91 (README convention). One side check at N = 91: adding a single top gap "
       "h ∈ [79, 90] to {1,4,9,11,30,44} looked better in screening, but the best such sequence reached the base value 1044 "
       "under a targeted attack, so no improvement is distinguishable; candidates of this kind differ by too little for "
       "lower-bound comparisons to rank reliably.")
@@ -444,14 +457,15 @@ def main():
     if any(r["W"] is not None for r in arows):
         A("## 3. Worst case of the README's average-optimal sequences")
         A("")
-        A("The README also lists, for each N, the sequence with the lowest *average* and that sequence's worst case, found by "
-          "hill-climbing (explicitly lower bounds for N ≥ 91). These worst cases are recomputed here: exactly by the same "
-          "DP wherever it fits in 12 GB (every N ≤ 46), otherwise by annealing, which gives lower bounds. For N ≥ 64 "
-          "each sequence received as many annealing moves per thread as the best worst-case sequence of its size, in "
-          "runs of the same kinds (`docs/CAMPAIGN_AVG.md`). N = 46 is not in the README table; its average-optimal "
-          "sequence {1,4,13,41} was supplied by the README author, and its average was sampled here. At N = 512 the "
-          "README names {1,4,10,23,57,189,484} as the best average, without a worst case; its author has since found with "
-          "more samples that {1,4,10,23,57,189,483} is slightly better, and only that sequence is attacked. Every value is "
+        A("The original README also lists, for each N, the sequence with the lowest *average* and that sequence's worst "
+          "case, found by hill-climbing (explicitly lower bounds for N ≥ 91). These worst cases are recomputed here: "
+          "exactly by the same DP wherever it fits in 12 GB (every N ≤ 46), otherwise by annealing, which gives lower "
+          "bounds. For N ≥ 64 each sequence received as many annealing moves per thread as the best worst-case sequence "
+          "of its size, in runs of the same kinds (`docs/CAMPAIGN_AVG.md`). N = 46 is not in the original README table; "
+          "its average-optimal sequence {1,4,13,41} was supplied by the README author, and its average was sampled here. "
+          "At N = 512 the original README names {1,4,10,23,57,189,484} as the best average, without a worst case; its "
+          "author has since found with more samples that {1,4,10,23,57,189,483} is slightly better, so only that "
+          "sequence is attacked (the README now lists it). Every value is "
           "attained by a stored, re-simulated input (`scripts/avgopt.py`, `results/avgopt.json`). The last column is the "
           "worst-case price of optimising the average: the excess over the optimal worst case W* (for N ≥ 64 over the "
           "best worst-case sequence found here, i.e. the lowest bound after long attack, which rests on the same effort; "
@@ -469,7 +483,8 @@ def main():
           "worst cases there are probably higher still. At equal effort the average-optimal sequences stay 15–33% above "
           "the best worst-case sequences.")
         A("")
-        A("| N | README best-average sequence | README average | README worst case | worst case here | status | vs W* |")
+        A("| N | README best-average sequence | README average | original README worst case | worst case here | "
+          "status vs original README | vs W* |")
         A("|---:|---|---:|---:|---:|---|---:|")
         for r in arows:
             price = "–"
@@ -477,7 +492,7 @@ def main():
                 price = ("" if r["wstar_exact"] and r["exact"] else "≈ ") + f"+{100.0 * (r['W'] - r['wstar']) / r['wstar']:.1f}%"
             here = "–" if r["W"] is None else ("" if r["exact"] else "≥ ") + str(r["W"])
             avg = "–" if r["avg"] is None else f"≈ {r['avg']:.2f} (here)" if r.get("avg_here") else str(r["avg"])
-            rw = "– (not in README)" if r["readme"] is None else f"{'≥ ' if r['readme_lb'] else ''}{r['readme']}"
+            rw = "– (not listed)" if r["readme"] is None else f"{'≥ ' if r['readme_lb'] else ''}{r['readme']}"
             A(f"| {r['n']} | {fs(r['seq'])} | {avg} | {rw} | {here} | {avgopt_status(r)} | {price} |")
         A("")
     A("## 4. Why these sequences (summary of `docs/RATIONALE.md`)")
@@ -521,7 +536,7 @@ def main():
     A("* Three independent DP formulations (plain, pair-absorbing, layered one-byte) agree on hundreds of random cases.")
     A("* Incremental annealing totals = full re-simulation on 2.9M random moves (N = 12 … 362); kills inside the search are "
       "re-simulated before acceptance.")
-    A("* Exact averages = full enumeration (N ≤ 10) and match the reference's sampled averages to its precision.")
+    A("* Exact averages = full enumeration (N ≤ 10) and match the README's sampled averages to its precision.")
     A("")
     if anat:
         A("## 7. Anatomy of the certified worst cases")

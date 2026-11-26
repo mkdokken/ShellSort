@@ -1,6 +1,13 @@
 """Worst-case table and tie list transcribed from https://github.com/mkdokken/ShellSort/blob/main/README.md
 (used ONLY for comparison after our independent search; never as search input)."""
 
+# The README revision transcribed below: e75ab4a (last edited 2026-10-23), the version current when this work began
+# on 2026-10-27. The README has since been updated with results from this work (corrected tie lists, the N = 46 row,
+# the large-N bounds), so the reports call this revision "the original README".
+README_REV = "e75ab4a"
+README_REV_DATE = "2026-10-23"
+README_REV_URL = "https://github.com/mkdokken/ShellSort/blob/e75ab4a058fcaaa775a16ff71a2510981993245e/README.md"
+
 # N: (best sequence for worst case, worst-case comparisons, exact? (False = README lower bound), avg)
 README_WORST = {
     6: ([1, 4], 14, True, 10.633),

@@ -1,10 +1,10 @@
 # Large N (N ≥ 64): contenders, certified lower bounds and equal-budget races
 
-Every number is the cost of a stored input permutation, re-simulated (`scripts/verify.py`); the true worst case of a sequence can only be higher. Gaps ≤ N/2 for N ≥ 91 (reference convention). Sources: **R** = reference README sequence, **A** = candidate communicated by the reference author from earlier searches, **W** = found by this work's beam searches or family screens. The last column is the fixed-budget attack a sequence received (moves per thread, all its rounds of `scripts/maxout.py` together): a low bound behind few moves is the least reliable, since bounds keep rising with effort.
+Every number is the cost of a stored input permutation, re-simulated (`scripts/verify.py`); the true worst case of a sequence can only be higher. Gaps ≤ N/2 for N ≥ 91 (README convention). Sources: **R** = sequence of the original README table (revision [e75ab4a](https://github.com/mkdokken/ShellSort/blob/e75ab4a058fcaaa775a16ff71a2510981993245e/README.md), the version current when this work began; the README has since been updated with the results found here), **A** = candidate communicated by the README author from earlier searches, **W** = found by this work's beam searches or family screens. The last column is the fixed-budget attack a sequence received (moves per thread, all its rounds of `scripts/maxout.py` together): a low bound behind few moves is the least reliable, since bounds keep rising with effort.
 
 ## N = 64
 
-README: {1,4,9,11,21,61}, published worst case 630.
+Original README (revision e75ab4a): {1,4,9,11,21,61}, published worst case 630.
 
 | sequence | source | best stored input (≥) | average | fixed-budget moves |
 |---|---|---:|---:|---:|
@@ -35,7 +35,7 @@ README: {1,4,9,11,21,61}, published worst case 630.
 
 ## N = 91
 
-README: {1,4,9,11,30,44}, published worst case 1043.
+Original README (revision e75ab4a): {1,4,9,11,30,44}, published worst case 1043.
 
 | sequence | source | best stored input (≥) | fixed-budget moves |
 |---|---|---:|---:|
@@ -68,7 +68,7 @@ README: {1,4,9,11,30,44}, published worst case 1043.
 
 ## N = 128
 
-README: {1,4,9,11,30,36,59}, published worst case 1645.
+Original README (revision e75ab4a): {1,4,9,11,30,36,59}, published worst case 1645.
 
 | sequence | source | best stored input (≥) | fixed-budget moves |
 |---|---|---:|---:|
@@ -107,7 +107,7 @@ README: {1,4,9,11,30,36,59}, published worst case 1645.
 
 ## N = 181
 
-README: {1,4,9,11,30,47,59,86}, published worst case 2601.
+Original README (revision e75ab4a): {1,4,9,11,30,47,59,86}, published worst case 2601.
 
 | sequence | source | best stored input (≥) | fixed-budget moves |
 |---|---|---:|---:|
@@ -146,7 +146,7 @@ README: {1,4,9,11,30,47,59,86}, published worst case 2601.
 
 ## N = 256
 
-README: {1,4,9,15,35,49,101,123}, published worst case 4039.
+Original README (revision e75ab4a): {1,4,9,15,35,49,101,123}, published worst case 4039.
 
 | sequence | source | best stored input (≥) | fixed-budget moves |
 |---|---|---:|---:|
@@ -180,7 +180,7 @@ README: {1,4,9,15,35,49,101,123}, published worst case 4039.
 
 ## N = 362
 
-README: {1,4,9,11,30,36,70,107,163}, published worst case 6186.
+Original README (revision e75ab4a): {1,4,9,11,30,36,70,107,163}, published worst case 6186.
 
 | sequence | source | best stored input (≥) | fixed-budget moves |
 |---|---|---:|---:|
@@ -222,7 +222,7 @@ README: {1,4,9,11,30,36,70,107,163}, published worst case 6186.
 
 ## N = 512
 
-No README sequence: the README table ends at N = 362 (`docs/CAMPAIGN_512.md`).
+No original README sequence: the original README table ended at N = 362 (`docs/CAMPAIGN_512.md`).
 
 | sequence | source | best stored input (≥) | fixed-budget moves |
 |---|---|---:|---:|

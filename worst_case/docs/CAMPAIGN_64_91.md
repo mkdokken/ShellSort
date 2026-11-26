@@ -1,5 +1,9 @@
 # Large-N campaign, 2026-10-29: N = 64 (4 h) and N = 91 (6 h)
 
+*A record of the campaign as run. "README" and "reference" here mean the README's worst-case table at revision
+[e75ab4a](https://github.com/mkdokken/ShellSort/blob/e75ab4a058fcaaa775a16ff71a2510981993245e/README.md), the
+version current when this work began; the README has since been updated with the results found here.*
+
 Goal set by the reference author: look for sequences, families and prefixes that earlier searches may have
 missed (to guide the search at larger N), and push the lower bounds of the top candidates up with longer runs.
 Every value below is the cost of a stored, re-simulated input (`results/strong.json`); a sequence's true

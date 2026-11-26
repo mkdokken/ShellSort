@@ -75,32 +75,34 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     <div class="eyebrow">Shellsort · worst-case comparisons · N = 6 … 512</div>
     <h1>Worst-case-optimal Shellsort gap sequences</h1>
     <p class="lede">An independent derivation of the gap sequences that minimise the worst-case number of comparisons, with every optimum for N ≤ {{N_LAST}} proved exactly and every larger-N figure backed by a concrete input that attains it.</p>
+    <p class="note"><b>Which README.</b> Comparisons on this page are with the README's worst-case table as it stood when this work began: revision <a href="{{README_REV_URL}}">{{README_REV}}</a> (last edited {{README_REV_DATE}}). The README has since been updated with the corrections, the N = 46 row and the large-N bounds found here. So where this page says a README value was too low or a tie was missing, the current README already has the corrected entry. “Original README” always means that revision.</p>
   </header>
 
   <section>
     <h2>Findings</h2>
     <ul class="findings">
-      <li><b>Replication.</b> For {{N_MATCH}} of {{N_TOTAL}} sizes in N = 6 … {{N_LAST_README}} the optimal worst case equals the reference table, found from scratch by an exhaustive search over all gap sets.</li>
+      <li><b>Replication.</b> For {{N_MATCH}} of {{N_TOTAL}} sizes in N = 6 … {{N_LAST_README}} the optimal worst case equals the original README table, found from scratch by an exhaustive search over all gap sets.</li>
       {{BEYOND}}
-      <li><b>Proof instead of belief.</b> Each optimum is certified by an exact dynamic program over threshold sets (up to 2.5·10<sup>10</sup> states), so the reference values that were only believed exact are now proved, and every rejected sequence carries an input that makes it worse.</li>
-      <li><b>Tie lists.</b> The search returns <i>all</i> optimal sequences. It finds ties the reference missed and one listed tie that is not optimal ({1,3,7,12} at N = 14 costs 67, not 64).</li>
-      <li><b>Better choice at N = 22.</b> {1,3,5} reaches the same worst case (131) as {1,4,7,9} with a lower exact average (94.51 vs 97.47).</li>
-      <li><b>Large N.</b> {{LARGE_FINDING}} The independent search rediscovers the README's sequences at N = 91 and 128. Calibrated equal-budget races (below) leave the README sequence as the only contender not pushed to the next level at N = 91, 128, 181 and 256. At N = 362 the races leave it tied, and N = 64 cannot be ranked at the measurable level. No sequence is shown to beat it at any N ≥ 64. Family screens of about 428,000 complete sequences at N = 64 … 512 found no core that competes with {1,4,9,11}, and fixed-budget attacks of up to 4G moves per thread (8–15G in total for each leader) keep the README sequence the sole leader at N = 91 (≥ 1045), 128 (≥ 1661) and 181 (≥ 2646, every rival ≥ 2652). At N = 256 and 362 they push the README sequence to ≥ 4193 and ≥ 6576, while new sequences from the screens stay lower, led by {1,4,9,11,30,47,67,95} (≥ 4171) and {1,4,9,11,30,36,70,109,171} (≥ 6521), each after about 7.5G moves per thread. At N = 512, beyond the README table, a screen of 15,990 sequences and rounds of up to 4G moves per thread leave {1,4,9,11,30,36,59,98,162,213} with the lowest bound (≥ 10119 after 8.6G moves per thread), ahead of {1,4,9,11,30,36,70,109,195,248} (≥ 10150 after 3.6G). These are lower bounds, so this ranks the sequences at that effort but does not prove one better.</li>
+      <li><b>Proof instead of belief.</b> Each optimum is certified by an exact dynamic program over threshold sets (up to 2.5·10<sup>10</sup> states), so the original README's values, then only believed exact, are now proved, and every rejected sequence carries an input that makes it worse.</li>
+      <li><b>Tie lists.</b> The search returns <i>all</i> optimal sequences. It found ties the original README missed and one listed tie that is not optimal ({1,3,7,12} at N = 14 costs 67, not 64). The README's tie lists have since been corrected.</li>
+      <li><b>Better choice at N = 22.</b> {1,3,5} reaches the same worst case (131) as {1,4,7,9}, the original README's choice, with a lower exact average (94.51 vs 97.47). The README now lists {1,3,5}.</li>
+      <li><b>Large N.</b> {{LARGE_FINDING}} The independent search rediscovers the original README's sequences at N = 91 and 128. Calibrated equal-budget races (below) leave the original README sequence as the only contender not pushed to the next level at N = 91, 128, 181 and 256. At N = 362 the races leave it tied, and N = 64 cannot be ranked at the measurable level; in those races no sequence was shown to beat it at any N ≥ 64. Family screens of about 428,000 complete sequences at N = 64 … 512 found no core that competes with {1,4,9,11}, and fixed-budget attacks of up to 4G moves per thread (8–15G in total for each leader) keep the original README sequence the sole leader at N = 91 (≥ 1045), 128 (≥ 1661) and 181 (≥ 2646, every rival ≥ 2652). At N = 256 and 362 they push the original README sequences to ≥ 4193 and ≥ 6576, while new sequences from the screens stay lower, led by {1,4,9,11,30,47,67,95} (≥ 4171) and {1,4,9,11,30,36,70,109,171} (≥ 6521), each after about 7.5G moves per thread. At N = 512, beyond the original README table, a screen of 15,990 sequences and rounds of up to 4G moves per thread leave {1,4,9,11,30,36,59,98,162,213} with the lowest bound (≥ 10119 after 8.6G moves per thread), ahead of {1,4,9,11,30,36,70,109,195,248} (≥ 10150 after 3.6G). These are lower bounds, so this ranks the sequences at that effort but does not prove one better. The README now lists the leading sequences and bounds found here.</li>
       <li><b>Average-optimal sequences.</b> {{AVGOPT_FINDING}}</li>
     </ul>
   </section>
 
   <section>
     <h2>Optimal worst case by array size</h2>
-    <p>Comparisons per element in the worst case of the best sequence. Rings are the reference values; they coincide with the certified optima.</p>
+    <p>Comparisons per element in the worst case of the best sequence. Rings are the original README values; they coincide with the certified optima.</p>
     {{CHART_PER_ELEMENT}}
   </section>
 
   <section>
     <h2>Certified optima, N = 6 … {{N_LAST}}</h2>
-    <p>W* is the exact minimum over all gap sets of the maximum number of comparisons over all N! inputs. Among optimal sequences the one with the lowest average is shown, the same tie-break the reference uses. Averages are exact where the lattice is small enough, otherwise sampled from 2·10<sup>7</sup> inputs (marked ≈, standard error ≤ 0.002).</p>
+    <p>W* is the exact minimum over all gap sets of the maximum number of comparisons over all N! inputs. Among optimal sequences the one with the lowest average is shown, the same tie-break the README uses. Averages are exact where the lattice is small enough, otherwise sampled from 2·10<sup>7</sup> inputs (marked ≈, standard error ≤ 0.002).</p>
     {{MAIN_TABLE}}
-    <h3>Corrections to the reference tie lists</h3>
+    <h3>Corrections to the original README's tie lists</h3>
+    <p class="note">These corrections have since been made in the README.</p>
     <ul>{{CORRECTIONS}}</ul>
   </section>
 
@@ -139,22 +141,22 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   <section>
     <h2>Large N: lower bounds only</h2>
-    <p>Exact search is impossible here, so every value is a lower bound attained by an explicit, re-simulated input. The independent search (seeded only from this work's own optima) rediscovers the README's sequences at N = 91 and 128. Candidates from this work and from the README author's earlier searches were then compared in <b>equal-budget races</b>: each contender gets the same targeted-search budget to reach a given value; reaching it shows the contender is at least that bad.</p>
+    <p>Exact search is impossible here, so every value is a lower bound attained by an explicit, re-simulated input. The independent search (seeded only from this work's own optima) rediscovers the original README's sequences at N = 91 and 128. Candidates from this work and from the README author's earlier searches were then compared in <b>equal-budget races</b>: each contender gets the same targeted-search budget to reach a given value; reaching it shows the contender is at least that bad.</p>
     <ul>{{RACE_VERDICTS}}</ul>
     <p class="note">Ranking sequences by lower bounds favours sequences whose worst inputs are merely hard to find. At N = 64 two early apparent winners, {1,4,9,11,32,62} and {1,4,9,11,32,63}, were later shown to reach 631 by the README author's hill-climber, which is why the verdicts rely on equal-budget races rather than single runs.</p>
-    <p class="note"><b>Restart length and calibration.</b> Which restart length finds a sequence's worst inputs depends on the sequence. At N = 64, 144 long annealing runs never pushed {1,4,9,11,21,60} or {1,4,9,11,21,62} above 630, but 4M-move restarts reached 631 in 21 s and 2 s; {1,4,9,11,21,57} behaved the other way round. The later races therefore use Luby restarts, which mix every run length, and each one is <i>calibrated</i>: it includes a contender already known to reach the target, attacked afresh. If the budget misses that known value, the survivals in the race mean nothing. This removed two earlier verdicts: the README sequence's sole lead at N = 91 (it reaches 1045 too) and its 10-comparison lead at N = 256 (it reaches 4152 too).</p>
+    <p class="note"><b>Restart length and calibration.</b> Which restart length finds a sequence's worst inputs depends on the sequence. At N = 64, 144 long annealing runs never pushed {1,4,9,11,21,60} or {1,4,9,11,21,62} above 630, but 4M-move restarts reached 631 in 21 s and 2 s; {1,4,9,11,21,57} behaved the other way round. The later races therefore use Luby restarts, which mix every run length, and each one is <i>calibrated</i>: it includes a contender already known to reach the target, attacked afresh. If the budget misses that known value, the survivals in the race mean nothing. This removed two earlier verdicts: the original README sequence's sole lead at N = 91 (it reaches 1045 too) and its 10-comparison lead at N = 256 (it reaches 4152 too).</p>
     <h3>Family screens and fixed-budget attacks (N = 64 … 512)</h3>
     <p>Family screens scored complete sequences from hundreds of 4-gap cores ({1,4,9,c}, {1,4,7,9}, {1,4,10,c}, {1,3,b,d}, {1,5,b,d}, …) by successive halving with short annealing runs, then refined around the finalists. No core competes with {1,4,9,11}. Only {1,4,9,15} stays close: its best member is 18 behind at N = 128, 7 at N = 181, 23 at N = 256, 31 at N = 362 and 113 at N = 512 in the first attack round, while {1,4,7,9} and the other cores fall 25–34 behind at N = 128. The best candidates then got the <i>same</i> number of moves each with no target, so their bounds are comparable. Parallel tempering, a replica-exchange annealer, did best at N = 64; from N = 128 on, Luby restarts with long base runs did better, and at N = 362 a single anneal of the whole budget per thread did best. These attacks pushed many earlier race-stopped bounds up, by as much as 30 at N = 181 and 110 at N = 362:</p>
     <ul>{{CAMPAIGN}}</ul>
     <p class="note">Details, the family tables and the prefix guidance for larger N: <code>docs/CAMPAIGN_64_91.md</code>, <code>docs/CAMPAIGN_128_181.md</code>, <code>docs/CAMPAIGN_256.md</code>, <code>docs/CAMPAIGN_362.md</code> and <code>docs/CAMPAIGN_512.md</code>.</p>
     {{LARGE_TABLE}}
-    <h3>How far the published worst cases are exceeded</h3>
+    <h3>How far the original README's worst cases are exceeded</h3>
     {{CHART_LARGE}}
   </section>
 
   <section>
     <h2>Worst case of the average-optimal sequences</h2>
-    <p>The README also lists, for each N, the sequence with the lowest <i>average</i> and that sequence's worst case. N = 46 is not in the README table; its average-optimal sequence {1,4,13,41} was supplied by the README author. At N = 512 the README names {1,4,10,23,57,189,484} as the best average, without a worst case; its author has since found with more samples that {1,4,10,23,57,189,483} is slightly better, and that sequence is used here. The worst cases were checked here: exactly by the same dynamic program wherever it fits in 12 GB (every N ≤ 46), and otherwise by annealing searches for worse inputs, which only give lower bounds. For N ≥ 64 each of these sequences got as many annealing moves as the best worst-case sequence of its size, so the two bounds rest on the same effort. Every value is attained by a stored input that is re-simulated.</p>
+    <p>The original README also lists, for each N, the sequence with the lowest <i>average</i> and that sequence's worst case. N = 46 is not in the original README table; its average-optimal sequence {1,4,13,41} was supplied by the README author. At N = 512 the original README names {1,4,10,23,57,189,484} as the best average, without a worst case; its author has since found with more samples that {1,4,10,23,57,189,483} is slightly better, and that sequence is used here (the README now lists it). The worst cases were checked here: exactly by the same dynamic program wherever it fits in 12 GB (every N ≤ 46), and otherwise by annealing searches for worse inputs, which only give lower bounds. For N ≥ 64 each of these sequences got as many annealing moves as the best worst-case sequence of its size, so the two bounds rest on the same effort. Every value is attained by a stored input that is re-simulated.</p>
     {{AVGOPT_CHART}}
     {{AVGOPT_TABLE}}
   </section>

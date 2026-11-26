@@ -1,5 +1,9 @@
 # Large-N campaign, 2026-10-30/31: N = 256 (16 h)
 
+*A record of the campaign as run. "README" and "reference" here mean the README's worst-case table at revision
+[e75ab4a](https://github.com/mkdokken/ShellSort/blob/e75ab4a058fcaaa775a16ff71a2510981993245e/README.md), the
+version current when this work began; the README has since been updated with the results found here.*
+
 Same goals as the earlier campaigns (`docs/CAMPAIGN_64_91.md`, `docs/CAMPAIGN_128_181.md`): look for
 sequences, families and prefixes that earlier searches missed, and push the lower bounds of the top
 candidates up with longer runs. Every value is the cost of a stored, re-simulated input

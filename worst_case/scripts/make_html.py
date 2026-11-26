@@ -2,7 +2,7 @@
 import json, os, re, sys, html
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from readme_data import README_WORST, README_ALTS
+from readme_data import README_WORST, README_ALTS, README_REV, README_REV_DATE, README_REV_URL
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES = os.path.join(ROOT, "results")
@@ -145,9 +145,9 @@ def build():
             elif oset != rset:
                 status, cls = "tie list corrected", "new"
         elif rd:
-            status, cls = f"README {rd[1]}", "warn"
+            status, cls = f"original README {rd[1]}", "warn"
         else:
-            status, cls = "new (beyond README)", "new"
+            status, cls = "new (beyond original README)", "new"
         if rd and oset != rset:
             new = sorted(oset - rset, key=lambda t: (len(t), t)); bad = sorted(rset - oset, key=lambda t: (len(t), t))
             corrections.append((n, s["W"], new, bad))
@@ -157,7 +157,7 @@ def build():
                     f'<td class="num">{len(s["optimal"])}</td>'
                     f'<td><span class="pill {cls}">{status}</span></td><td class="seq small">{ties}</td></tr>')
     main_table = ('<div class="scroll"><table><thead><tr><th>N</th><th>W*</th><th>optimal sequence</th><th>average (≈ sampled)</th>'
-                  '<th>ties</th><th>vs README</th><th>other optimal sequences (ties)</th></tr></thead><tbody>'
+                  '<th>ties</th><th>vs original README</th><th>other optimal sequences (ties)</th></tr></thead><tbody>'
                   + "".join(rows) + "</tbody></table></div>")
 
     corr_items = []
@@ -173,7 +173,7 @@ def build():
     exact_pts = [(summ[k]["N"], summ[k]["W"] / summ[k]["N"]) for k in keys if summ[k]["optimal"]]
     rd_pts = [(n, v[1] / n) for n, v in README_WORST.items() if n <= 45]
     chart1 = line_chart([("exact optimum (this work)", "--accent", exact_pts, "line+dots"),
-                         ("README value", "--muted", rd_pts, "ring")],
+                         ("original README value", "--muted", rd_pts, "ring")],
                         "array size N", "W* / N")
     cross = {}
     p = os.path.join(RES, "core_crossover.txt")
@@ -203,9 +203,9 @@ def build():
             heavy = heavily_attacked(n)
             best = sorted((w, len(t), t) for t, w in cand.items() if max(t) <= n // 2 and (not heavy or t in heavy))
             if best:
-                lrows.append(f'<tr><td class="num">{n}</td><td>– (table ends at N = 362)</td><td class="num">–</td>'
+                lrows.append(f'<tr><td class="num">{n}</td><td>– (original table ends at N = 362)</td><td class="num">–</td>'
                              f'<td class="num">–</td><td class="seq">{fs(best[0][2])}</td><td class="num">{best[0][0]}</td>'
-                             f'<td><span class="pill ok">no README sequence</span></td></tr>')
+                             f'<td><span class="pill ok">no original README sequence</span></td></tr>')
             continue
         cand = {}
         for db in (tr, dv, d15):
@@ -226,7 +226,7 @@ def build():
         if bw is None or rw is None:
             verdict, vcls = "–", "ok"
         elif bw > rw:
-            verdict, vcls = "README sequence best known", "ok"
+            verdict, vcls = "original README sequence best known", "ok"
         elif bw == rw:
             verdict, vcls = "tie (no improvement)", "ok"
         else:
@@ -248,15 +248,16 @@ def build():
             under.append((n, max(vals), rd[1]))
     if under:
         worst = max(under, key=lambda u: (u[1] - u[2]) / u[2])
-        large_finding = (f"For the reference's own sequences this work finds inputs that cost more than the published worst case at "
-                         f"N = {', '.join(str(u[0]) for u in under)} (largest gap: N = {worst[0]}, ≥ {worst[1]} vs {worst[2]}, "
-                         f"+{100.0 * (worst[1] - worst[2]) / worst[2]:.1f}%). Those published values are therefore too low.")
+        large_finding = (f"For the original README's own sequences this work finds inputs that cost more than their published "
+                         f"worst case at N = {', '.join(str(u[0]) for u in under)} (largest gap: N = {worst[0]}, ≥ {worst[1]} "
+                         f"vs {worst[2]}, +{100.0 * (worst[1] - worst[2]) / worst[2]:.1f}%), so those values were too low; the "
+                         f"README now lists the bounds found here.")
     else:
         large_finding = "Large-N comparison pending."
-    large_table = ('<div class="scroll"><table><thead><tr><th>N</th><th>README sequence</th><th>README worst case</th>'
+    large_table = ('<div class="scroll"><table><thead><tr><th>N</th><th>original README sequence</th><th>its README worst case</th>'
                    '<th>input found here (≥)</th><th>best other sequence found here</th><th>its worst case (≥)</th><th>verdict</th></tr></thead><tbody>'
                    + "".join(lrows) + "</tbody></table></div>") if lrows else "<p>(large-N runs pending)</p>"
-    chart4 = bar_chart(lbars, "how far above the README value our worst input goes (%)", fmt="{:+.1f}%") if lbars else ""
+    chart4 = bar_chart(lbars, "how far above the original README value our worst input goes (%)", fmt="{:+.1f}%") if lbars else ""
 
     from make_report import race_verdicts, campaign_lines
     rv, cv = [], []
@@ -284,7 +285,7 @@ def build():
                      if possible else
                      f' The tie list is complete: the {len(killed)} candidates too large for the exact DP were each pushed above '
                      f'{s["W"]} by an explicit input found by targeted annealing.' if killed else "")
-            beyond.append(f'<li><b>Beyond the reference, N = {s["N"]}.</b> W* = {s["W"]}{" (proved)" if proven else ""}, '
+            beyond.append(f'<li><b>Beyond the original README, N = {s["N"]}.</b> W* = {s["W"]}{" (proved)" if proven else ""}, '
                           f'attained by <span class="seq">{seqs}</span>; the best by average is '
                           f'<span class="seq">{fs(s["optimal"][0]["seq"])}</span>.{extra}</li>')
 
@@ -299,15 +300,16 @@ def build():
             if r["wstar"]:
                 price = ("" if r["wstar_exact"] and r["exact"] else "≈ ") + f"+{100.0 * (r['W'] - r['wstar']) / r['wstar']:.1f}%"
         st_ = avgopt_status(r)
-        cls = ("ok" if "matches" in st_ or "reached" == st_.split()[-1] or "no README" in st_ else
+        cls = ("ok" if "matches" in st_ or "reached" == st_.split()[-1] or "no value listed" in st_ else
                "new" if "improved" in st_ or "too low" in st_ else "warn")
         avg = "–" if r["avg"] is None else f"≈ {r['avg']:.2f} (here)" if r.get("avg_here") else str(r["avg"])
-        rw = "– (not in README)" if r["readme"] is None else f'{"≥ " if r["readme_lb"] else ""}{r["readme"]}'
+        rw = "– (not listed)" if r["readme"] is None else f'{"≥ " if r["readme_lb"] else ""}{r["readme"]}'
         trs.append(f'<tr><td class="num">{r["n"]}</td><td class="seq">{fs(r["seq"])}</td><td class="num">{avg}</td>'
                    f'<td class="num">{rw}</td><td class="num"><b>{here}</b></td>'
                    f'<td><span class="pill {cls}">{esc(st_)}</span></td><td class="num">{price}</td></tr>')
     avgopt_table = ('<div class="scroll"><table><thead><tr><th>N</th><th>README best-average sequence</th><th>README average</th>'
-                    '<th>README worst case</th><th>worst case here</th><th>status</th><th>vs optimal worst case</th></tr></thead>'
+                    '<th>original README worst case</th><th>worst case here</th><th>status vs original README</th>'
+                    '<th>vs optimal worst case</th></tr></thead>'
                     '<tbody>' + "".join(trs) + "</tbody></table></div>")
     ex = [r for r in arows if r["W"] is not None and r["exact"] and r["wstar"]]
     avgopt_chart = line_chart(
@@ -325,7 +327,8 @@ def build():
            "N_LAST_README": str(max(int(k) for k in keys if int(k) in README_WORST)) if keys else "?",
            "LARGE_FINDING": large_finding, "BEYOND": "".join(beyond), "RACE_VERDICTS": "".join(rv),
            "CAMPAIGN": "".join(cv) or "<li>(pending)</li>",
-           "AVGOPT_TABLE": avgopt_table, "AVGOPT_CHART": avgopt_chart, "AVGOPT_FINDING": avgopt_finding_txt}
+           "AVGOPT_TABLE": avgopt_table, "AVGOPT_CHART": avgopt_chart, "AVGOPT_FINDING": avgopt_finding_txt,
+           "README_REV": README_REV, "README_REV_DATE": README_REV_DATE, "README_REV_URL": README_REV_URL}
     for k, v in rep.items():
         tpl = tpl.replace("{{" + k + "}}", v)
     out = os.path.join(ROOT, "report.html")

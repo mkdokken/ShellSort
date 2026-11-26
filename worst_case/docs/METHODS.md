@@ -1,5 +1,10 @@
 # Methods: exact and certified worst-case optimisation of Shellsort gap sequences
 
+*"The reference" and "the README" in this document mean the README's worst-case table at revision
+[e75ab4a](https://github.com/mkdokken/ShellSort/blob/e75ab4a058fcaaa775a16ff71a2510981993245e/README.md), the
+version current when this work began on 2026-10-27. The README has since been updated with the results found
+here.*
+
 All code is in `src/` (C, OpenMP) and `scripts/` (Python, stdlib only). Build with `build.ps1`.
 
 ## 0. Cost model
