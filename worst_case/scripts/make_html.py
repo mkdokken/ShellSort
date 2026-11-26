@@ -97,7 +97,8 @@ def stacked_bars(rows, w=640):
     """rows: list of (label, [(gap, count), ...]) -> horizontal stacked bars of comparisons per pass"""
     h = 18 + 30 * len(rows)
     total_max = max(sum(c for _, c in parts) for _, parts in rows)
-    L, R = 120, 60
+    # left margin from the longest row label (13px monospace, about 7.8px per character), so no label is clipped
+    L, R = max(120, 16 + 8 * max(len(lab) for lab, _ in rows)), 60
     sc = (w - L - R) / total_max
     vars_ = ["--p1", "--p2", "--p3", "--p4", "--p5", "--p6", "--p7"]
     out = [f'<svg viewBox="0 0 {w} {h}" role="img" class="chart">']
@@ -272,7 +273,8 @@ def build():
     for k in keys:
         s = summ[k]
         if s["N"] not in README_WORST and s["optimal"]:
-            seqs = ", ".join(fs(r["seq"]) for r in s["optimal"])
+            # one non-wrapping span per sequence, so the list itself can wrap on narrow screens
+            seqs = ", ".join(f'<span class="seq">{fs(r["seq"])}</span>' for r in s["optimal"])
             possible = [r for r in s.get("unresolved", []) if r["W"] >= s["W"]]
             proven = all(r["W"] >= s["W"] for r in s.get("unresolved", []))
             killed = [r for r in s.get("certified_above", []) if r.get("killed")]
@@ -286,7 +288,7 @@ def build():
                      f' The tie list is complete: the {len(killed)} candidates too large for the exact DP were each pushed above '
                      f'{s["W"]} by an explicit input found by targeted annealing.' if killed else "")
             beyond.append(f'<li><b>Beyond the original README, N = {s["N"]}.</b> W* = {s["W"]}{" (proved)" if proven else ""}, '
-                          f'attained by <span class="seq">{seqs}</span>; the best by average is '
+                          f'attained by {seqs}; the best by average is '
                           f'<span class="seq">{fs(s["optimal"][0]["seq"])}</span>.{extra}</li>')
 
     # README average-optimal sequences: their worst case, exact or lower bound, and its price vs W*

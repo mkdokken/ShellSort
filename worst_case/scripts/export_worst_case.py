@@ -1,7 +1,7 @@
 """Copy the files meant for the public `worst_case/` folder of the GitHub repository into DEST and check sizes.
 
-usage: python scripts/export_worst_case.py [DEST] [--replace]
-       (default DEST: github_upload/worst_case inside this project)
+usage: python scripts/export_worst_case.py DEST [--replace]
+       (DEST is normally the worst_case folder of a local clone of the GitHub repository)
 
 Copied: README.md, REPORT.md, report.html, build.ps1 and the folders src/, scripts/, docs/, results/, logs/.
 Left out: build outputs (bin/; build.ps1 recreates them), initial_instructions.txt, scratch files in results/
@@ -30,7 +30,9 @@ def wanted(rel):
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    dest = os.path.abspath(args[0]) if args else os.path.join(ROOT, "github_upload", "worst_case")
+    if not args:
+        sys.exit("usage: python scripts/export_worst_case.py DEST [--replace]")
+    dest = os.path.abspath(args[0])
     if os.path.isdir(dest) and os.listdir(dest):
         if "--replace" not in sys.argv:
             sys.exit(f"{dest} is not empty; pass --replace to delete and rewrite it")
