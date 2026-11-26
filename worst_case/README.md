@@ -82,3 +82,8 @@ the runner-up, whose 1661 is already known, so a survival of the README sequence
 Running times on 24 threads (Ryzen 9 7845HX): N ≤ 35 takes seconds to minutes per size, N = 40 about 15
 minutes, N = 45 1.6 hours (8.6 GB) and N = 46 2.3 hours (11 GB). Compile with `-mno-avx512f` (gcc 8 + Zen 4
 SEH bug). All DPs refuse to use more than 12 GB.
+
+## How this was made
+
+The code, searches and write-ups in this folder were produced with Claude (Anthropic), an AI assistant, working
+under my direction: I set the goals and reviewed the results.
