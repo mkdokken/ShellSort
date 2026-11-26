@@ -1,0 +1,6 @@
+N=64 T0=629 tasks=177 threads=10
+  [47s] tasks 1/177 nodes=510749 exact=0 heur=0 T=629 results=0
+  [78s] tasks 2/177 nodes=822644 exact=0 heur=0 T=629 results=0
+  [108s] tasks 4/177 nodes=1096119 exact=0 heur=0 T=629 results=0
+  [372s] tasks 52/177 nodes=2598319 exact=0 heur=0 T=629 results=0
+  [1025s] tasks 53/177 nodes=5958517 exact=0 heur=0 T=629 results=0

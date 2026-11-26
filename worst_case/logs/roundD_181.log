@@ -1,0 +1,4 @@
+﻿N=181 {1,4,9,11,30,36,59,87}: 2652 in 1265s (luby, 2000000000 moves/thread); stored best 2641 -> 2652
+N=181 {1,4,9,11,30,47,59,86}: 2646 in 1268s (luby, 2000000000 moves/thread); stored best 2642 -> 2646
+N=181 {1,4,9,15,31,44,81}: 2655 in 953s (luby, 2000000000 moves/thread); stored best 2645 -> 2655
+N=181 {1,4,9,11,30,36,59,86}: 2642 in 1229s (luby, 2000000000 moves/thread); stored best 2646 -> 2646

@@ -1,0 +1,115 @@
+{
+ "64:632": {
+  "N": 64,
+  "target": 632,
+  "iters": 200000000,
+  "reps": 3,
+  "rows": [
+   {
+    "seq": "1,4,9,11,21,61",
+    "reached": 632,
+    "hit": true,
+    "seconds": 0,
+    "already": true
+   },
+   {
+    "seq": "1,4,9,11,21,62",
+    "reached": 630,
+    "hit": false,
+    "seconds": 231,
+    "best_stored": 630
+   },
+   {
+    "seq": "1,4,9,11,21,60",
+    "reached": 630,
+    "hit": false,
+    "seconds": 222,
+    "best_stored": 630
+   },
+   {
+    "seq": "1,4,9,11,21,59",
+    "reached": 631,
+    "hit": false,
+    "seconds": 213,
+    "best_stored": 631
+   },
+   {
+    "seq": "1,4,9,11,21,57",
+    "reached": 631,
+    "hit": false,
+    "seconds": 260,
+    "best_stored": 631
+   },
+   {
+    "seq": "1,4,9,11,32,58",
+    "reached": 631,
+    "hit": false,
+    "seconds": 270,
+    "best_stored": 631
+   },
+   {
+    "seq": "1,4,9,11,32,62",
+    "reached": 627,
+    "hit": false,
+    "seconds": 282,
+    "best_stored": 631
+   },
+   {
+    "seq": "1,4,9,11,32,63",
+    "reached": 632,
+    "hit": true,
+    "seconds": 87,
+    "best_stored": 632
+   },
+   {
+    "seq": "1,4,9,11,32,61",
+    "reached": 632,
+    "hit": true,
+    "seconds": 81,
+    "best_stored": 632
+   },
+   {
+    "seq": "1,4,9,11,32,57",
+    "reached": 632,
+    "hit": true,
+    "seconds": 63,
+    "best_stored": 632
+   },
+   {
+    "seq": "1,4,9,11,30,58",
+    "reached": 632,
+    "hit": true,
+    "seconds": 64,
+    "best_stored": 632
+   },
+   {
+    "seq": "1,4,9,11,32",
+    "reached": 632,
+    "hit": true,
+    "seconds": 87,
+    "best_stored": 632
+   },
+   {
+    "seq": "1,4,9,11,21",
+    "reached": 632,
+    "hit": true,
+    "seconds": 123,
+    "best_stored": 632
+   },
+   {
+    "seq": "1,4,9,11,32,60",
+    "reached": 631,
+    "hit": false,
+    "seconds": 276,
+    "best_stored": 631
+   },
+   {
+    "seq": "1,4,9,11,32,51",
+    "reached": 632,
+    "hit": true,
+    "seconds": 82,
+    "best_stored": 632
+   }
+  ]
+ }
+}

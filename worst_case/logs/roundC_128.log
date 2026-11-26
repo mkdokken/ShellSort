@@ -1,0 +1,10 @@
+﻿N=128 {1,4,9,11,21,49,57}: 1668 in 367s (luby, 1000000000 moves/thread); stored best 1661 -> 1668
+N=128 {1,4,9,11,30,36,59}: 1656 in 374s (luby, 1000000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,59}: 1666 in 380s (luby, 1000000000 moves/thread); stored best 1665 -> 1666
+N=128 {1,4,9,11,34,43,62}: 1667 in 412s (luby, 1000000000 moves/thread); stored best 1666 -> 1667
+N=128 {1,4,9,11,21,48,56}: 1664 in 378s (luby, 1000000000 moves/thread); stored best 1667 -> 1667
+N=128 {1,4,9,11,21,45,60}: 1673 in 378s (luby, 1000000000 moves/thread); stored best 1668 -> 1673
+N=128 {1,4,9,11,30,47,56}: 1676 in 406s (luby, 1000000000 moves/thread); stored best 1669 -> 1676
+N=128 {1,4,9,11,30,42,47}: 1673 in 323s (luby, 1000000000 moves/thread); stored best 1672 -> 1673
+N=128 {1,4,9,11,30,58}: 1679 in 309s (luby, 1000000000 moves/thread); stored best 1672 -> 1679
+N=128 {1,4,9,11,21,37,61}: 1681 in 377s (luby, 1000000000 moves/thread); stored best 1673 -> 1681

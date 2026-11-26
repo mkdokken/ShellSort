@@ -1,0 +1,161 @@
+{
+ "43:1,4,9,11,21,40": {
+  "W": 356,
+  "how": "layered one-byte DP (4001s)"
+ },
+ "44:1,4,9,11,21,42": {
+  "W": 369,
+  "lower_bound": true,
+  "how": "targeted-search witness (strong.json)"
+ },
+ "44:1,4,9,11,21,40,43": {
+  "W": 369,
+  "lower_bound": true,
+  "how": "targeted-search witness (strong.json)"
+ },
+ "43:1,4,9,11,21,40,42": {
+  "W": 357,
+  "how": "layered one-byte DP (1872s)"
+ },
+ "44:1,4,9,11,21,41": {
+  "W": 368,
+  "how": "layered one-byte DP (2405s)"
+ },
+ "45:1,4,9,11,21,43,44": {
+  "W": 382,
+  "lower_bound": true,
+  "how": "targeted-search witness (strong.json)"
+ },
+ "45:1,4,9,11,21,44": {
+  "W": 380,
+  "how": "layered one-byte DP (1645s)"
+ },
+ "46:1,4,7,9,26,41,45": {
+  "W": 395,
+  "lower_bound": true,
+  "how": "targeted-search witness (strong.json)"
+ },
+ "46:1,4,9,11,21,44": {
+  "W": 394,
+  "how": "layered one-byte DP with front pair rules (689s)",
+  "witness": [
+   18,
+   13,
+   2,
+   0,
+   22,
+   35,
+   45,
+   36,
+   40,
+   30,
+   44,
+   39,
+   26,
+   15,
+   32,
+   21,
+   33,
+   24,
+   34,
+   7,
+   29,
+   41,
+   38,
+   16,
+   4,
+   9,
+   20,
+   43,
+   1,
+   31,
+   11,
+   42,
+   28,
+   17,
+   5,
+   23,
+   10,
+   25,
+   3,
+   8,
+   6,
+   12,
+   37,
+   27,
+   19,
+   14
+  ]
+ },
+ "46:1,4,9,11,21,44,45": {
+  "W": 394,
+  "how": "layered one-byte DP with front pair rules (675s)",
+  "witness": [
+   11,
+   12,
+   2,
+   0,
+   21,
+   35,
+   45,
+   36,
+   40,
+   29,
+   44,
+   39,
+   27,
+   15,
+   32,
+   20,
+   33,
+   23,
+   34,
+   7,
+   25,
+   41,
+   38,
+   24,
+   4,
+   9,
+   19,
+   43,
+   1,
+   31,
+   28,
+   42,
+   30,
+   17,
+   5,
+   22,
+   10,
+   26,
+   3,
+   8,
+   6,
+   18,
+   37,
+   13,
+   16,
+   14
+  ]
+ },
+ "46:1,4,7,9,26": {
+  "W": 394,
+  "lower_bound": true,
+  "how": "targeted-search witness (strong.json)"
+ },
+ "46:1,4,7,9,26,41": {
+  "W": 394,
+  "lower_bound": true,
+  "how": "targeted-search witness (strong.json)"
+ },
+ "46:1,4,7,9,26,45": {
+  "W": 394,
+  "lower_bound": true,
+  "how": "targeted-search witness (strong.json)"
+ },
+ "46:1,4,9,11,21,45": {
+  "W": 394,
+  "how": "layered one-byte DP with front pair rules (652s)"
+ }
+}

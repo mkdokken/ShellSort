@@ -1,0 +1,2 @@
+N=256 {1,4,10,27,89,238}: >= 5479 (Luby restarts, 744 x base 4M moves, 546s) -> README 5462 too low
+N=362 {1,4,10,23,67,236,355}: >= 8177 (Luby restarts, 744 x base 4M moves, 1189s) -> README 8006 too low

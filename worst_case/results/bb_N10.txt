@@ -1,0 +1,5 @@
+# N=10 T_final=35 T0=36 maxgap=9 time=0.0s nodes=90 fb_pruned=52 (pool 4) seq_eval=38 seq_killed=21 seq_exact=17 seq_heur=0 t_exact=0.0s
+# optimal_count=3 (sequences with W == T_final)
+W=35 exact seq={1,6,9} states=216 worst_input=[0,5,3,1,9,8,7,6,4,2]
+W=35 exact seq={1,5,8,9} states=180 worst_input=[3,0,7,5,2,9,1,8,6,4]
+W=35 exact seq={1,6,8,9} states=180 worst_input=[5,0,7,4,3,2,9,1,8,6]

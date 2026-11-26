@@ -1,0 +1,4 @@
+﻿N=181 {1,4,9,11,30,36,59,87}: REACHED 2630 (target 2630, 139s); best stored 2630
+N=181 {1,4,9,11,30,36,59,86}: REACHED 2630 (target 2630, 132s); best stored 2630
+N=181 {1,4,9,15,31,44,81}: REACHED 2630 (target 2630, 108s); best stored 2630
+N=181: 0 of 3 survived the race to 2630: 

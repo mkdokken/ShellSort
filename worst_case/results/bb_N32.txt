@@ -1,0 +1,3 @@
+# N=32 T_final=229 T0=229 maxgap=31 time=6.1s nodes=81942 fb_pruned=73054 (pool 15971) seq_eval=8888 seq_killed=8864 seq_exact=24 seq_heur=0 t_exact=3.3s
+# optimal_count=1 (sequences with W == T_final)
+W=229 exact seq={1,4,7,9} states=800000 worst_input=[17,7,30,18,16,22,28,31,25,14,4,29,10,12,15,26,23,20,13,2,27,9,11,1,21,19,5,3,0,24,8,6]

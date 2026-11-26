@@ -1,0 +1,6 @@
+﻿N=64 {1,4,9,11,21,61}: 631 in 421s (pt, 1000000000 moves/thread); stored best 632 -> 632
+N=64 {1,4,9,11,21,57}: 631 in 393s (pt, 1000000000 moves/thread); stored best 631 -> 631
+N=64 {1,4,9,11,21,59}: 631 in 406s (pt, 1000000000 moves/thread); stored best 631 -> 631
+N=64 {1,4,9,11,21,60}: 631 in 414s (pt, 1000000000 moves/thread); stored best 631 -> 631
+N=64 {1,4,9,11,21,62}: 631 in 426s (pt, 1000000000 moves/thread); stored best 631 -> 631
+N=64 {1,4,9,11,32,61,63}: 632 in 552s (pt, 1000000000 moves/thread); stored best 631 -> 632

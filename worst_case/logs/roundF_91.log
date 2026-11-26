@@ -1,0 +1,6 @@
+﻿N=91 {1,4,9,11,30,36}: 1049 in 456s (pt, 2000000000 moves/thread); stored best 1049 -> 1049
+N=91 {1,4,9,11,30,42}: 1049 in 502s (pt, 2000000000 moves/thread); stored best 1049 -> 1049
+N=91 {1,4,9,11,34,42}: 1049 in 556s (pt, 2000000000 moves/thread); stored best 1049 -> 1049
+N=91 {1,4,9,11,23,43}: 1050 in 577s (pt, 2000000000 moves/thread); stored best 1050 -> 1050
+N=91 {1,4,9,11,21,38}: 1051 in 475s (pt, 2000000000 moves/thread); stored best 1051 -> 1051
+N=91 {1,4,9,15,35,37}: 1052 in 501s (pt, 2000000000 moves/thread); stored best 1052 -> 1052

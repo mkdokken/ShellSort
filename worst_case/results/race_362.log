@@ -1,0 +1,4 @@
+﻿N=362 {1,4,9,11,30,36,70,107,163}: REACHED 6425 (target 6425, 234s); best stored 6425
+N=362 {1,4,9,11,30,47,59,127,150}: REACHED 6428 (target 6425, 222s); best stored 6428
+N=362 {1,4,9,11,30,47,70,131,179}: REACHED 6425 (target 6425, 252s); best stored 6425
+N=362: 0 of 3 survived the race to 6425: 

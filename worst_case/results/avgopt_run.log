@@ -1,0 +1,5 @@
+N=45 {1,4,9,33}: exact DP failed: N=45 seq={1,4,9,33} lay=FAILED
+N=64 {1,4,9,38,62}: >= 723 (Luby restarts, 6120 x base 2M moves, 946s) -> matches README
+N=91 {1,4,9,33,86}: >= 1244 (Luby restarts, 6120 x base 2M moves, 1344s) -> matches README
+N=128 {1,4,9,24,85}: >= 2016 (Luby restarts, 6120 x base 2M moves, 860s) -> README 2014 too low
+N=181 {1,4,10,21,70,176}: >= 3387 (Luby restarts, 3048 x base 4M moves, 2252s) -> README 3372 too low

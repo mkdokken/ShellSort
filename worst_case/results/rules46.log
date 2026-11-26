@@ -1,0 +1,10 @@
+attacks finished 22:16:23
+built bin\shellwc.exe
+built bin\seqsearch.exe
+built bin\shellwc16.exe
+46:1,4,9,11,21,44 = 394 (layered one-byte DP with front pair rules (689s), input re-simulated)
+22:27:56
+46:1,4,9,11,21,45 = 394 (layered one-byte DP with front pair rules (652s))
+22:38:47
+46:1,4,9,11,21,44,45 = 394 (layered one-byte DP with front pair rules (675s), input re-simulated)
+done 22:50:02

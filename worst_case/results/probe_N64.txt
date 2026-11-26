@@ -1,0 +1,2 @@
+# N=64 T_final=640 T0=640 maxgap=5 time=0.0s nodes=16 fb_pruned=0 (pool 0) seq_eval=16 seq_killed=16 seq_exact=0 seq_heur=0 t_exact=0.0s
+# optimal_count=0 (sequences with W == T_final)

@@ -1,0 +1,181 @@
+<title>Worst-Case Shellsort Gaps</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
+<style>
+/* Layout: one reading column for prose; tables and charts use the full column, wide tables scroll in place. */
+:root {
+  --bg: #f4f6f9; --surface: #ffffff; --fg: #1a2130; --muted: #657084; --rule: #d9dfe7;
+  --accent: #0e6c78; --accent-soft: #d8eef0; --ok: #2b7a4b; --ok-soft: #e0f1e6; --warn: #b1561b; --warn-soft: #f7e6da;
+  --p1: #0e6c78; --p2: #5aa7b0; --p3: #8a95c9; --p4: #b8c0cc; --p5: #cfd5dd; --p6: #dfe3e8; --p7: #e8ebef;
+  --display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f141b; --surface: #151c26; --fg: #e2e7ee; --muted: #8e98aa; --rule: #283242;
+  --accent: #52b8c4; --accent-soft: #163a40; --ok: #62c48a; --ok-soft: #173326; --warn: #e3925a; --warn-soft: #3a2517;
+  --p1: #52b8c4; --p2: #2f7f88; --p3: #6d78b0; --p4: #4a5363; --p5: #3c4452; --p6: #333a46; --p7: #2b313b;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f141b; --surface: #151c26; --fg: #e2e7ee; --muted: #8e98aa; --rule: #283242;
+  --accent: #52b8c4; --accent-soft: #163a40; --ok: #62c48a; --ok-soft: #173326; --warn: #e3925a; --warn-soft: #3a2517;
+  --p1: #52b8c4; --p2: #2f7f88; --p3: #6d78b0; --p4: #4a5363; --p5: #3c4452; --p6: #333a46; --p7: #2b313b;
+  color-scheme: dark; }
+body { background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; }
+main { max-width: 860px; margin: 0 auto; display: grid; gap: 40px; }
+section { display: grid; gap: 14px; min-width: 0; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.2; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 2.8rem); letter-spacing: -0.01em; }
+h2 { font-size: 1.55rem; padding-top: 8px; border-top: 1px solid var(--rule); }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p, li { max-width: 68ch; margin: 0; }
+ul, ol { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+.lede { font-size: 1.12rem; color: var(--muted); max-width: 62ch; }
+.eyebrow { font: 500 0.78rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.seq { font-family: var(--mono); font-size: 0.92em; white-space: nowrap; }
+.small { font-size: 0.8em; white-space: normal; color: var(--muted); }
+code, pre { font-family: var(--mono); font-size: 0.88em; }
+pre { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; overflow-x: auto; margin: 0; }
+.findings { display: grid; gap: 10px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; }
+.findings li::marker { color: var(--accent); }
+.scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 500 0.74rem/1.2 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); background: var(--bg); position: sticky; top: 0; }
+td.num, th.num { text-align: right; font-family: var(--mono); }
+tbody tr:last-child td { border-bottom: 0; }
+.pill { display: inline-block; font: 500 0.72rem/1 var(--mono); padding: 4px 7px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { color: var(--ok); background: var(--ok-soft); }
+.pill.new { color: var(--accent); background: var(--accent-soft); }
+.pill.warn { color: var(--warn); background: var(--warn-soft); }
+.fig { margin: 0; display: grid; gap: 8px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 12px 10px; min-width: 0; }
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--rule); stroke-width: 1; }
+.chart .axisline { stroke: var(--muted); stroke-width: 1; }
+.chart .tick { fill: var(--muted); font: 400 13px var(--mono); }
+.chart .axis { fill: var(--muted); font: 400 14px var(--body); }
+.chart .val { fill: var(--fg); font: 500 13px var(--mono); }
+.chart .inbar { fill: var(--bg); font: 500 12px var(--mono); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.82rem; color: var(--muted); padding: 0 6px; }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.key i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.cols > div { min-width: 0; display: grid; gap: 8px; align-content: start; }
+.note { color: var(--muted); font-size: 0.9rem; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 520px) { body { font-size: 15px; } th, td { padding: 6px 8px; } }
+</style>
+
+<main>
+  <header style="display:grid;gap:12px">
+    <div class="eyebrow">Shellsort · worst-case comparisons · N = 6 … 512</div>
+    <h1>Worst-case-optimal Shellsort gap sequences</h1>
+    <p class="lede">An independent derivation of the gap sequences that minimise the worst-case number of comparisons, with every optimum for N ≤ {{N_LAST}} proved exactly and every larger-N figure backed by a concrete input that attains it.</p>
+  </header>
+
+  <section>
+    <h2>Findings</h2>
+    <ul class="findings">
+      <li><b>Replication.</b> For {{N_MATCH}} of {{N_TOTAL}} sizes in N = 6 … {{N_LAST_README}} the optimal worst case equals the reference table, found from scratch by an exhaustive search over all gap sets.</li>
+      {{BEYOND}}
+      <li><b>Proof instead of belief.</b> Each optimum is certified by an exact dynamic program over threshold sets (up to 2.5·10<sup>10</sup> states), so the reference values that were only believed exact are now proved, and every rejected sequence carries an input that makes it worse.</li>
+      <li><b>Tie lists.</b> The search returns <i>all</i> optimal sequences. It finds ties the reference missed and one listed tie that is not optimal ({1,3,7,12} at N = 14 costs 67, not 64).</li>
+      <li><b>Better choice at N = 22.</b> {1,3,5} reaches the same worst case (131) as {1,4,7,9} with a lower exact average (94.51 vs 97.47).</li>
+      <li><b>Large N.</b> {{LARGE_FINDING}} The independent search rediscovers the README's sequences at N = 91 and 128. Calibrated equal-budget races (below) leave the README sequence as the only contender not pushed to the next level at N = 91, 128, 181 and 256. At N = 362 the races leave it tied, and N = 64 cannot be ranked at the measurable level. No sequence is shown to beat it at any N ≥ 64. Family screens of about 428,000 complete sequences at N = 64 … 512 found no core that competes with {1,4,9,11}, and fixed-budget attacks of up to 4G moves per thread (8–15G in total for each leader) keep the README sequence the sole leader at N = 91 (≥ 1045), 128 (≥ 1661) and 181 (≥ 2646, every rival ≥ 2652). At N = 256 and 362 they push the README sequence to ≥ 4193 and ≥ 6576, while new sequences from the screens stay lower, led by {1,4,9,11,30,47,67,95} (≥ 4171) and {1,4,9,11,30,36,70,109,171} (≥ 6521), each after about 7.5G moves per thread. At N = 512, beyond the README table, a screen of 15,990 sequences and rounds of up to 4G moves per thread leave {1,4,9,11,30,36,59,98,162,213} with the lowest bound (≥ 10119 after 8.6G moves per thread), ahead of {1,4,9,11,30,36,70,109,195,248} (≥ 10150 after 3.6G). These are lower bounds, so this ranks the sequences at that effort but does not prove one better.</li>
+      <li><b>Average-optimal sequences.</b> {{AVGOPT_FINDING}}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Optimal worst case by array size</h2>
+    <p>Comparisons per element in the worst case of the best sequence. Rings are the reference values; they coincide with the certified optima.</p>
+    {{CHART_PER_ELEMENT}}
+  </section>
+
+  <section>
+    <h2>Certified optima, N = 6 … {{N_LAST}}</h2>
+    <p>W* is the exact minimum over all gap sets of the maximum number of comparisons over all N! inputs. Among optimal sequences the one with the lowest average is shown, the same tie-break the reference uses. Averages are exact where the lattice is small enough, otherwise sampled from 2·10<sup>7</sup> inputs (marked ≈, standard error ≤ 0.002).</p>
+    {{MAIN_TABLE}}
+    <h3>Corrections to the reference tie lists</h3>
+    <ul>{{CORRECTIONS}}</ul>
+  </section>
+
+  <section>
+    <h2>Why these sequences win</h2>
+    <p>Before pass h, the array is already d-sorted for every distance d that is a sum of earlier gaps. A pass costs at least N − h comparisons plus one per inversion its chains still contain, so each gap is worth what it removes from the later passes, minus its own fixed price. Three regimes appear.</p>
+    <ul>
+      <li><b>N ≤ 15:</b> two or three passes with large gaps near N; many ties.</li>
+      <li><b>16 ≤ N ≤ 37:</b> the core {1,4,7,9}, optimal at 19 of these 22 sizes. After the 9-, 7- and 4-passes only six distances {1,2,3,5,6,10} can still be inverted, so insertion sort finishes with about three comparisons per element. A single gap h ≥ N/2 is added when its fixed cost N − h is smaller than what it saves.</li>
+      <li><b>38 ≤ N ≤ 42:</b> a transition in which both cores appear among the optima.</li>
+      <li><b>43 ≤ N ≤ 45:</b> the core {1,4,9,11} with 21. The {4,7,9} core keeps the last pass cheaper, but its decoupled 9-pass grows too expensive; the bare {4,9,11} core overtakes it at N ≈ 40.</li>
+    </ul>
+    <div class="cols">
+      <div>
+        <h3>The two cores, exact</h3>
+        {{CHART_CROSSOVER}}
+      </div>
+      <div>
+        <h3>Gaps work together</h3>
+        <p class="note">Exact worst cases around the N = 36 optimum. Moving 19 by one costs 10–13 comparisons; dropping it costs 3.</p>
+        <div class="scroll"><table><thead><tr><th>sequence</th><th class="num">W</th></tr></thead><tbody>
+          <tr><td class="seq">{1,4,7,9,19,34}</td><td class="num"><b>275</b></td></tr>
+          <tr><td class="seq">{1,4,7,9,19,33}</td><td class="num">276</td></tr>
+          <tr><td class="seq">{1,4,7,9,19,35}</td><td class="num">277</td></tr>
+          <tr><td class="seq">{1,4,7,9,19}</td><td class="num">277</td></tr>
+          <tr><td class="seq">{1,4,7,9,34}</td><td class="num">278</td></tr>
+          <tr><td class="seq">{1,4,7,9,18,34}</td><td class="num">285</td></tr>
+          <tr><td class="seq">{1,4,7,9,20,34}</td><td class="num">288</td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+    <h3>Where the comparisons go</h3>
+    <p class="note">Comparisons per pass on the certified worst-case input of each optimum. Every pass is kept busy; the final insertion pass stays the largest share.</p>
+    {{CHART_ANATOMY}}
+  </section>
+
+  <section>
+    <h2>Large N: lower bounds only</h2>
+    <p>Exact search is impossible here, so every value is a lower bound attained by an explicit, re-simulated input. The independent search (seeded only from this work's own optima) rediscovers the README's sequences at N = 91 and 128. Candidates from this work and from the README author's earlier searches were then compared in <b>equal-budget races</b>: each contender gets the same targeted-search budget to reach a given value; reaching it shows the contender is at least that bad.</p>
+    <ul>{{RACE_VERDICTS}}</ul>
+    <p class="note">Ranking sequences by lower bounds favours sequences whose worst inputs are merely hard to find. At N = 64 two early apparent winners, {1,4,9,11,32,62} and {1,4,9,11,32,63}, were later shown to reach 631 by the README author's hill-climber, which is why the verdicts rely on equal-budget races rather than single runs.</p>
+    <p class="note"><b>Restart length and calibration.</b> Which restart length finds a sequence's worst inputs depends on the sequence. At N = 64, 144 long annealing runs never pushed {1,4,9,11,21,60} or {1,4,9,11,21,62} above 630, but 4M-move restarts reached 631 in 21 s and 2 s; {1,4,9,11,21,57} behaved the other way round. The later races therefore use Luby restarts, which mix every run length, and each one is <i>calibrated</i>: it includes a contender already known to reach the target, attacked afresh. If the budget misses that known value, the survivals in the race mean nothing. This removed two earlier verdicts: the README sequence's sole lead at N = 91 (it reaches 1045 too) and its 10-comparison lead at N = 256 (it reaches 4152 too).</p>
+    <h3>Family screens and fixed-budget attacks (N = 64 … 512)</h3>
+    <p>Family screens scored complete sequences from hundreds of 4-gap cores ({1,4,9,c}, {1,4,7,9}, {1,4,10,c}, {1,3,b,d}, {1,5,b,d}, …) by successive halving with short annealing runs, then refined around the finalists. No core competes with {1,4,9,11}. Only {1,4,9,15} stays close: its best member is 18 behind at N = 128, 7 at N = 181, 23 at N = 256, 31 at N = 362 and 113 at N = 512 in the first attack round, while {1,4,7,9} and the other cores fall 25–34 behind at N = 128. The best candidates then got the <i>same</i> number of moves each with no target, so their bounds are comparable. Parallel tempering, a replica-exchange annealer, did best at N = 64; from N = 128 on, Luby restarts with long base runs did better, and at N = 362 a single anneal of the whole budget per thread did best. These attacks pushed many earlier race-stopped bounds up, by as much as 30 at N = 181 and 110 at N = 362:</p>
+    <ul>{{CAMPAIGN}}</ul>
+    <p class="note">Details, the family tables and the prefix guidance for larger N: <code>docs/CAMPAIGN_64_91.md</code>, <code>docs/CAMPAIGN_128_181.md</code>, <code>docs/CAMPAIGN_256.md</code>, <code>docs/CAMPAIGN_362.md</code> and <code>docs/CAMPAIGN_512.md</code>.</p>
+    {{LARGE_TABLE}}
+    <h3>How far the published worst cases are exceeded</h3>
+    {{CHART_LARGE}}
+  </section>
+
+  <section>
+    <h2>Worst case of the average-optimal sequences</h2>
+    <p>The README also lists, for each N, the sequence with the lowest <i>average</i> and that sequence's worst case. N = 46 is not in the README table; its average-optimal sequence {1,4,13,41} was supplied by the README author. At N = 512 the README names {1,4,10,23,57,189,484} as the best average, without a worst case; its author has since found with more samples that {1,4,10,23,57,189,483} is slightly better, and that sequence is used here. The worst cases were checked here: exactly by the same dynamic program wherever it fits in 12 GB (every N ≤ 46), and otherwise by annealing searches for worse inputs, which only give lower bounds. For N ≥ 64 each of these sequences got as many annealing moves as the best worst-case sequence of its size, so the two bounds rest on the same effort. Every value is attained by a stored input that is re-simulated.</p>
+    {{AVGOPT_CHART}}
+    {{AVGOPT_TABLE}}
+  </section>
+
+  <section>
+    <h2>Method</h2>
+    <ol>
+      <li><b>Exact worst case of one sequence.</b> Inputs are viewed as chains of threshold sets; sorting commutes with thresholding, so the comparisons become edge weights of a lattice and the worst case is a longest path. The first pass is decoupled exactly, passes with gap ≥ N/2 are absorbed as compare-exchange constraints (or, when every pair links the head of one chain of the next gap to the tail of another, turned into edge penalties on the smaller state space without them), free positions are back-filled (an exchange argument shows this loses nothing), and very large instances run level by level in about 10 GB.</li>
+      <li><b>Bad inputs at any size.</b> Annealing with incremental evaluation (a swap of values x &lt; y only changes the threshold sets between them), polished by an exact dynamic program that re-orders a window of consecutive values.</li>
+      <li><b>Sequence search with continuous pruning.</b> A branch-and-bound over gap prefixes. An input that is untouched by every larger gap is a valid lower bound for the whole family of extensions, so one input prunes an entire subtree; killer inputs are pooled and reused, and the threshold only falls when a value is proved exactly.</li>
+      <li><b>Holistic candidates.</b> Candidates are always complete sequences generated family by family; no step perturbs a single gap. At large N the top gaps are re-chosen jointly on top of the best prefixes from the previous size.</li>
+      <li><b>Parallel by construction.</b> Subtrees, candidate batches and DP levels are independent units of work (OpenMP on 24 threads here; the same units could be spread over machines).</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Reproduce</h2>
+    <pre>powershell -File build.ps1                      # MinGW gcc 8 + OpenMP
+python scripts/run_search.py 6 45               # exhaustive search + certification
+bin/shellwc.exe dp2 36 1,4,7,9,19,34            # exact worst case + attaining input
+bin/shellwc.exe fwc 362 1,4,9,11,30,36,70,107,163 100000000   # large-N lower bound</pre>
+    <p class="note">Code, data and full write-up: <span class="seq">REPORT.md</span>, <span class="seq">docs/METHODS.md</span>, <span class="seq">docs/RATIONALE.md</span>, <span class="seq">results/</span>.</p>
+  </section>
+</main>

@@ -1,0 +1,16 @@
+=== N=181 target 2637: 1,4,9,11,30,47,59;1,4,9,11,30,47,59,86;1,4,9,11,30,36,59,86;1,4,9,11,30,36,59,87;1,4,9,15,31,44,81
+N=181 {1,4,9,11,30,47,59}: REACHED 2637 (target 2637, 6s, 72 restarts); best stored 2637
+N=181 {1,4,9,11,30,47,59,86}: REACHED 2637 (target 2637, 486s, 1512 restarts); best stored 2637
+N=181 {1,4,9,11,30,36,59,86}: REACHED 2637 (target 2637, 30s, 168 restarts); best stored 2637
+N=181 {1,4,9,11,30,36,59,87}: REACHED 2637 (target 2637, 161s, 720 restarts); best stored 2637
+N=181 {1,4,9,15,31,44,81}: REACHED 2637 (target 2637, 24s, 176 restarts); best stored 2637
+N=181: 0 of 5 survived the race to 2637: 
+=== N=181 done in 707s
+=== N=256 target 4165: 1,4,9,11,30,36,70,121;1,4,9,15,35,49,101,123;1,4,9,11,30,36,65,103,118;1,4,9,15,34,56,80;1,4,9,11,30,36,70,109
+N=256 {1,4,9,11,30,36,70,121}: REACHED 4165 (target 4165, 79s, 336 restarts); best stored 4165
+N=256 {1,4,9,15,35,49,101,123}: survived at 4163 (target 4165, 707s, 1512 restarts); best stored 4163
+N=256 {1,4,9,11,30,36,65,103,118}: REACHED 4165 (target 4165, 133s, 360 restarts); best stored 4165
+N=256 {1,4,9,15,34,56,80}: REACHED 4165 (target 4165, 26s, 168 restarts); best stored 4165
+N=256 {1,4,9,11,30,36,70,109}: REACHED 4165 (target 4165, 241s, 744 restarts); best stored 4165
+N=256: 1 of 5 survived the race to 4165: {1,4,9,15,35,49,101,123}
+=== N=256 done in 1187s

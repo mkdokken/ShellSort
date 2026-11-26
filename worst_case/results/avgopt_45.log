@@ -1,0 +1,1 @@
+N=45 {1,4,9,33}: exact 433 (layered 16-bit DP, 527s) -> matches README

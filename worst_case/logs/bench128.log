@@ -1,0 +1,16 @@
+﻿N=128 {1,4,9,11,30,36,59}: 1652 in 39s (luby, 100000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,48}: 1672 in 37s (luby, 100000000 moves/thread); stored best 0 -> 1672
+N=128 {1,4,9,11,30,36,59}: 1653 in 38s (luby, 100000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,48}: 1675 in 36s (luby, 100000000 moves/thread); stored best 1672 -> 1675
+N=128 {1,4,9,11,30,36,59}: 1652 in 37s (pt, 100000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,48}: 1659 in 33s (pt, 100000000 moves/thread); stored best 1675 -> 1675
+N=128 {1,4,9,11,30,36,59}: 1652 in 38s (pt, 100000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,48}: 1664 in 34s (pt, 100000000 moves/thread); stored best 1675 -> 1675
+N=128 {1,4,9,11,30,36,59}: 1658 in 39s (luby, 100000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,48}: 1666 in 35s (luby, 100000000 moves/thread); stored best 1675 -> 1675
+N=128 {1,4,9,11,30,36,59}: 1656 in 37s (luby, 100000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,48}: 1666 in 33s (luby, 100000000 moves/thread); stored best 1675 -> 1675
+N=128 {1,4,9,11,30,36,59}: 1651 in 37s (pt, 100000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,48}: 1660 in 33s (pt, 100000000 moves/thread); stored best 1675 -> 1675
+N=128 {1,4,9,11,30,36,59}: 1652 in 38s (pt, 100000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,48}: 1661 in 34s (pt, 100000000 moves/thread); stored best 1675 -> 1675

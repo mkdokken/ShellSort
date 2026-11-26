@@ -1,0 +1,2 @@
+﻿N=181 {1,4,9,11,30,36,59}: 2652 in 753s (luby, 2000000000 moves/thread); stored best 2651 -> 2652
+N=181 {1,4,9,11,30,47,65,75}: 2646 in 1153s (luby, 2000000000 moves/thread); stored best 2651 -> 2651

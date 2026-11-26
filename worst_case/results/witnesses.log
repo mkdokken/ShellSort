@@ -1,0 +1,12 @@
+﻿N=40 {1,4,7,9,28}: attaining input found (321)
+N=41 {1,4,7,9,28,40}: attaining input found (334)
+N=41 {1,4,9,11,21}: attaining input found (334)
+N=41 {1,4,9,11,21,40}: attaining input found (334)
+N=42 {1,4,9,11,21,40}: exact 345 by DP, no attaining input reconstructed
+N=43 {1,4,9,11,21,41}: attaining input found (356)
+N=43 {1,4,9,11,21,40}: attaining input found (356)
+N=44 {1,4,9,11,21}: exact 368 by DP, no attaining input reconstructed
+N=44 {1,4,9,11,21,41}: attaining input found (368)
+N=45 {1,4,9,11,21}: attaining input found (380)
+N=45 {1,4,9,11,21,44}: attaining input found (380)
+9 witnesses attached, 2 without reconstructed input

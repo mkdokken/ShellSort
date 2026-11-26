@@ -1,0 +1,5 @@
+N=46 {1,4,9,11,21,44}: reached 394 (target 395, 6120 restarts, Luby) in 406s; best recorded 394
+N=46 {1,4,9,11,21,44,45}: reached 394 (target 395, 6120 restarts, Luby) in 487s; best recorded 394
+N=46 {1,4,7,9,26}: reached 394 (target 395, 6120 restarts, Luby) in 220s; best recorded 394
+N=46 {1,4,7,9,26,41}: reached 394 (target 395, 6120 restarts, Luby) in 383s; best recorded 394
+N=46 {1,4,7,9,26,45}: reached 394 (target 395, 6120 restarts, Luby) in 420s; best recorded 394

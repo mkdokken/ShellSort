@@ -1,0 +1,3 @@
+﻿N=362 {1,4,9,11,30,47,78,135}: 6687 in 135s (luby, 128000000 moves/thread); stored best 0 -> 6687
+N=362 {1,4,9,15,34,56,125,141}: 6636 in 125s (luby, 128000000 moves/thread); stored best 0 -> 6636
+N=362 {1,4,9,15,25,53,82,146}: 6705 in 139s (luby, 128000000 moves/thread); stored best 0 -> 6705

@@ -1,0 +1,11 @@
+=== N=128 target 1662: 1,4,9,11,34,43,62;1,4,9,11,30,36,59;1,4,9,11,30,47,59
+N=128 {1,4,9,11,34,43,62}: REACHED 1662 (target 1662, 57s, 719 restarts); best stored 1662
+N=128 {1,4,9,11,30,36,59}: survived at 1655 (target 1662, 349s, 3048 restarts); best stored 1661
+N=128 {1,4,9,11,30,47,59}: REACHED 1662 (target 1662, 36s, 547 restarts); best stored 1662
+N=128: 1 of 3 survived the race to 1662: {1,4,9,11,30,36,59}
+=== N=128 done in 443s
+=== N=181 target 2640: 1,4,9,11,30,47,59;1,4,9,11,30,47,65,75
+N=181 {1,4,9,11,30,47,59}: REACHED 2640 (target 2640, 7s, 72 restarts); best stored 2640
+N=181 {1,4,9,11,30,47,65,75}: REACHED 2640 (target 2640, 90s, 441 restarts); best stored 2640
+N=181: 1 of 7 survived the race to 2640: {1,4,9,11,30,47,59,86}
+=== N=181 done in 97s

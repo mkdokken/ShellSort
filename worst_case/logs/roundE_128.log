@@ -1,0 +1,4 @@
+﻿N=128 {1,4,9,11,30,36,59}: 1658 in 1439s (luby, 4000000000 moves/thread); stored best 1661 -> 1661
+N=128 {1,4,9,11,30,47,59}: 1667 in 1442s (luby, 4000000000 moves/thread); stored best 1667 -> 1667
+N=128 {1,4,9,11,34,43,62}: 1671 in 1588s (luby, 4000000000 moves/thread); stored best 1668 -> 1671
+N=128 {1,4,9,11,21,48,56}: 1668 in 1440s (luby, 4000000000 moves/thread); stored best 1670 -> 1670

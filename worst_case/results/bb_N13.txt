@@ -1,0 +1,14 @@
+# N=13 T_final=56 T0=57 maxgap=12 time=0.0s nodes=397 fb_pruned=291 (pool 39) seq_eval=106 seq_killed=83 seq_exact=23 seq_heur=0 t_exact=0.0s
+# optimal_count=12 (sequences with W == T_final)
+W=56 exact seq={1,2,5} states=576 worst_input=[11,5,10,12,6,8,2,7,9,3,0,1,4]
+W=56 exact seq={1,3,4} states=320 worst_input=[6,7,10,12,3,5,8,11,2,4,1,9,0]
+W=56 exact seq={1,5,6} states=972 worst_input=[3,5,12,11,9,7,2,4,1,10,8,6,0]
+W=56 exact seq={1,5,7} states=1458 worst_input=[4,10,7,2,11,5,12,0,9,6,1,8,3]
+W=56 exact seq={1,6,10} states=2592 worst_input=[4,10,1,8,5,9,2,12,0,7,6,11,3]
+W=56 exact seq={1,5,7,9} states=882 worst_input=[0,6,3,2,9,1,8,5,12,11,7,10,4]
+W=56 exact seq={1,5,7,11} states=1152 worst_input=[3,6,0,10,1,5,9,4,12,2,11,8,7]
+W=56 exact seq={1,6,9,11} states=2048 worst_input=[7,1,10,4,2,9,5,0,12,8,3,11,6]
+W=56 exact seq={1,6,10,11} states=2016 worst_input=[6,3,1,12,9,7,4,2,0,11,10,8,5]
+W=56 exact seq={1,7,10,12} states=960 worst_input=[8,0,7,6,1,5,4,12,3,11,10,2,9]
+W=56 exact seq={1,7,11,12} states=1080 worst_input=[4,0,10,8,6,3,2,12,1,11,9,7,5]
+W=56 exact seq={1,8,11,12} states=720 worst_input=[6,0,10,8,5,4,3,2,12,1,11,9,7]

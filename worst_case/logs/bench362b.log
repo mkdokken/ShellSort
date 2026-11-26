@@ -1,0 +1,6 @@
+﻿N=362 {1,4,9,11,30,36,70,107,163}: 6484 in 509s (luby, 128000000 moves/thread); stored best 6483 -> 6484
+N=362 {1,4,9,11,30,47,59,127,150}: 6499 in 496s (luby, 128000000 moves/thread); stored best 6502 -> 6502
+N=362 {1,4,9,11,30,36,70,107,163}: 6516 in 495s (luby, 128000000 moves/thread); stored best 6484 -> 6516
+N=362 {1,4,9,11,30,47,59,127,150}: 6541 in 479s (luby, 128000000 moves/thread); stored best 6502 -> 6541
+N=362 {1,4,9,11,30,36,70,107,163}: 6521 in 514s (luby, 128000000 moves/thread); stored best 6516 -> 6521
+N=362 {1,4,9,11,30,47,59,127,150}: 6560 in 549s (luby, 128000000 moves/thread); stored best 6541 -> 6560

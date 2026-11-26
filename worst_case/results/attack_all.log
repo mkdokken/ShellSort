@@ -1,0 +1,12 @@
+﻿N=64: README sequence best-known 631; 4 finalists below it
+N=64 {1,4,9,11,32,51}: reached 631 (target 631) in 4s; best recorded 631
+N=64 {1,4,9,11,32,58}: reached 630 (target 631) in 52s; best recorded 630
+N=64 {1,4,9,11,32,60}: reached 631 (target 631) in 9s; best recorded 631
+N=64 {1,4,9,11,32,63}: reached 629 (target 631) in 54s; best recorded 630
+N=91: README sequence best-known 1044; 2 finalists below it
+N=91 {1,4,9,11,21,38}: reached 1044 (target 1044) in 12s; best recorded 1044
+N=91 {1,4,9,11,32,38}: reached 1044 (target 1044) in 5s; best recorded 1044
+N=128: README sequence best-known 1652; 0 finalists below it
+N=181: README sequence best-known 2630; 0 finalists below it
+N=256: README sequence best-known 4137; 0 finalists below it
+N=362: README sequence best-known 6424; 0 finalists below it

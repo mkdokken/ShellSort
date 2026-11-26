@@ -1,0 +1,32 @@
+=== N=256 target 4160: 1,4,9,15,34,56,80;1,4,9,15,35,49,101,123;1,4,9,11,30,36,65,103,118
+N=256 {1,4,9,15,34,56,80}: REACHED 4160 (target 4160, 26s, 168 restarts); best stored 4160
+N=256 {1,4,9,15,35,49,101,123}: REACHED 4160 (target 4160, 603s, 1488 restarts); best stored 4160
+N=256 {1,4,9,11,30,36,65,103,118}: REACHED 4160 (target 4160, 133s, 360 restarts); best stored 4160
+N=256: 0 of 3 survived the race to 4160: 
+=== N=256 done in 762s
+=== N=91 target 1046: 1,4,9,15,35,37;1,4,9,11,30,44;1,4,9,11,30,42;1,4,9,11,32,44;1,4,9,11,21,38;1,4,9,11,30,36;1,4,9,11,32,38;1,4,9,11,34,42
+N=91 {1,4,9,15,35,37}: REACHED 1046 (target 1046, 10s, 277 restarts); best stored 1046
+N=91 {1,4,9,11,30,44}: survived at 1045 (target 1046, 251s, 3048 restarts); best stored 1045
+N=91 {1,4,9,11,30,42}: REACHED 1046 (target 1046, 18s, 379 restarts); best stored 1046
+N=91 {1,4,9,11,32,44}: REACHED 1046 (target 1046, 87s, 1488 restarts); best stored 1046
+N=91 {1,4,9,11,21,38}: REACHED 1046 (target 1046, 16s, 360 restarts); best stored 1046
+N=91 {1,4,9,11,30,36}: REACHED 1046 (target 1046, 134s, 2255 restarts); best stored 1046
+N=91 {1,4,9,11,32,38}: REACHED 1046 (target 1046, 1s, 24 restarts); best stored 1046
+N=91 {1,4,9,11,34,42}: REACHED 1046 (target 1046, 3s, 72 restarts); best stored 1046
+N=91: 1 of 8 survived the race to 1046: {1,4,9,11,30,44}
+=== N=91 done in 519s
+=== N=181 target 2635: 1,4,9,11,30,47,65,75;1,4,9,11,30,47,59,86;1,4,9,11,30,36,59,86;1,4,9,11,30,36,59,87;1,4,9,15,31,44,81
+N=181 {1,4,9,11,30,47,65,75}: REACHED 2635 (target 2635, 57s, 336 restarts); best stored 2637
+N=181 {1,4,9,11,30,47,59,86}: REACHED 2635 (target 2635, 201s, 744 restarts); best stored 2635
+N=181 {1,4,9,11,30,36,59,86}: REACHED 2635 (target 2635, 30s, 168 restarts); best stored 2635
+N=181 {1,4,9,11,30,36,59,87}: REACHED 2635 (target 2635, 162s, 720 restarts); best stored 2635
+N=181 {1,4,9,15,31,44,81}: REACHED 2635 (target 2635, 23s, 168 restarts); best stored 2635
+N=181: 0 of 5 survived the race to 2635: 
+=== N=181 done in 473s
+=== N=362 target 6440: 1,4,9,11,30,36,70,113,175;1,4,9,11,30,36,70,107,163;1,4,9,11,30,47,70,131,179;1,4,9,11,30,47,59,127,150
+N=362 {1,4,9,11,30,36,70,113,175}: REACHED 6440 (target 6440, 219s, 360 restarts); best stored 6453
+N=362 {1,4,9,11,30,36,70,107,163}: REACHED 6440 (target 6440, 206s, 360 restarts); best stored 6440
+N=362 {1,4,9,11,30,47,70,131,179}: REACHED 6440 (target 6440, 88s, 168 restarts); best stored 6440
+N=362 {1,4,9,11,30,47,59,127,150}: REACHED 6441 (target 6440, 195s, 360 restarts); best stored 6441
+N=362: 0 of 4 survived the race to 6440: 
+=== N=362 done in 708s

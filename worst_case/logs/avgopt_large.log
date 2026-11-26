@@ -1,0 +1,24 @@
+﻿N=512 {1,4,10,23,57,189,483}: >= 12782 (fixed budget (avgA): one anneal from T0 = 13, 128M moves per thread, seed 101, 772s) -> no README value
+N=64 {1,4,9,38,62}: >= 723 (fixed budget (avgA): parallel tempering (R = 16, T in [0.25, 2.5]), 1103.01M moves per thread, seed 111, 411s) -> matches README
+N=128 {1,4,9,24,85}: >= 2017 (fixed budget (avgA): Luby restarts, 509 x base 2M moves from T0 = 3, 3840M moves per thread, seed 131, 1623s) -> README 2014 too low
+N=128 {1,4,9,24,85}: >= 2017 (fixed budget (avgB): Luby restarts, 155 x base 4M moves from T0 = 4.5, 2000M moves per thread, seed 132, 838s) -> README 2014 too low
+N=128 {1,4,9,24,85}: >= 2017 (fixed budget (avgC): Luby restarts, 155 x base 2M moves from T0 = 3, 1000M moves per thread, seed 133, 422s) -> README 2014 too low
+N=128 {1,4,9,24,85}: >= 2017 (fixed budget (avgD): Luby restarts, 157 x base 4M moves from T0 = 4.5, 2048M moves per thread, seed 134, 862s) -> README 2014 too low
+N=91 {1,4,9,33,86}: >= 1244 (fixed budget (avgA): parallel tempering (R = 16, T in [0.3, 3]), 4000M moves per thread, seed 121, 1985s) -> matches README
+N=91 {1,4,9,33,86}: >= 1244 (fixed budget (avgB): Luby restarts, 509 x base 2M moves from T0 = 3, 3840M moves per thread, seed 122, 2032s) -> matches README
+N=91 {1,4,9,33,86}: >= 1244 (fixed budget (avgC): parallel tempering (R = 16, T in [0.3, 3]), 4724M moves per thread, seed 123, 2344s) -> matches README
+N=256 {1,4,10,27,89,238}: >= 5532 (fixed budget (avgA): Luby restarts, 254 x base 4M moves from T0 = 4.5, 3584M moves per thread, seed 151, 6140s) -> README 5462 too low
+N=256 {1,4,10,27,89,238}: >= 5532 (fixed budget (avgB): Luby restarts, 54 x base 16M moves from T0 = 9, 2000M moves per thread, seed 152, 3405s) -> README 5462 too low
+N=256 {1,4,10,27,89,238}: >= 5532 (fixed budget (avgC): Luby restarts, 24 x base 16M moves from T0 = 9, 736M moves per thread, seed 153, 1259s) -> README 5462 too low
+N=512 {1,4,10,23,57,189,483}: >= 12926 (fixed budget (avgB): one anneal from T0 = 13, 512M moves per thread, seed 102, 2942s) -> no README value
+N=512 {1,4,10,23,57,189,483}: >= 12960 (fixed budget (avgC): one anneal from T0 = 13, 1000M moves per thread, seed 103, 5828s) -> no README value
+N=181 {1,4,10,21,70,176}: >= 3390 (fixed budget (avgA): Luby restarts, 155 x base 8M moves from T0 = 4.5, 4000M moves per thread, seed 141, 4905s) -> README 3372 too low
+N=181 {1,4,10,21,70,176}: >= 3390 (fixed budget (avgB): Luby restarts, 254 x base 4M moves from T0 = 4.5, 3584M moves per thread, seed 142, 4430s) -> README 3372 too low
+N=181 {1,4,10,21,70,176}: >= 3390 (fixed budget (avgC): Luby restarts, 155 x base 8M moves from T0 = 4.5, 4000M moves per thread, seed 143, 4937s) -> README 3372 too low
+N=181 {1,4,10,21,70,176}: >= 3390 (fixed budget (avgD): Luby restarts, 268 x base 4M moves from T0 = 4.5, 4176M moves per thread, seed 144, 5133s) -> README 3372 too low
+N=362 {1,4,10,23,67,236,355}: >= 8335 (fixed budget (avgA): one anneal from T0 = 13, 4000M moves per thread, seed 161, 15153s) -> README 8006 too low
+N=362 {1,4,10,23,67,236,355}: >= 8335 (fixed budget (avgB): one anneal from T0 = 13, 2000M moves per thread, seed 162, 7611s) -> README 8006 too low
+N=362 {1,4,10,23,67,236,355}: >= 8335 (fixed budget (avgC): one anneal from T0 = 13, 552M moves per thread, seed 163, 2080s) -> README 8006 too low
+N=512 {1,4,10,23,57,189,483}: >= 12960 (fixed budget (avgD): one anneal from T0 = 13, 2000M moves per thread, seed 104, 11471s) -> no README value
+N=512 {1,4,10,23,57,189,483}: >= 12973 (fixed budget (avgE): one anneal from T0 = 13, 4000M moves per thread, seed 105, 22974s) -> no README value
+N=512 {1,4,10,23,57,189,483}: >= 12973 (fixed budget (avgF): one anneal from T0 = 13, 1000M moves per thread, seed 106, 5763s) -> no README value

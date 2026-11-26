@@ -1,0 +1,8 @@
+N=64 {1,4,9,11,21,60}: REACHED 631 (target 631, 21s, 288 restarts); best stored 631
+N=64 {1,4,9,11,21,62}: REACHED 631 (target 631, 2s, 24 restarts); best stored 631
+N=64 {1,4,9,11,21,57}: REACHED 631 (target 631, 243s, 3509 restarts); best stored 631
+N=64 {1,4,9,11,21,59}: REACHED 631 (target 631, 3s, 34 restarts); best stored 631
+N=64 {1,4,9,11,32,58}: REACHED 631 (target 631, 2s, 24 restarts); best stored 631
+N=64 {1,4,9,11,32,60}: REACHED 631 (target 631, 2s, 24 restarts); best stored 631
+N=64 {1,4,9,11,21,61}: REACHED 631 (target 631, 9s, 120 restarts); best stored 632
+N=64: 0 of 7 survived the race to 631: 

@@ -1,0 +1,6 @@
+N=46 {1,4,13,41}: layered one-byte DP failed: N=46 seq={1,4,13,41} lay=FAILED 26044 states  t=65.0s
+  level 18:    326339673 states  t=69.0s
+  level 17:    241128414 states  t=71.9s
+  level 16:    168058983 states  t=74.0s
+layered: residual outside 0..255 at level 16 -> aborted
+N=46 {1,4,13,41}: exact 494 (layered 16-bit DP, 156s) -> no README value

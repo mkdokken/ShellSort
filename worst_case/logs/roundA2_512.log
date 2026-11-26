@@ -1,0 +1,15 @@
+﻿N=512 {1,4,9,11,30,36,59,98,162,205}: 10178 in 312s (luby, 128000000 moves/thread); stored best 0 -> 10178
+N=512 {1,4,9,11,30,36,59,98,162,209}: 10215 in 309s (luby, 128000000 moves/thread); stored best 0 -> 10215
+N=512 {1,4,9,11,30,36,59,98,162,221}: 10302 in 352s (luby, 128000000 moves/thread); stored best 0 -> 10302
+N=512 {1,4,9,11,30,36,59,98,162,229}: 10265 in 328s (luby, 128000000 moves/thread); stored best 0 -> 10265
+N=512 {1,4,9,11,30,36,59,98,162,197}: 10220 in 289s (luby, 128000000 moves/thread); stored best 0 -> 10220
+N=512 {1,4,9,11,30,36,59,98,162,253}: 10100 in 410s (luby, 128000000 moves/thread); stored best 0 -> 10100
+N=512 {1,4,9,11,30,36,59,98,156,213}: 10198 in 316s (luby, 128000000 moves/thread); stored best 0 -> 10198
+N=512 {1,4,9,11,30,36,59,98,159,213}: 10276 in 324s (luby, 128000000 moves/thread); stored best 0 -> 10276
+N=512 {1,4,9,11,30,36,59,98,165,213}: 10229 in 304s (luby, 128000000 moves/thread); stored best 0 -> 10229
+N=512 {1,4,9,11,30,36,59,98,168,213}: 10345 in 323s (luby, 128000000 moves/thread); stored best 0 -> 10345
+N=512 {1,4,9,11,30,36,59,94,162,213}: 10278 in 334s (luby, 128000000 moves/thread); stored best 0 -> 10278
+N=512 {1,4,9,11,30,36,59,96,162,213}: 10755 in 332s (luby, 128000000 moves/thread); stored best 0 -> 10755
+N=512 {1,4,9,11,30,36,59,100,162,213}: 10565 in 341s (luby, 128000000 moves/thread); stored best 0 -> 10565
+N=512 {1,4,9,11,30,36,59,102,162,213}: 10983 in 359s (luby, 128000000 moves/thread); stored best 0 -> 10983
+N=512 {1,4,9,11,30,36,59,98,162}: 10165 in 183s (luby, 128000000 moves/thread); stored best 0 -> 10165

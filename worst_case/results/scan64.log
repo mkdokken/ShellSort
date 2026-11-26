@@ -1,0 +1,32 @@
+﻿screened 1378 sequences in 667s; best: [(620, '1,4,9,11,32,62'), (621, '1,4,9,11,32,49'), (623, '1,4,9,11,21,61'), (623, '1,4,9,11,32,51'), (623, '1,4,9,11,32,59'), (624, '1,4,9,11,32'), (624, '1,4,9,11,32,63'), (625, '1,4,9,11,14,35'), (625, '1,4,9,11,21,57'), (625, '1,4,9,11,30,62')]
+N=64 {1,4,9,11,32,62}: already has an input with 631 >= 631
+N=64 {1,4,9,11,32,49}: REACHED 631 (target 631, 28s); best stored 631
+N=64 {1,4,9,11,21,61}: already has an input with 632 >= 631
+N=64 {1,4,9,11,32,51}: already has an input with 632 >= 631
+N=64 {1,4,9,11,32,59}: REACHED 631 (target 631, 33s); best stored 631
+N=64 {1,4,9,11,32}: already has an input with 632 >= 631
+N=64 {1,4,9,11,32,63}: already has an input with 632 >= 631
+N=64 {1,4,9,11,14,35}: REACHED 632 (target 631, 10s); best stored 632
+N=64 {1,4,9,11,21,57}: already has an input with 631 >= 631
+N=64 {1,4,9,11,30,62}: REACHED 631 (target 631, 33s); best stored 631
+N=64 {1,4,9,11,30,63}: REACHED 631 (target 631, 33s); best stored 631
+N=64 {1,4,9,11,32,44}: REACHED 631 (target 631, 14s); best stored 631
+N=64 {1,4,9,11,32,55}: REACHED 631 (target 631, 28s); best stored 631
+N=64 {1,4,9,11,34,44}: REACHED 631 (target 631, 22s); best stored 631
+N=64 {1,4,9,11,30}: REACHED 634 (target 631, 18s); best stored 634
+N=64 {1,4,9,11,30,49}: REACHED 631 (target 631, 28s); best stored 631
+N=64 {1,4,9,11,30,51}: REACHED 631 (target 631, 27s); best stored 631
+N=64 {1,4,9,11,21,39}: REACHED 631 (target 631, 22s); best stored 631
+N=64 {1,4,9,11,21,49}: REACHED 631 (target 631, 27s); best stored 631
+N=64 {1,4,9,11,21,54}: REACHED 631 (target 631, 26s); best stored 631
+N=64 {1,4,9,11,21,56}: REACHED 631 (target 631, 29s); best stored 631
+N=64 {1,4,9,11,21,62}: survived at 629 (target 631, 67s); best stored 630
+N=64 {1,4,9,11,32,58}: already has an input with 631 >= 631
+N=64 {1,4,9,11,36,39}: REACHED 631 (target 631, 24s); best stored 631
+N=64 {1,4,9,11,21,48}: REACHED 631 (target 631, 26s); best stored 631
+N=64 {1,4,9,11,21,63}: REACHED 631 (target 631, 32s); best stored 631
+N=64 {1,4,9,11,30,36}: REACHED 632 (target 631, 22s); best stored 632
+N=64 {1,4,9,11,30,40}: REACHED 631 (target 631, 22s); best stored 631
+N=64 {1,4,9,11,32,42}: REACHED 631 (target 631, 23s); best stored 631
+N=64 {1,4,9,11,21}: already has an input with 632 >= 631
+N=64: 1 of 30 survived the race to 631: {1,4,9,11,21,62}

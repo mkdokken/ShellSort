@@ -1,0 +1,16 @@
+﻿N=64 {1,4,9,11,21,61}: already has an input with 632 >= 632
+N=64 {1,4,9,11,21,62}: survived at 630 (target 632, 231s); best stored 630
+N=64 {1,4,9,11,21,60}: survived at 630 (target 632, 222s); best stored 630
+N=64 {1,4,9,11,21,59}: survived at 631 (target 632, 213s); best stored 631
+N=64 {1,4,9,11,21,57}: survived at 631 (target 632, 260s); best stored 631
+N=64 {1,4,9,11,32,58}: survived at 631 (target 632, 270s); best stored 631
+N=64 {1,4,9,11,32,62}: survived at 627 (target 632, 282s); best stored 631
+N=64 {1,4,9,11,32,63}: REACHED 632 (target 632, 87s); best stored 632
+N=64 {1,4,9,11,32,61}: REACHED 632 (target 632, 81s); best stored 632
+N=64 {1,4,9,11,32,57}: REACHED 632 (target 632, 63s); best stored 632
+N=64 {1,4,9,11,30,58}: REACHED 632 (target 632, 64s); best stored 632
+N=64 {1,4,9,11,32}: REACHED 632 (target 632, 87s); best stored 632
+N=64 {1,4,9,11,21}: REACHED 632 (target 632, 123s); best stored 632
+N=64 {1,4,9,11,32,60}: survived at 631 (target 632, 276s); best stored 631
+N=64 {1,4,9,11,32,51}: REACHED 632 (target 632, 82s); best stored 632
+N=64: 7 of 15 survived the race to 632: {1,4,9,11,21,62}; {1,4,9,11,21,60}; {1,4,9,11,21,59}; {1,4,9,11,21,57}; {1,4,9,11,32,58}; {1,4,9,11,32,62}; {1,4,9,11,32,60}

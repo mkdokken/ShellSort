@@ -1,0 +1,13 @@
+﻿N=362 {1,4,9,11,30,47,67,95,172}: 6636 in 785s (luby, 512000000 moves/thread); stored best 6465 -> 6636
+N=362 {1,4,9,11,30,47,67,95,152}: 6511 in 663s (luby, 512000000 moves/thread); stored best 6479 -> 6511
+N=362 {1,4,9,11,30,36,70,109,171}: 6480 in 778s (luby, 512000000 moves/thread); stored best 6481 -> 6481
+N=362 {1,4,9,11,30,47,67,95,160}: 6536 in 679s (luby, 512000000 moves/thread); stored best 6489 -> 6536
+N=362 {1,4,9,11,30,36,70,117,143}: 6518 in 697s (luby, 512000000 moves/thread); stored best 6493 -> 6518
+N=362 {1,4,9,11,30,36,70,97,159}: 6539 in 770s (luby, 512000000 moves/thread); stored best 6494 -> 6539
+N=362 {1,4,9,15,31,56,74,126,177}: 6532 in 925s (luby, 512000000 moves/thread); stored best 6496 -> 6532
+N=362 {1,4,9,11,30,47,67,132,180}: 6540 in 896s (luby, 512000000 moves/thread); stored best 6497 -> 6540
+N=362 {1,4,9,11,30,47,67,95,169}: 6544 in 731s (luby, 512000000 moves/thread); stored best 6505 -> 6544
+N=362 {1,4,9,11,30,36,62,121,161}: 6512 in 723s (luby, 512000000 moves/thread); stored best 6506 -> 6512
+N=362 {1,4,9,11,30,36,70,107,163}: 6540 in 796s (luby, 512000000 moves/thread); stored best 6521 -> 6540
+N=362 {1,4,9,11,30,36,70,133,159}: 6585 in 809s (luby, 512000000 moves/thread); stored best 6512 -> 6585
+N=362 {1,4,9,11,30,36,59,98,162}: 6545 in 746s (luby, 512000000 moves/thread); stored best 6513 -> 6545

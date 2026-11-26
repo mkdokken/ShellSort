@@ -1,0 +1,29 @@
+=== N=91 target 1045: 1,4,9,11,30,42;1,4,9,11,32,44;1,4,9,11,30,44
+N=91 {1,4,9,11,30,42}: REACHED 1045 (target 1045, 5s, 144 restarts); best stored 1045
+N=91 {1,4,9,11,32,44}: REACHED 1045 (target 1045, 50s, 896 restarts); best stored 1045
+N=91 {1,4,9,11,30,44}: REACHED 1045 (target 1045, 75s, 1373 restarts); best stored 1045
+N=91: 0 of 3 survived the race to 1045: 
+=== N=91 done in 130s
+=== N=128 target 1661: 1,4,9,11,30,47,59;1,4,9,11,30,36,59
+N=128 {1,4,9,11,30,47,59}: REACHED 1661 (target 1661, 13s, 248 restarts); best stored 1661
+N=128 {1,4,9,11,30,36,59}: survived at 1655 (target 1661, 337s, 3048 restarts); best stored 1655
+N=128: 1 of 2 survived the race to 1661: {1,4,9,11,30,36,59}
+=== N=128 done in 350s
+=== N=256 target 4152: 1,4,9,11,30,36,65,103,118;1,4,9,15,35,49,101,123
+N=256 {1,4,9,11,30,36,65,103,118}: REACHED 4152 (target 4152, 134s, 360 restarts); best stored 4152
+N=256 {1,4,9,15,35,49,101,123}: REACHED 4152 (target 4152, 124s, 360 restarts); best stored 4152
+N=256: 0 of 2 survived the race to 4152: 
+=== N=256 done in 258s
+=== N=362 target 6429: 1,4,9,11,30,36,70,107,163;1,4,9,11,30,47,70,131,179;1,4,9,11,30,47,59,127,150
+N=362 {1,4,9,11,30,36,70,107,163}: REACHED 6429 (target 6429, 205s, 360 restarts); best stored 6429
+N=362 {1,4,9,11,30,47,70,131,179}: REACHED 6429 (target 6429, 88s, 168 restarts); best stored 6429
+N=362 {1,4,9,11,30,47,59,127,150}: REACHED 6429 (target 6429, 194s, 360 restarts); best stored 6429
+N=362: 0 of 3 survived the race to 6429: 
+=== N=362 done in 488s
+=== N=181 target 2632: 1,4,9,11,30,47,59,86;1,4,9,11,30,36,59,86;1,4,9,11,30,36,59,87;1,4,9,15,31,44,81
+N=181 {1,4,9,11,30,47,59,86}: REACHED 2632 (target 2632, 164s, 720 restarts); best stored 2632
+N=181 {1,4,9,11,30,36,59,86}: REACHED 2632 (target 2632, 30s, 168 restarts); best stored 2632
+N=181 {1,4,9,11,30,36,59,87}: REACHED 2632 (target 2632, 158s, 720 restarts); best stored 2632
+N=181 {1,4,9,15,31,44,81}: REACHED 2632 (target 2632, 16s, 144 restarts); best stored 2632
+N=181: 0 of 4 survived the race to 2632: 
+=== N=181 done in 369s

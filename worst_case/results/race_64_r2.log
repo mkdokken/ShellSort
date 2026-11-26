@@ -1,0 +1,8 @@
+﻿N=64 {1,4,9,11,21,57}: survived at 630 (target 632, 537s); best stored 631
+N=64 {1,4,9,11,21,59}: survived at 631 (target 632, 561s); best stored 631
+N=64 {1,4,9,11,21,60}: survived at 630 (target 632, 568s); best stored 630
+N=64 {1,4,9,11,21,62}: survived at 630 (target 632, 588s); best stored 630
+N=64 {1,4,9,11,32,58}: survived at 630 (target 632, 571s); best stored 631
+N=64 {1,4,9,11,32,60}: survived at 631 (target 632, 579s); best stored 631
+N=64 {1,4,9,11,32,62}: survived at 627 (target 632, 598s); best stored 631
+N=64: 7 of 7 survived the race to 632: {1,4,9,11,21,57}; {1,4,9,11,21,59}; {1,4,9,11,21,60}; {1,4,9,11,21,62}; {1,4,9,11,32,58}; {1,4,9,11,32,60}; {1,4,9,11,32,62}
